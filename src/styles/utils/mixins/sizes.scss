@@ -1,0 +1,57 @@
+// Position
+@mixin cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+@mixin screen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+@mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// - Flex
+
+@mixin f-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin f-b-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin f-b-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+// - Column
+
+@mixin column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin column-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
