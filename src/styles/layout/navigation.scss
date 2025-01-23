@@ -1,0 +1,20 @@
+#nv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .nv__pages_links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .nv_link {
+    text-transform: uppercase;
+    @include fonts.mono_12;
+  }
+}

@@ -2,11 +2,11 @@
 
 @use './utils/variables' as *;
 @use './utils/functions' as *;
-@use 'utils/mixins/sizes';
+@use './utils/mixins/sizes';
+@use 'utils/mixins/fonts' as fonts;
 @use './utils/responsive' as *;
 
 
-@use './base/fonts' as *;
 @use './base/base' as *;
 @use './base/grid' as *;
 
