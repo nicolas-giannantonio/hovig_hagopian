@@ -1,20 +1,168 @@
+@use '../utils/mixins/fonts';
+
 #nv {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 0 1.25rem;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1000;
+
+
+  .nv__name {
+    @include fonts.grotesk;
+    text-transform: uppercase;
+    font-size: .875rem;
+  }
 
   .nv__pages_links {
     display: flex;
     gap: 1rem;
   }
 
+
+  &:hover {
+    a {
+      opacity: .5;
+    }
+  }
+
+  a {
+    transition: .65s cubic-bezier(0.18, 0.47, 0.16, 1) opacity;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   .nv_link {
-    text-transform: uppercase;
     @include fonts.mono_12;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      left: 0;
+      content: '[ ';
+      transform: translateX(-.35rem);
+      opacity: 0;
+      transition: 1s ease opacity, 1s ease transform;
+    }
+
+    &::after {
+      position: absolute;
+      content: ' ]';
+      right: 0;
+      transform: translateX(.35rem);
+      opacity: 0;
+      transition: 1s ease opacity, 1s ease transform;
+    }
+  }
+
+  .nv_link_active {
+    &::before {
+      opacity: 1;
+      transform: translateX(-.5rem);
+    }
+
+    &::after {
+      opacity: 1;
+      transform: translateX(.5rem);
+    }
   }
 }
+
+#mobNv {
+  width: 100%;
+  padding: 1.25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 3.75rem;
+
+  .nv__name {
+    @include fonts.grotesk;
+    text-transform: uppercase;
+    font-size: .875rem;
+  }
+
+  .mobNv__header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    z-index: 50;
+  }
+
+  .nv__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(12, 11, 11);
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+
+  .nv__toggle {
+    position: relative;
+    overflow: hidden;
+    height: .85rem;
+    width: 3rem;
+
+    .nv__toggle_text {
+      @include fonts.mono_12;
+      text-align: right;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    #c {
+      transform: translateY(100%);
+    }
+  }
+
+  .mobNv__list {
+    position: relative;
+    z-index: 50;
+    margin-top: 4rem;
+
+    .mobNv__list__group {
+      margin-top: 1rem;
+
+      .nv_list_text {
+        @include fonts.grotesk;
+        font-size: 1.5rem;
+        text-align: left;
+        text-transform: uppercase;
+        line-height: 110%;
+        transform: translateY(100%);
+        //opacity: 0;
+      }
+    }
+  }
+
+  .mobNv__contact {
+    position: fixed;
+    z-index: 50;
+    bottom: 1.25rem;
+    left: 0;
+    padding: 1.25rem;
+
+    .nv_contact_text {
+      @include fonts.mono_12;
+      transform: translateY(100%);
+    }
+  }
+
+
+}
+

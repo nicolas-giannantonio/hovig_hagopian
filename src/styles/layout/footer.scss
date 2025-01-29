@@ -1,0 +1,14 @@
+@use '../utils/mixins/fonts';
+
+#fo {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem;
+  margin-top: 5rem;
+
+  .fo_t {
+    @include fonts.mono_12;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}

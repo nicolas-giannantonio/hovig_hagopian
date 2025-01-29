@@ -1,0 +1,178 @@
+@use '../utils/mixins/fonts';
+
+#film {
+
+  .film__header {
+    position: relative;
+    height: 100vh;
+
+    .w__film__video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      .film__video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+      }
+
+      .film__video__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: .85;
+      }
+    }
+
+    .film__header__controls {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 66.25rem;
+
+      .w__film__video__progress {
+        position: relative;
+        width: 100%;
+        height: 1.5rem;
+
+        .progressTime {
+          position: absolute;
+          top: 0;
+          left: 0;
+          transform: translateX(-50%);
+          @include fonts.mono_12;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .under_lineprogress, .lineprogress {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: white;
+          transform-origin: left;
+        }
+
+        .under_lineprogress {
+          opacity: .25;
+          transform: scaleX(0);
+        }
+
+        .lineprogress {
+          //transform: scaleX(.25);
+          transform: scaleX(0);
+        }
+      }
+
+      .w__controls__buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: .35rem;
+
+        .controls__buttons_text {
+          @include fonts.mono_12;
+          transform: translateY(100%);
+          cursor: pointer;
+        }
+
+        .controls__buttons__inline {
+          display: flex;
+          gap: 1rem;
+        }
+      }
+
+    }
+
+    .film__header__informations {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .film__header__informations_title {
+        @include fonts.grotesk;
+        font-size: 1.25rem;
+        text-align: center;
+        text-transform: uppercase;
+        transform: translateY(100%);
+      }
+
+      .film__header__informations__inline {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin: 1rem auto auto;
+        width: fit-content;
+
+        .film__header__informations_name {
+          opacity: .5;
+        }
+
+        p {
+          @include fonts.mono_12;
+          text-align: center;
+          transform: translateY(100%);
+        }
+      }
+
+    }
+  }
+
+}
+
+.GalleryProject {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 1.25rem;
+
+  .galleryProject_image {
+    width: 28.8rem;
+    height: 100%;
+    aspect-ratio: 16/9;
+
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .GalleryProject {
+    gap: 1.25rem;
+
+    .galleryProject_image {
+      width: 100%;
+      height: 100%;
+    }
+
+  }
+
+  #film {
+    .film__header {
+      .film__header__controls {
+        width: 100%;
+        padding: 0 1.25rem;
+      }
+
+      .film__header__informations {
+        width: 22rem;
+      }
+    }
+  }
+
+
+}

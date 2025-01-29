@@ -1,24 +1,272 @@
+"use client";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import gsap from "gsap";
+import { EASE } from "@/utils/Ease";
+import { useResizeObserver } from "hamo";
+import MobileDetect from "mobile-detect";
+import TransitionLink from "@/components/TransitionLink";
 import Link from "next/link";
 
 export default function Navigation() {
-    return (
+  const path = usePathname();
+
+  const isPathActive = (p: string) => {
+    if (p === path) return true;
+  };
+
+  const [isMob, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const phone = new MobileDetect(window.navigator.userAgent);
+      setIsMobile(!!phone.mobile());
+    }
+  }, []);
+
+  // Resize observer callback to update mobile state
+  const [setResizeObserverRef] = useResizeObserver({
+    lazy: true,
+    callback: () => {
+      if (typeof window !== "undefined") {
+        const phone = new MobileDetect(window.navigator.userAgent);
+        setIsMobile(!!phone.mobile());
+      }
+    },
+  });
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const openMenu = () => {
+    setMenuOpen(true);
+    gsap.set(".mobNv__list", {
+      pointerEvents: "all",
+    });
+    gsap.to(".nv__overlay", {
+      duration: 0.35,
+      opacity: 1,
+      ease: "power3.out",
+    });
+
+    gsap.fromTo(
+      ".nv_list_text",
+      {
+        transform: "translateY(100%)",
+      },
+      {
+        duration: 1,
+        y: 0,
+        delay: 0.1,
+        opacity: 1,
+        ease: (t) => EASE["o3"](t),
+        stagger: 0.05,
+      },
+    );
+
+    gsap.fromTo(
+      ".nv_contact_text",
+      {
+        transform: "translateY(100%)",
+      },
+      {
+        duration: 1.25,
+        y: 0,
+        opacity: 1,
+        ease: (t) => EASE["o4"](t),
+        stagger: 0.085,
+        delay: 0.25,
+      },
+    );
+
+    gsap.to("#o", {
+      duration: 1,
+      transform: "translateY(-100%)",
+      ease: (t) => EASE["o4"](t),
+      onComplete: () => {
+        gsap.set("#o", {
+          transform: "translateY(100%)",
+        });
+      },
+    });
+
+    gsap.to("#c", {
+      duration: 1,
+      delay: 0.15,
+      y: 0,
+      ease: (t) => EASE["o4"](t),
+    });
+  };
+  const closeMenu = () => {
+    setMenuOpen(false);
+    gsap.set(".mobNv__list", {
+      pointerEvents: "none",
+    });
+
+    gsap.to(".nv_list_text", {
+      duration: 0.75,
+      transform: "translateY(-100%)",
+      pointerEvents: "all",
+      ease: (t) => EASE["o4"](t),
+    });
+
+    gsap.to(".nv_contact_text", {
+      duration: 0.75,
+      transform: "translateY(-100%)",
+      opacity: 1,
+      ease: (t) => EASE["o4"](t),
+    });
+
+    gsap.to(".nv__overlay", {
+      duration: 0.75,
+      opacity: 0,
+      delay: 0.15,
+      ease: "power2.out",
+    });
+
+    gsap.to("#c", {
+      duration: 1,
+      transform: "translateY(-100%)",
+      ease: (t) => EASE["o4"](t),
+      onComplete: () => {
+        gsap.set("#c", {
+          transform: "translateY(100%)",
+        });
+      },
+    });
+
+    gsap.to("#o", {
+      duration: 1,
+      delay: 0.15,
+      y: 0,
+      ease: (t) => EASE["o4"](t),
+    });
+  };
+
+  return (
+    <div ref={setResizeObserverRef}>
+      {!isMob ? (
         <nav id={"nv"}>
+          <TransitionLink className="nv__name" href={"/"}>
+            Hovig Hagopian
+          </TransitionLink>
 
-            <Link href={"/"}>Hovig Hagopian</Link>
+          <div className="nv__pages_links">
+            <TransitionLink
+              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              href={"/"}
+            >
+              Clip
+            </TransitionLink>
+            <TransitionLink
+              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              href={"/"}
+            >
+              Fiction et documentaire
+            </TransitionLink>
+            <TransitionLink
+              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              href={"/"}
+            >
+              Pub
+            </TransitionLink>
+          </div>
 
-            <div className="nv__pages_links">
-                <Link className="nv_link" href={"/"}>Clip</Link>
-                <Link className="nv_link" href={"/"}>Fiction et documentaire</Link>
-                <Link className="nv_link" href={"/"}>Pub</Link>
-            </div>
-
-            <div className="nv__pages_links">
-                <Link className="nv_link" href={"/Resume"}>Resume</Link>
-                <Link className="nv_link" href={"/Contact"}>Contact</Link>
-                <Link className="nv_link" href={"/"}></Link>
-            </div>
-
-
+          <div className="nv__pages_links">
+            <TransitionLink
+              className={`nv_link ${isPathActive("/resume") ? "nv_link_active" : ""}`}
+              href={"/resume"}
+            >
+              Resume
+            </TransitionLink>
+            <TransitionLink
+              className={`nv_link ${isPathActive("/contact") ? "nv_link_active" : ""}`}
+              href={"/contact"}
+            >
+              Contact
+            </TransitionLink>
+          </div>
         </nav>
-    )
+      ) : (
+        <nav id={"mobNv"}>
+          <div className="nv__overlay"></div>
+
+          <div className="mobNv__header">
+            <Link
+              onClick={menuOpen ? closeMenu : () => 0}
+              className="nv__name"
+              href={"/"}
+            >
+              Hovig Hagopian
+            </Link>
+            <div className="nv__toggle">
+              <p onClick={openMenu} id={"o"} className="nv__toggle_text">
+                Menu
+              </p>
+              <p onClick={closeMenu} id={"c"} className="nv__toggle_text">
+                Close
+              </p>
+            </div>
+          </div>
+
+          <div className="mobNv__list">
+            <div className="mobNv__list__group">
+              <div className="__oh">
+                <Link
+                  onClick={closeMenu}
+                  href={"/clip"}
+                  className="nv_list_text"
+                >
+                  Clip
+                </Link>
+              </div>
+              <div className="__oh">
+                <Link onClick={closeMenu} href={"/"} className="nv_list_text">
+                  Fiction et documentaire
+                </Link>
+              </div>
+
+              <div className="__oh">
+                <Link onClick={closeMenu} href={"/"} className="nv_list_text">
+                  Pub
+                </Link>
+              </div>
+            </div>
+            <div className="mobNv__list__group">
+              <div className="__oh">
+                <Link
+                  onClick={closeMenu}
+                  href={"/Resume"}
+                  className="nv_list_text"
+                >
+                  Resume
+                </Link>
+              </div>
+              <div className="__oh">
+                <Link
+                  onClick={closeMenu}
+                  href={"/contact"}
+                  className="nv_list_text"
+                >
+                  Contact
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="mobNv__contact">
+            <div className="__oh">
+              <a className="nv_contact_text" href="#">
+                hagopian.hovig@gmail.com
+              </a>
+            </div>
+            <div className="__oh">
+              <a className="nv_contact_text" href="#">
+                +33(0)781473484
+              </a>
+            </div>
+          </div>
+        </nav>
+      )}
+    </div>
+  );
 }

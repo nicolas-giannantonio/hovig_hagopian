@@ -2,8 +2,8 @@
 
 @use './utils/variables' as *;
 @use './utils/functions' as *;
-@use './utils/mixins/sizes';
-@use 'utils/mixins/fonts' as fonts;
+@use './utils/mixins/sizes' as *;
+@use 'utils/mixins/fonts' as *;
 @use './utils/responsive' as *;
 
 
@@ -12,7 +12,12 @@
 
 @use './layout/preloader' as *;
 @use './layout/navigation' as *;
+@use './layout/footer' as *;
 
 @use './pages/home' as *;
 @use './pages/about' as *;
+@use './pages/projects' as *;
+@use './pages/resume' as *;
+@use './pages/contact' as *;
+@use './pages/film' as *;
 

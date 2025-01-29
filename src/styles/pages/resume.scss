@@ -1,0 +1,60 @@
+@use '../utils/mixins/fonts';
+
+#resume {
+  width: 28.625rem;
+  margin: 12rem auto auto;
+
+  .resumeSection {
+    width: 100%;
+    margin-bottom: 5.5rem;
+
+    .w__title {
+      overflow: hidden;
+
+      .resumeSection_t {
+        text-transform: uppercase;
+        @include fonts.grotesk;
+        text-align: center;
+        transform: translateY(100%);
+      }
+    }
+  }
+
+  .w__resumeSectionContent {
+    margin-top: 1rem;
+
+    .resumeSectionContent {
+      margin-bottom: 1.5rem;
+
+      .w__resumeSectionContent_t {
+        overflow: hidden;
+        margin-bottom: .25rem;
+        .resumeSectionContent_t {
+          @include fonts.mono_12;
+          text-align: center;
+          transform: translateY(100%);
+        }
+      }
+
+      .w__resumeSectionContent_info {
+        overflow: hidden;
+        .resumeSectionContent_info {
+          @include fonts.grotesk;
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.35);
+          text-align: center;
+          transform: translateY(100%);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #resume {
+    width: 100%;
+  }
+
+}

@@ -4,4 +4,13 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  text-transform: uppercase;
+}
+
+@mixin grotesk {
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: .025rem;
 }

@@ -1,0 +1,64 @@
+import Image from "next/image";
+
+export default function GalleryProject() {
+  return (
+    <div className="GalleryProject">
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+      <Image
+        className={"galleryProject_image"}
+        width={1000}
+        height={1000}
+        src={"/assets/img.png"}
+        alt=""
+      />
+    </div>
+  );
+}

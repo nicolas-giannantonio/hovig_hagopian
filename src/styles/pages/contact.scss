@@ -1,0 +1,109 @@
+@use '../utils/mixins/fonts';
+
+.w_h {
+  height: calc(100vh - 8.5rem);
+}
+
+#contact {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .w__contact_information {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .w__contact_information_title {
+    overflow: hidden;
+
+    .contact_information_title_t {
+      @include fonts.mono_12;
+      text-align: center;
+      transform: translateY(100%);
+    }
+  }
+
+  .w__contact_inline {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: 1.5rem;
+
+    .contact_inline {
+      width: 9.5rem;
+    }
+
+    .w__contact_inline_t {
+      overflow: hidden;
+
+      .contact_inline_t {
+        @include fonts.grotesk;
+        text-transform: uppercase;
+        transform: translateY(100%);
+        text-align: center;
+      }
+    }
+
+    .w__contact_inline_content {
+      margin-top: 1rem;
+
+      .contact_inline_content_t {
+        @include fonts.mono_12;
+        transform: translateY(100%);
+        text-align: center;
+        transition: .65s cubic-bezier(0.18, 0.47, 0.16, 1) opacity;
+
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+  }
+
+  .w__contact_hovig {
+    width: fit-content;
+    margin: 5rem auto auto;
+
+    .contact_hovig_t {
+      @include fonts.mono_12;
+      text-align: center;
+      transform: translateY(100%);
+      transition: .65s cubic-bezier(0.18, 0.47, 0.16, 1) opacity;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
+  }
+}
+
+
+.w__contact_mention {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+
+  .contact_mention_t {
+    @include fonts.mono_12;
+    //transform: translateY(100%);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .w__contact_mention {
+    bottom: 3rem;
+    right: 1rem;
+    transform: none;
+
+    text-align: right;
+  }
+
+}
