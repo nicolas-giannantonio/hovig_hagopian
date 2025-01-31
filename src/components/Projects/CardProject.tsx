@@ -1,5 +1,6 @@
 import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
+import FocusCardProject from "@/components/Projects/FocusCardProject";
 
 export default function CardProject({
   link,
@@ -9,8 +10,9 @@ export default function CardProject({
   image: string;
 }) {
   return (
-    <div className="w__cardProject">
-      <TransitionLink className="cardProject" href={link}>
+    <TransitionLink href={link} className="w__cardProject">
+      <FocusCardProject />
+      <div className="cardProject">
         <Image
           width={300}
           height={300}
@@ -18,7 +20,7 @@ export default function CardProject({
           src={image}
           alt={""}
         />
-      </TransitionLink>
-    </div>
+      </div>
+    </TransitionLink>
   );
 }

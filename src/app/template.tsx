@@ -11,9 +11,6 @@ export default function Template({
       opacity: 1,
       duration: 0.5,
       ease: (t) => EASE["o2"](t),
-      onComplete: () => {
-        console.log("Animation completed");
-      },
     });
   }, []);
 

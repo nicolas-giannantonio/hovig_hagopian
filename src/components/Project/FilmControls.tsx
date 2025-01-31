@@ -1,3 +1,4 @@
+"use client";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -5,9 +6,21 @@ import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
 
-const lineProgress = BezierEasing(0.55, 0.01, 0.1, 1.0);
+const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
-export default function FilmControls() {
+type FilmControlsType = {
+  title: string;
+  prod: string;
+  real: string;
+  src: string;
+};
+
+export default function FilmControls({
+  title,
+  prod,
+  real,
+  src,
+}: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const lineProgressRef = useRef<HTMLDivElement | null>(null);
@@ -46,18 +59,18 @@ export default function FilmControls() {
   ) {
     gsap.to(overlayEl, {
       opacity: 0.5,
-      ease: (t) => EASE["o4"](t),
-      duration: 1,
+      ease: (t) => EASE["o6"](t),
+      duration: 1.25,
     });
     gsap.to(controlsEl, {
       opacity: 1,
-      ease: (t) => EASE["o4"](t),
-      duration: 1,
+      ease: (t) => EASE["o6"](t),
+      duration: 1.25,
     });
     gsap.to(infoEl, {
       opacity: 1,
-      ease: (t) => EASE["o4"](t),
-      duration: 1,
+      ease: (t) => EASE["o6"](t),
+      duration: 1.25,
     });
 
     if (timerRef.current) {
@@ -76,17 +89,17 @@ export default function FilmControls() {
     if (videoRef.current?.paused) return;
     gsap.to(overlayEl, {
       opacity: 0,
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o6"](t),
       duration: 1,
     });
     gsap.to(controlsEl, {
       opacity: 0,
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o6"](t),
       duration: 1,
     });
     gsap.to(infoEl, {
       opacity: 0,
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o6"](t),
       duration: 1,
     });
   }
@@ -271,7 +284,6 @@ export default function FilmControls() {
 
   useGSAP(
     () => {
-      gsap.to(".film__header__informations_title", {});
       gsap.to(".under_lineprogress", {
         scaleX: 1,
         ease: (t) => lineProgress(t),
@@ -280,16 +292,31 @@ export default function FilmControls() {
       });
       gsap.to("#play", {
         y: 0,
-        ease: (t) => EASE["o4"](t),
-        duration: 2,
+        ease: (t) => EASE["o6"](t),
+        duration: 1.5,
         delay: 0.15,
       });
       gsap.to("#mute", {
         y: 0,
-        ease: (t) => EASE["o4"](t),
-        duration: 2,
+        ease: (t) => EASE["o6"](t),
+        duration: 1.5,
         delay: 0.75,
       });
+      gsap.to("#full", {
+        y: 0,
+        ease: (t) => EASE["o6"](t),
+        duration: 1.5,
+        delay: 0.9,
+        onStart: () => {
+          controls.playVideo();
+          gsap.to(".progressTime", {
+            opacity: 1,
+            ease: (t) => EASE["o4"](t),
+            duration: 1,
+          });
+        },
+      });
+
       gsap.to(".film__video__overlay", {
         opacity: 0,
         ease: (t) => EASE["o4"](t),
@@ -303,38 +330,24 @@ export default function FilmControls() {
           );
         },
       });
-      gsap.to("#full", {
-        y: 0,
-        ease: (t) => EASE["o4"](t),
-        duration: 2,
-        delay: 0.9,
-        onStart: () => {
-          controls.playVideo();
-          gsap.to(".progressTime", {
-            opacity: 1,
-            ease: (t) => EASE["o4"](t),
-            duration: 1,
-          });
-        },
-      });
       gsap.to(".film__header__informations_name", {
         y: 0,
-        ease: (t) => EASE["o4"](t),
+        ease: (t) => EASE["o6"](t),
         duration: 2,
         delay: 0.9,
         stagger: 0.1,
       });
       gsap.to(".film__header__informations_value", {
         y: 0,
-        ease: (t) => EASE["o4"](t),
+        ease: (t) => EASE["o6"](t),
         duration: 2,
         delay: 0.9,
-        stagger: 0.1,
+        stagger: 0.075,
       });
       gsap.to(".film__header__informations_title", {
         y: 0,
-        ease: (t) => EASE["o4"](t),
-        duration: 2,
+        ease: (t) => EASE["o6"](t),
+        duration: 1.5,
         delay: 0.75,
       });
       gsap.to(videoRef.current, {
@@ -367,7 +380,7 @@ export default function FilmControls() {
           controls={false}
           playsInline
           muted
-          src="https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/SocieteGeneral.mp4"
+          src={src}
         ></video>
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
@@ -427,9 +440,7 @@ export default function FilmControls() {
 
       <div ref={headerInformationsRef} className="film__header__informations">
         <div className="__oh">
-          <p className="film__header__informations_title">
-            Sous mon bob - Philippe Katerine
-          </p>
+          <p className="film__header__informations_title">{title}</p>
         </div>
         <div className="film__header__informations__inline">
           <div>
@@ -437,9 +448,7 @@ export default function FilmControls() {
               <p className="film__header__informations_name">réalisateur</p>
             </div>
             <div className="__oh">
-              <p className="film__header__informations_value">
-                Edie Blanchard{" "}
-              </p>
+              <p className="film__header__informations_value">{real}</p>
             </div>
           </div>
           <div>
@@ -447,7 +456,7 @@ export default function FilmControls() {
               <p className="film__header__informations_name">production</p>
             </div>
             <div className="__oh">
-              <p className="film__header__informations_value">La PAC</p>
+              <p className="film__header__informations_value">{prod}</p>
             </div>
           </div>
         </div>

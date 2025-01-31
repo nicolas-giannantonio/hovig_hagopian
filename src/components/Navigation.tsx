@@ -48,40 +48,28 @@ export default function Navigation() {
       ease: "power3.out",
     });
 
-    gsap.fromTo(
-      ".nv_list_text",
-      {
-        transform: "translateY(100%)",
-      },
-      {
-        duration: 1,
-        y: 0,
-        delay: 0.1,
-        opacity: 1,
-        ease: (t) => EASE["o3"](t),
-        stagger: 0.05,
-      },
-    );
+    gsap.to(".nv_list_text", {
+      duration: 1.5,
+      y: 0,
+      delay: 0.1,
+      opacity: 1,
+      ease: (t) => EASE["o6"](t),
+      stagger: 0.05,
+    });
 
-    gsap.fromTo(
-      ".nv_contact_text",
-      {
-        transform: "translateY(100%)",
-      },
-      {
-        duration: 1.25,
-        y: 0,
-        opacity: 1,
-        ease: (t) => EASE["o4"](t),
-        stagger: 0.085,
-        delay: 0.25,
-      },
-    );
+    gsap.to(".nv_contact_text", {
+      duration: 1.5,
+      y: 0,
+      opacity: 1,
+      ease: (t) => EASE["o6"](t),
+      stagger: 0.05,
+      delay: 0.25,
+    });
 
     gsap.to("#o", {
       duration: 1,
       transform: "translateY(-100%)",
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o5"](t),
       onComplete: () => {
         gsap.set("#o", {
           transform: "translateY(100%)",
@@ -106,21 +94,21 @@ export default function Navigation() {
       duration: 0.75,
       transform: "translateY(-100%)",
       pointerEvents: "all",
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o6"](t),
     });
 
     gsap.to(".nv_contact_text", {
       duration: 0.75,
       transform: "translateY(-100%)",
       opacity: 1,
-      ease: (t) => EASE["o4"](t),
+      ease: (t) => EASE["o6"](t),
     });
 
     gsap.to(".nv__overlay", {
-      duration: 0.75,
+      duration: 1,
       opacity: 0,
-      delay: 0.15,
-      ease: "power2.out",
+      delay: 0.2,
+      ease: (t) => EASE["o4"](t),
     });
 
     gsap.to("#c", {
@@ -133,10 +121,9 @@ export default function Navigation() {
         });
       },
     });
-
     gsap.to("#o", {
       duration: 1,
-      delay: 0.15,
+      delay: 0.2,
       y: 0,
       ease: (t) => EASE["o4"](t),
     });
@@ -153,19 +140,19 @@ export default function Navigation() {
           <div className="nv__pages_links">
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
-              href={"/"}
+              href={"/clip"}
             >
               Clip
             </TransitionLink>
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
-              href={"/"}
+              href={"/fiction"}
             >
               Fiction et documentaire
             </TransitionLink>
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
-              href={"/"}
+              href={"/pub"}
             >
               Pub
             </TransitionLink>
@@ -220,13 +207,21 @@ export default function Navigation() {
                 </Link>
               </div>
               <div className="__oh">
-                <Link onClick={closeMenu} href={"/"} className="nv_list_text">
+                <Link
+                  onClick={closeMenu}
+                  href={"/fiction"}
+                  className="nv_list_text"
+                >
                   Fiction et documentaire
                 </Link>
               </div>
 
               <div className="__oh">
-                <Link onClick={closeMenu} href={"/"} className="nv_list_text">
+                <Link
+                  onClick={closeMenu}
+                  href={"/pub"}
+                  className="nv_list_text"
+                >
                   Pub
                 </Link>
               </div>
@@ -235,7 +230,7 @@ export default function Navigation() {
               <div className="__oh">
                 <Link
                   onClick={closeMenu}
-                  href={"/Resume"}
+                  href={"/resume"}
                   className="nv_list_text"
                 >
                   Resume

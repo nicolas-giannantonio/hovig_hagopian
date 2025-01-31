@@ -11,7 +11,6 @@ export default function Footer() {
 
   useGSAP(
     () => {
-      console.log("executing");
       if (entry?.isIntersecting) {
         gsap.to(".fo_t", {
           duration: 1.5,

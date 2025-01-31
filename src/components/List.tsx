@@ -3,74 +3,24 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import { Lerp } from "@/utils/Math";
-import Link from "next/link";
 import { useTempus } from "tempus/react";
 import DetectScreen from "@/lib/DetectScreen";
+import TransitionLink from "@/components/TransitionLink";
 
-const videos = [
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/SocieteGeneral.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/FranceAlzheimer.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/PetitFrereDesPauvres.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/SocieteGeneral.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/FranceAlzheimer.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/PetitFrereDesPauvres.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/SocieteGeneral.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/FranceAlzheimer.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/PetitFrereDesPauvres.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/SocieteGeneral.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/FranceAlzheimer.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-  {
-    src: "https://pub-b397ee6a11c84b938c2a1fc447f66ba9.r2.dev/PetitFrereDesPauvres.mp4",
-    title: "Project 1",
-    author: "Hovig Hagopian",
-  },
-];
+type ListProject = {
+  project: {
+    src: string;
+    slug: {
+      current: string;
+    };
+    informations: {
+      name: string;
+      prod: string;
+    };
+  };
+};
 
-export default function List() {
+export default function List({ data }: { data: ListProject[] }) {
   const listProjectsRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -78,7 +28,7 @@ export default function List() {
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
 
-  const [videoSrc, setVideoSrc] = useState<string>(videos[0].src);
+  const [videoSrc, setVideoSrc] = useState<string>(data[0].project.src);
 
   useGSAP(
     () => {
@@ -158,9 +108,9 @@ export default function List() {
 
     const scrollEvent = () => {
       const scroll = window.scrollY / window.innerHeight;
-      const currentLine = Math.floor(scroll * videos.length);
-      const currentVideo = videos[currentLine];
-      setVideoSrc(currentVideo.src);
+      const currentLine = Math.floor(scroll * data.length);
+      const currentVideo = data[currentLine];
+      setVideoSrc(currentVideo.project.src);
     };
 
     window.addEventListener("scroll", scrollEvent);
@@ -189,13 +139,18 @@ export default function List() {
       </div>
 
       <div className={"w__list__projects"} ref={listProjectsRef}>
-        {videos.map((video, index) => (
+        {data.map((data, index) => (
           <div
             key={index}
-            onMouseEnter={() => handleMouseEnterProject(video.src)}
+            onMouseEnter={() => handleMouseEnterProject(data.project.src)}
           >
             <div className="list_line" />
-            <ListProject title={video.title} author={video.author} />
+            <ListProject
+              key={index}
+              title={data.project.informations.name}
+              author={data.project.informations.prod}
+              href={data.project.slug.current || "/"}
+            />
           </div>
         ))}
         <div className="list_line" />
@@ -204,9 +159,17 @@ export default function List() {
   );
 }
 
-function ListProject({ title, author }: { title: string; author: string }) {
+function ListProject({
+  title,
+  author,
+  href,
+}: {
+  title: string;
+  author: string;
+  href: string;
+}) {
   return (
-    <Link href={"/"} className="list_project">
+    <TransitionLink href={`/film/${href || "/"}`} className="list_project">
       <div className="w__list_project_p">
         <p className={"list_project_p"}>
           <span className="list_title">{title}</span>
@@ -214,6 +177,6 @@ function ListProject({ title, author }: { title: string; author: string }) {
           <span className="list_author">{author}</span>
         </p>
       </div>
-    </Link>
+    </TransitionLink>
   );
 }

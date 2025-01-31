@@ -1,10 +1,93 @@
-#preload {
-  z-index: 100;
-  padding: 2rem;
-  background: #2a2828;
+@use '../utils/mixins/fonts';
 
-  p {
-    color: white;
-    font-size: 2rem;
+#Loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow: hidden;
+
+  .loader_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0C0B0B;
   }
+
+  .w__loader__info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72.75rem;
+
+    .w__loader__lines {
+      width: 100%;
+      height: 2px;
+      position: relative;
+      overflow: hidden;
+
+      .loader__line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #fff;
+      }
+
+      .line_prog {
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+
+      .line_under {
+        opacity: .25;
+        transform-origin: right;
+      }
+
+    }
+
+    .loader__number {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateY(-1.25rem) translateX(-100%);
+      overflow: hidden;
+
+      p {
+        @include fonts.mono_12;
+      }
+    }
+
+    .loader__text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      @include fonts.mono_12;
+      margin-top: .5rem;
+    }
+
+    .w__loader__name {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 .15rem;
+      background: #0C0B0B;
+      overflow: hidden;
+
+      #loaderName {
+        @include fonts.grotesk;
+        text-transform: uppercase;
+        line-height: 100%;
+      }
+    }
+  }
+
+
 }

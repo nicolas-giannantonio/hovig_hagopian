@@ -1,47 +1,30 @@
 import ResumeSection from "@/app/resume/ResumeSection";
+import { RESUME_QUERY } from "@/lib/queries";
+import { client } from "@/lib/sanity/client";
 
-const data = [
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-  {
-    title: "Factice, Julie Rohart, 2025 ",
-    info: "Saison 1, 6x45 min, Universal + , Treizième Rue ",
-  },
-];
+export const revalidate = 3600;
 
-export default function Page() {
+export default async function Page() {
+  const data = await client.fetch(RESUME_QUERY);
+  const sections = data[0].informations;
+
   return (
     <div id={"resume"}>
-      <ResumeSection content={data} title={"series"} />
-      <ResumeSection content={data} title={"series"} />
-      <ResumeSection content={data} title={"series"} />
-      <ResumeSection content={data} title={"series"} />
+      {sections.map(
+        (
+          section: {
+            title_section: string;
+            resume: [{ title: string; subtitle: string }];
+          },
+          index: number,
+        ) => (
+          <ResumeSection
+            key={index}
+            content={section.resume}
+            title={section.title_section}
+          />
+        ),
+      )}
     </div>
   );
 }

@@ -8,7 +8,27 @@ import { EASE } from "@/utils/Ease";
 
 type ProjectMode = "grid" | "list";
 
-export default function Projects({ name }: { name: string }) {
+type ProjectType = {
+  project: {
+    src: string;
+    coverImageUrl: string;
+    slug: {
+      current: string;
+    };
+    informations: {
+      name: string;
+      prod: string;
+    };
+  };
+};
+
+export default function Projects({
+  name,
+  data,
+}: {
+  name: string;
+  data: ProjectType[];
+}) {
   const [type, setType] = useState<ProjectMode>("grid");
   const [targetType, setTargetType] = useState<ProjectMode>("grid");
   const [isFirst, setIsFirst] = useState(true);
@@ -92,7 +112,7 @@ export default function Projects({ name }: { name: string }) {
       </div>
 
       <div ref={container} className="w__projects">
-        {type === "grid" ? <Grid /> : <List />}
+        {type === "grid" ? <Grid data={data} /> : <List data={data} />}
       </div>
     </div>
   );

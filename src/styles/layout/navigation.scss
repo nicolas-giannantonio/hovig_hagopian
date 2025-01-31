@@ -9,7 +9,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 100;
 
 
   .nv__name {
@@ -134,6 +134,7 @@
     position: relative;
     z-index: 50;
     margin-top: 4rem;
+    pointer-events: none;
 
     .mobNv__list__group {
       margin-top: 1rem;

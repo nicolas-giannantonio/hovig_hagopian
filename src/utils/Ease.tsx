@@ -13,6 +13,8 @@ export const EASE: Record<string, (t: number) => number> = {
     t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
   i4: (t: number): number => t * t * t * t * t,
   o4: (t: number): number => 1 + --t * t * t * t * t,
+  o5: (t: number): number => 1 + --t * t * t * t * t,
+  o6: (t: number): number => (1 === t ? 1 : 1 - 2 ** (-10 * t)),
   io4: (t: number): number =>
     t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
   io6: (t: number): number => {
