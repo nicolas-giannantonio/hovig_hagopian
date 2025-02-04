@@ -2,7 +2,8 @@ import ResumeSection from "@/app/resume/ResumeSection";
 import { RESUME_QUERY } from "@/lib/queries";
 import { client } from "@/lib/sanity/client";
 
-export const revalidate = 3600;
+// export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const data = await client.fetch(RESUME_QUERY);
