@@ -10,17 +10,23 @@ const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
 type FilmControlsType = {
   title: string;
-  prod: string;
-  real: string;
+  informations: [
+    {
+      information: {
+        information_name: string;
+        information_value: string;
+      };
+    },
+  ];
   src: string;
 };
 
 export default function FilmControls({
   title,
-  prod,
-  real,
+  informations,
   src,
 }: FilmControlsType) {
+  console.log(informations);
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const lineProgressRef = useRef<HTMLDivElement | null>(null);
@@ -443,22 +449,20 @@ export default function FilmControls({
           <p className="film__header__informations_title">{title}</p>
         </div>
         <div className="film__header__informations__inline">
-          <div>
-            <div className="__oh">
-              <p className="film__header__informations_name">réalisateur</p>
+          {informations.map((data, index) => (
+            <div key={index}>
+              <div className="__oh">
+                <p className="film__header__informations_name">
+                  {data.information.information_name}
+                </p>
+              </div>
+              <div className="__oh">
+                <p className="film__header__informations_value">
+                  {data.information.information_value}
+                </p>
+              </div>
             </div>
-            <div className="__oh">
-              <p className="film__header__informations_value">{real}</p>
-            </div>
-          </div>
-          <div>
-            <div className="__oh">
-              <p className="film__header__informations_name">production</p>
-            </div>
-            <div className="__oh">
-              <p className="film__header__informations_value">{prod}</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

@@ -14,11 +14,6 @@ export const PROJECTS_QUERY = defineQuery(`
         slug,
         "coverImageUrl": cover_image.asset->url,
         "src": video.asset->url,
-        informations {
-            name,
-            prod
-        },
-      }
     }
   }
 `);
@@ -41,9 +36,11 @@ export const PROJECT_QUERY = defineQuery(`
     title,
     "coverImageUrl": cover_image.asset->url,
     "src": video.asset->url,
-    informations {
-        name,
-        prod
+    informations[] {
+        information {
+            information_name,
+            information_value
+        }
     },
    images[] {
         "url": asset->url

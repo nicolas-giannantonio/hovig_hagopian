@@ -17,8 +17,7 @@ export default async function Page({ params }: PageProps) {
       <FilmControls
         title={project.title}
         src={project.src}
-        real={project.informations.name}
-        prod={project.informations.prod}
+        informations={project.informations}
       />
       <GalleryProject images={project.images} />
     </div>
