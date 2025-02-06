@@ -15,12 +15,12 @@ html {
   color: white;
   font-size: calc(100vw / 1440 * 16);
 
-  @media screen and (max-width: 768px) {
-    font-size: calc(100vw / 393 * 16);
-  }
-
   @media screen and (max-width: 1024px) {
     font-size: calc(100vw / 1024 * 16);
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: calc(100vw / 393 * 16);
   }
 }
 
@@ -42,11 +42,12 @@ html, body {
   height: 100%;
   overflow: hidden;
 
-  @media screen and (max-width: 768px) {
+
+  @media screen and (max-width: 1024px) {
     overflow-y: auto;
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 768px) {
     overflow-y: auto;
   }
 }
