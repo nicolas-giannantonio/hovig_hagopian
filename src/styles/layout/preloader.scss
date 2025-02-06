@@ -91,3 +91,14 @@
 
 
 }
+
+@media screen and (max-width: 1024px) {
+
+  #Loader {
+    .w__loader__info {
+      width: calc(100% - 2.5rem);
+    }
+  }
+
+
+}

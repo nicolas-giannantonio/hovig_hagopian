@@ -67,6 +67,11 @@
     height: 16.1875rem;
     position: relative;
 
+    @media screen and (max-width: 1024px) {
+      width: calc(28.75rem / 1.45);
+      height: calc(16.1875rem / 1.45);
+    }
+
     .w__cardProjectFocus {
       position: absolute;
       top: 0;
@@ -117,6 +122,12 @@
     .cardProject {
       width: 28.75rem;
       height: 16.1875rem;
+
+      @media screen and (max-width: 1024px) {
+        width: calc(28.75rem / 1.45);
+        height: calc(16.1875rem / 1.45);
+      }
+
       overflow: hidden;
       opacity: 0;
       transform: translateY(500%);
