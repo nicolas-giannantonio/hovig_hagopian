@@ -22,7 +22,6 @@ export default async function Page({ params }: PageProps) {
     <div id={"film"}>
       <FilmControls
         title={project.title}
-        src={project.src}
         informations={project.informations}
         vimeoLink={filmLinkVideo}
       />

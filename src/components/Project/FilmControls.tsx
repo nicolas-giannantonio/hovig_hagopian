@@ -18,14 +18,12 @@ type FilmControlsType = {
       };
     },
   ];
-  src: string;
   vimeoLink: string;
 };
 
 export default function FilmControls({
   title,
   informations,
-  src,
   vimeoLink,
 }: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
