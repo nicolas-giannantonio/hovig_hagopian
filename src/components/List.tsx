@@ -174,7 +174,6 @@ function ListProject({
   author: string;
   href: string;
 }) {
-  console.log(author);
   return (
     <TransitionLink href={`/film/${href || "/"}`} className="list_project">
       <div className="w__list_project_p">

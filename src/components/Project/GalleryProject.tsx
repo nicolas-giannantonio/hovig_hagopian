@@ -8,7 +8,7 @@ export default function GalleryProject({
 }) {
   return (
     <div className="GalleryProject">
-      {images.map((image: { url: string }, index) => (
+      {images?.map((image: { url: string }, index) => (
         <Image
           key={index}
           className={"galleryProject_image"}
