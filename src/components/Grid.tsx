@@ -13,10 +13,14 @@ type ProjectProp = {
     slug: {
       current: string;
     };
-    informations: {
-      name: string;
-      prod: string;
-    };
+    title: string;
+    informations: [
+      {
+        information: {
+          information_value: string;
+        };
+      },
+    ];
   };
 };
 
