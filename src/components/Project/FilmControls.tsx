@@ -26,7 +26,6 @@ export default function FilmControls({
   informations,
   src,
 }: FilmControlsType) {
-  console.log(informations);
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const lineProgressRef = useRef<HTMLDivElement | null>(null);

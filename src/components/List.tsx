@@ -13,10 +13,14 @@ type ListProject = {
     slug: {
       current: string;
     };
-    informations: {
-      name: string;
-      prod: string;
-    };
+    title: string;
+    informations: [
+      {
+        information: {
+          information_value: string;
+        };
+      },
+    ];
   };
 };
 
@@ -147,8 +151,10 @@ export default function List({ data }: { data: ListProject[] }) {
             <div className="list_line" />
             <ListProject
               key={index}
-              title={data.project.informations.name}
-              author={data.project.informations.prod}
+              title={data.project.title}
+              author={
+                data.project.informations[0].information.information_value
+              }
               href={data.project.slug.current || "/"}
             />
           </div>
@@ -168,6 +174,7 @@ function ListProject({
   author: string;
   href: string;
 }) {
+  console.log(author);
   return (
     <TransitionLink href={`/film/${href || "/"}`} className="list_project">
       <div className="w__list_project_p">
