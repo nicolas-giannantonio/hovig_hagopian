@@ -5,11 +5,31 @@
   user-select: none;
 }
 
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../../../public/assets/fonts/ibm.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
+  src: url("../../../public/assets/fonts/neue_m.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
+  src: url("../../../public/assets/fonts/neue.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
 html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: none;
   -webkit-font-smoothing: antialiased;
-  font-family: "Helvetica Now Display", sans-serif;
   overscroll-behavior: none;
   background: #0C0B0B;
   color: white;
