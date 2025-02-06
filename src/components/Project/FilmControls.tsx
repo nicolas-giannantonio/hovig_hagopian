@@ -19,12 +19,14 @@ type FilmControlsType = {
     },
   ];
   src: string;
+  vimeoLink: string;
 };
 
 export default function FilmControls({
   title,
   informations,
   src,
+  vimeoLink,
 }: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -385,7 +387,7 @@ export default function FilmControls({
           controls={false}
           playsInline
           muted
-          src={src}
+          src={vimeoLink}
         ></video>
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
