@@ -11,14 +11,39 @@ type PageProps = {
 
 export const dynamic = "force-dynamic";
 
+const extractVimeoIdAndToken = (url: string) => {
+  if (!url) {
+    console.warn("URL Vimeo est absente ou invalide.");
+    return null;
+  }
+
+  const match = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
+  if (match) {
+    const videoId = match[1] || "";
+    const token = match[2] || "";
+    return { videoId, token };
+  }
+
+  return {
+    videoId: "",
+    token: "",
+  };
+};
+
 export default async function Page({ params }: PageProps) {
   const projectName = (await params).project;
   const data = await client.fetch(PROJECT_QUERY, { slug: projectName });
   const project = await data[0];
 
-  const vimeoSrc = project?.vimeoSrc;
+  const extractVimeoUrl = extractVimeoIdAndToken(project?.vimeoSrc) as {
+    videoId: string;
+    token: string;
+  };
 
-  const vimeoData = await getVideoLink(vimeoSrc);
+  const vimeoData = await getVideoLink(
+    extractVimeoUrl.videoId,
+    extractVimeoUrl.token,
+  );
   const filmLinkVideo = vimeoData?.play?.progressive?.[0]?.link;
 
   return (

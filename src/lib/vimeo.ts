@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+import { token } from "stylis";
+
 const Vimeo = require("vimeo").Vimeo;
 const client_id = process.env.VIMEO_CLIENT_ID;
 const client_secret = process.env.VIMEO_CLIENT_SECRET;
@@ -6,7 +7,10 @@ const access_token = process.env.VIMEO_ACCESS_TOKEN;
 
 const client = new Vimeo(client_id, client_secret, access_token);
 
-function getVideoLink(videoId: string): Promise<{
+function getVideoLink(
+  videoId: string,
+  token: string,
+): Promise<{
   play: {
     progressive: [
       {
@@ -19,7 +23,10 @@ function getVideoLink(videoId: string): Promise<{
     client.request(
       {
         method: "GET",
-        path: `/videos/${videoId}?fields=play`,
+        headers: {
+          Accept: "application/vnd.vimeo.*+json;version=3.4",
+        },
+        path: `/videos/${videoId}?fields=play&token=${token}`,
       },
       function (
         error: Error,
