@@ -14,8 +14,8 @@ export default function CardProject({
       <FocusCardProject />
       <div className="cardProject">
         <Image
-          width={300}
-          height={300}
+          width={2000}
+          height={2000}
           className={"cardProject_i"}
           src={image}
           alt={""}

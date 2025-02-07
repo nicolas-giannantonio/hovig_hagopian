@@ -16,19 +16,11 @@ export default async function Page({ params }: PageProps) {
   const data = await client.fetch(PROJECT_QUERY, { slug: projectName });
   const project = await data[0];
 
-  let vimeoSrc = project?.vimeoSrc || "";
-  let filmLinkVideo = "";
-  if (vimeoSrc) {
-    try {
-      const vimeoData = await getVideoLink(vimeoSrc);
-      filmLinkVideo = vimeoData?.play?.progressive?.[0]?.link || "";
-    } catch (error) {
-      console.error("Erreur lors de la récupération de la vidéo :", error);
-    }
-  } else {
-    vimeoSrc = "";
-  }
-  console.log(project);
+  const vimeoSrc = project?.vimeoSrc;
+
+  const vimeoData = await getVideoLink(vimeoSrc);
+  const filmLinkVideo = vimeoData?.play?.progressive?.[0]?.link;
+
   return (
     <div id={"film"}>
       {project && (
