@@ -1,5 +1,4 @@
-import { token } from "stylis";
-
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const Vimeo = require("vimeo").Vimeo;
 const client_id = process.env.VIMEO_CLIENT_ID;
 const client_secret = process.env.VIMEO_CLIENT_SECRET;
