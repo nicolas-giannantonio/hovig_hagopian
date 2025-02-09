@@ -1,11 +1,12 @@
 import { useGSAP } from "@gsap/react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import { Lerp } from "@/utils/Math";
 import { useTempus } from "tempus/react";
 import DetectScreen from "@/lib/DetectScreen";
 import TransitionLink from "@/components/TransitionLink";
+import { a } from "vite/dist/node/types.d-aGj9QkWt";
 
 type ListProject = {
   project: {
@@ -19,8 +20,7 @@ type ListProject = {
 export default function List({ data }: { data: ListProject[] }) {
   const listProjectsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [currentSrc, setCurrentSrc] = useState(data[0].project.src);
+  const videoRefs = useRef<HTMLVideoElement[]>([]);
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
 
@@ -58,7 +58,7 @@ export default function List({ data }: { data: ListProject[] }) {
         target.current.x = e.clientX;
         target.current.y = e.clientY;
       };
-      window.addEventListener("mousemove", mouse, { passive: true });
+      window.addEventListener("mousemove", mouse);
       return () => window.removeEventListener("mousemove", mouse);
     }
   }, []);
@@ -68,53 +68,58 @@ export default function List({ data }: { data: ListProject[] }) {
       const scrollEvent = () => {
         const scroll = window.scrollY / window.innerHeight;
         const currentIndex = Math.floor(scroll * data.length);
-        const src = data[currentIndex]?.project.src || data[0].project.src;
-        if (src !== currentSrc) {
-          gsap.to(videoRef.current, {
-            opacity: 0,
-            duration: 0.5,
-            onComplete: () => setCurrentSrc(src),
-          });
-        }
+        videoRefs.current.forEach((video, index) => {
+          if (video) {
+            if (index === currentIndex) {
+              gsap.to(video, { opacity: 1, duration: 0.5 });
+              video.play();
+            } else {
+              gsap.to(video, { opacity: 0, duration: 0.5 });
+              video.pause();
+            }
+          }
+        });
       };
-      window.addEventListener("scroll", scrollEvent, { passive: true });
+      window.addEventListener("scroll", scrollEvent);
       return () => window.removeEventListener("scroll", scrollEvent);
     }
-  }, [data, currentSrc]);
+  }, [data]);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play();
-    }
-  }, [currentSrc]);
+  const handleMouseEnterProject = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    video.currentTime = 0;
+    video.style.opacity = "1";
+    video.play();
+  };
 
-  const handleMouseEnterProject = (src: string) => {
-    if (src === currentSrc) return;
-    setCurrentSrc(src);
+  const handleMouseLeaveProject = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    video.style.opacity = "0";
+    video.pause();
   };
 
   return (
     <>
       <div ref={containerRef} className="w__videoCursor">
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          autoPlay
-          preload="auto"
-          className="videoCursor"
-          style={{ position: "absolute", top: 0, left: 0, opacity: 1 }}
-        >
-          <source src={currentSrc} type="video/mp4" />
-        </video>
+        <Suspense fallback={null}>
+          {data.map((dataVideo, index) => (
+            <VideoHover
+              key={index}
+              dataVideo={dataVideo}
+              index={index}
+              videoRefs={videoRefs}
+            />
+          ))}
+        </Suspense>
       </div>
       <div className="w__list__projects" ref={listProjectsRef}>
         {data.map((item, index) => (
           <div
             key={index}
-            onMouseEnter={() => handleMouseEnterProject(item.project.src)}
+            onMouseEnter={() => handleMouseEnterProject(index)}
+            onMouseLeave={() => handleMouseLeaveProject(index)}
           >
             <ListProject
               title={item.project.title}
@@ -151,3 +156,36 @@ function ListProject({
     </TransitionLink>
   );
 }
+
+const VideoHover = ({
+  dataVideo,
+  index,
+  videoRefs,
+}: {
+  dataVideo: ListProject;
+  index: number;
+  videoRefs: React.MutableRefObject<HTMLVideoElement[]>;
+}) => {
+  return (
+    <video
+      key={index}
+      ref={(el) => {
+        if (el) {
+          videoRefs.current[index] = el;
+        }
+      }}
+      src={dataVideo.project.src}
+      muted
+      preload="none"
+      loop
+      playsInline
+      className="videoCursor"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        opacity: index === 0 ? 1 : 0,
+      }}
+    ></video>
+  );
+};
