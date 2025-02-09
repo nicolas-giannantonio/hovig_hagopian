@@ -148,7 +148,7 @@ export default function List({ data }: { data: ListProject[] }) {
             key={index}
             onMouseEnter={() => handleMouseEnterProject(data.project.src)}
           >
-            <div className="list_line" />
+            {/*<div className="list_line" />*/}
             <ListProject
               key={index}
               title={data.project.title}
@@ -159,7 +159,7 @@ export default function List({ data }: { data: ListProject[] }) {
             />
           </div>
         ))}
-        <div className="list_line" />
+        {/*<div className="list_line" />*/}
       </div>
     </>
   );
