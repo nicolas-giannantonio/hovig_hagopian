@@ -113,7 +113,6 @@ export default function List({ data }: { data: ListProject[] }) {
             src={dataVideo.project.src}
             muted
             loop
-            autoPlay
             playsInline
             className="videoCursor"
             style={{
