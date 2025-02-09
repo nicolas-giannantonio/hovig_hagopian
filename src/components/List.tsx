@@ -122,10 +122,13 @@ export default function List({ data }: { data: ListProject[] }) {
   }, []);
 
   const handleMouseEnterProject = (src: string) => {
-    if (!videoRef.current) return;
-    videoRef.current.style.opacity = "0";
+    const video = videoRef.current;
+    if (!video || video.src === src) return;
+    video.style.opacity = "0";
+    video.addEventListener("loadeddata", () => (video.style.opacity = "1"), {
+      once: true,
+    });
     setVideoSrc(src);
-    videoRef.current.style.opacity = "1";
   };
 
   return (
@@ -148,7 +151,6 @@ export default function List({ data }: { data: ListProject[] }) {
             key={index}
             onMouseEnter={() => handleMouseEnterProject(data.project.src)}
           >
-            {/*<div className="list_line" />*/}
             <ListProject
               key={index}
               title={data.project.title}
@@ -159,7 +161,6 @@ export default function List({ data }: { data: ListProject[] }) {
             />
           </div>
         ))}
-        {/*<div className="list_line" />*/}
       </div>
     </>
   );

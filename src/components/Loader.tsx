@@ -66,11 +66,14 @@ export default function Loader() {
       ease: (t) => BezierEasing(0.95, 0.2, 0.1, 1.0)(t),
     });
 
-    gsap.to("#loaderName", {
-      transform: "translateY(-105%)",
-      delay: 1.5,
-      duration: 1.3,
-      ease: (t) => EASE["o6"](t),
+    gsap.to(".loader_overlay", {
+      opacity: 0,
+      duration: 0.35,
+      delay: 1.85,
+      ease: (t) => EASE["o1"](t),
+      onComplete: () => {
+        loaderRef.current?.remove();
+      },
       onStart: () => {
         setTimeout(() => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -79,16 +82,6 @@ export default function Loader() {
           window.appLoaded = true;
           window.dispatchEvent(new Event("app-loaded"));
         }, 500);
-      },
-    });
-
-    gsap.to(".loader_overlay", {
-      opacity: 0,
-      duration: 0.35,
-      delay: 1.85,
-      ease: (t) => EASE["o1"](t),
-      onComplete: () => {
-        loaderRef.current?.remove();
       },
     });
 
@@ -113,10 +106,6 @@ export default function Loader() {
         </div>
         <div ref={containerLoaderNumberRef} className="loader__number">
           <p ref={loaderNumberRef}>0%</p>
-        </div>
-
-        <div className="w__loader__name">
-          <p id={"loaderName"}>Hovig Hagopian</p>
         </div>
       </div>
     </div>

@@ -8,7 +8,11 @@ import MobileDetect from "mobile-detect";
 import TransitionLink from "@/components/TransitionLink";
 import Link from "next/link";
 
-export default function Navigation() {
+export default function Navigation({
+  navTitles,
+}: {
+  navTitles: { title: string }[];
+}) {
   const path = usePathname();
 
   const isPathActive = (p: string) => {
@@ -24,7 +28,6 @@ export default function Navigation() {
     }
   }, []);
 
-  // Resize observer callback to update mobile state
   const [setResizeObserverRef] = useResizeObserver({
     lazy: true,
     callback: () => {
@@ -134,27 +137,28 @@ export default function Navigation() {
       {!isMob ? (
         <nav id={"nv"}>
           <TransitionLink className="nv__name" href={"/"}>
-            Hovig Hagopian
+            Hovig Hagopian{" "}
+            <span className={"nv__name__sub"}>Cinematographer</span>
           </TransitionLink>
 
           <div className="nv__pages_links">
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
-              href={"/clip"}
+              href={"/music-video"}
             >
-              Clip
+              {navTitles[1].title || "Music Video"}
             </TransitionLink>
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
               href={"/fiction"}
             >
-              Fiction et documentaire
+              {navTitles[0].title || "Fiction"}
             </TransitionLink>
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
               href={"/pub"}
             >
-              Pub
+              {navTitles[2].title || "Pub"}
             </TransitionLink>
           </div>
 
@@ -183,7 +187,8 @@ export default function Navigation() {
               className="nv__name"
               href={"/"}
             >
-              Hovig Hagopian
+              Hovig Hagopian{" "}
+              <span className={"nv__name__sub"}>Cinematographer</span>
             </Link>
             <div className="nv__toggle">
               <p onClick={openMenu} id={"o"} className="nv__toggle_text">
@@ -200,19 +205,19 @@ export default function Navigation() {
               <div className="__oh">
                 <Link
                   onClick={closeMenu}
-                  href={"/clip"}
+                  href={"/fiction"}
                   className="nv_list_text"
                 >
-                  Clip
+                  {navTitles[0].title || "Fiction"}
                 </Link>
               </div>
               <div className="__oh">
                 <Link
                   onClick={closeMenu}
-                  href={"/fiction"}
+                  href={"/music-video"}
                   className="nv_list_text"
                 >
-                  Fiction et documentaire
+                  {navTitles[1].title || "Music Video"}
                 </Link>
               </div>
 
@@ -222,7 +227,7 @@ export default function Navigation() {
                   href={"/pub"}
                   className="nv_list_text"
                 >
-                  Pub
+                  {navTitles[2].title || "Pub"}
                 </Link>
               </div>
             </div>

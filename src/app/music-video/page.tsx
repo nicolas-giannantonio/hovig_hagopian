@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Projects data={projects} name={"Clip"} />
+      <Projects data={projects} name={selected[0].title || "Selected"} />
     </div>
   );
 }

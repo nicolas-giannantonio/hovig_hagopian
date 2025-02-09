@@ -6,7 +6,7 @@ import Navigation from "@/components/Navigation";
 import { ReactLenis } from "lenis/react";
 import Footer from "@/components/Footer";
 import Reperes from "@/components/Utils/Reperes";
-import { META_QUERY } from "@/lib/queries";
+import { META_QUERY, TITLE_QUERY } from "@/lib/queries";
 import { client } from "@/lib/sanity/client";
 import Loader from "@/components/Loader";
 
@@ -25,12 +25,14 @@ export default async function RootLayout({
   metadata.title = meta[0].title;
   metadata.description = meta[0].description;
 
+  const navTitles = await client.fetch(TITLE_QUERY);
+
   return (
     <html lang="en">
       <body>
         <Loader />
         <Reperes />
-        <Navigation />
+        <Navigation navTitles={navTitles} />
         <ReactLenis
           root
           options={{

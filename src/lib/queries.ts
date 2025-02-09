@@ -25,6 +25,12 @@ export const PROJECTS_QUERY = defineQuery(`
   }
 `);
 
+export const TITLE_QUERY = defineQuery(`
+    *[_type == "clip" || _type == "pub" || _type == "fiction"] {
+        title
+    }
+`);
+
 export const RESUME_QUERY = defineQuery(`
     *[_type == "resume"] {
         title,
