@@ -6,7 +6,6 @@ import { Lerp } from "@/utils/Math";
 import { useTempus } from "tempus/react";
 import DetectScreen from "@/lib/DetectScreen";
 import TransitionLink from "@/components/TransitionLink";
-import { a } from "vite/dist/node/types.d-aGj9QkWt";
 
 type ListProject = {
   project: {
