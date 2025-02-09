@@ -164,8 +164,7 @@
   .videoCursor {
     opacity: 0;
     scale: 1.15;
-    transition: opacity .5s cubic-bezier(0.18, 0.47, 0.16, 0.98),
-    scale .5s cubic-bezier(0.18, 0.47, 0.16, 0.98);
+    //transition: scale .5s cubic-bezier(0.18, 0.47, 0.16, 0.98);
   }
 }
 

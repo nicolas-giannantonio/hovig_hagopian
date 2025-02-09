@@ -81,7 +81,7 @@ export default function Loader() {
 
           window.appLoaded = true;
           window.dispatchEvent(new Event("app-loaded"));
-        }, 500);
+        }, 150);
       },
     });
 
