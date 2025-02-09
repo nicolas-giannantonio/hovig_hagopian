@@ -156,7 +156,7 @@
   position: fixed;
   width: 30rem;
   aspect-ratio: 16/9;
-  transform: translateY(-50%) translateX(-25%);
+  transform: translateY(-50%) translateX(50%);
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
@@ -183,7 +183,7 @@
   }
 
   .list_project {
-    //padding: 1rem 0;
+    padding: 0.1rem 0;
 
     &:hover {
       .w__list_project_p {
