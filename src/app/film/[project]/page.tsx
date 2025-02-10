@@ -34,6 +34,7 @@ export default async function Page({ params }: PageProps) {
   const projectName = (await params).project;
   const data = await client.fetch(PROJECT_QUERY, { slug: projectName });
   const project = await data[0];
+  console.log(project);
 
   const extractVimeoUrl = extractVimeoIdAndToken(project?.vimeoSrc) as {
     videoId: string;
@@ -55,6 +56,7 @@ export default async function Page({ params }: PageProps) {
             title={project.title}
             informations={project.informations}
             vimeoLink={filmLinkVideo}
+            coverImageUrl={project.coverImageUrl}
           />
           <GalleryProject images={project.images} />
         </React.Fragment>

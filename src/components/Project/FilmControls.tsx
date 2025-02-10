@@ -7,6 +7,7 @@ import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
 import ReactHlsPlayer from "react-hls-player";
 import { useLoaded } from "@/lib/useLoader";
+import Hls from "hls.js";
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
@@ -21,12 +22,14 @@ type FilmControlsType = {
     },
   ];
   vimeoLink: string;
+  coverImageUrl: string;
 };
 
 export default function FilmControls({
   title,
   informations,
   vimeoLink,
+  coverImageUrl,
 }: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -255,7 +258,7 @@ export default function FilmControls({
         duration: 1.5,
         delay: 0.75,
       });
-      // Suppression de l'appel à controls.playVideo() ici pour ne pas interférer avec le pause
+
       gsap.to("#full", {
         y: 0,
         ease: (t) => EASE["o6"](t),
@@ -316,23 +319,45 @@ export default function FilmControls({
     }
   };
 
+  useEffect(() => {
+    let hls: Hls | undefined;
+    if (Hls.isSupported() && videoRef.current) {
+      hls = new Hls({
+        maxLoadingDelay: 4,
+        minAutoBitrate: 0,
+        lowLatencyMode: false,
+      });
+      hls.loadSource(vimeoLink);
+      hls.attachMedia(videoRef.current);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        console.log(hls.levels);
+        const levelIndex = hls.levels.findIndex((level) => level.height >= 720);
+        if (levelIndex !== -1) {
+          hls.currentLevel = levelIndex;
+        }
+      });
+    }
+    return () => {
+      if (hls) {
+        hls.destroy();
+      }
+    };
+  }, [vimeoLink]);
+
+  console.log(coverImageUrl);
+
   return (
     <div ref={filmRef} className="film__header">
       <div className="w__film__video">
-        <ReactHlsPlayer
-          playerRef={videoRef as React.MutableRefObject<HTMLVideoElement>}
+        <video
+          ref={videoRef}
           className="film__video"
-          autoPlay={true}
+          autoPlay
+          muted
+          poster={coverImageUrl}
           controls={false}
           playsInline
-          hlsConfig={{
-            maxLoadingDelay: 4,
-            minAutoBitrate: 0,
-            lowLatencyMode: false,
-          }}
-          muted
-          src={vimeoLink}
-        ></ReactHlsPlayer>
+        />
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
       <div ref={headerControlsRef} className="film__header__controls">
