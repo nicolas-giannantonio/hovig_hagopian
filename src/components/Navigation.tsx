@@ -143,19 +143,19 @@ export default function Navigation({
 
           <div className="nv__pages_links nv__mid">
             <TransitionLink
-              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              className={`nv_link ${isPathActive("/music-video") ? "nv_link_active" : ""}`}
               href={"/music-video"}
             >
               {navTitles[1].title || "Music Video"}
             </TransitionLink>
             <TransitionLink
-              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              className={`nv_link ${isPathActive("/fiction") ? "nv_link_active" : ""}`}
               href={"/fiction"}
             >
               {navTitles[0].title || "Fiction"}
             </TransitionLink>
             <TransitionLink
-              className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
+              className={`nv_link ${isPathActive("/pub") ? "nv_link_active" : ""}`}
               href={"/pub"}
             >
               {navTitles[2].title || "Pub"}

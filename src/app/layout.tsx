@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "../styles/main.scss";
-import "lenis/dist/lenis.css";
 
 import Navigation from "@/components/Navigation";
 import { ReactLenis } from "lenis/react";

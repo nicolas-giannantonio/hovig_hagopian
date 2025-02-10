@@ -13,13 +13,7 @@ export default function CardProject({
     <TransitionLink href={link} className="w__cardProject">
       <FocusCardProject />
       <div className="cardProject">
-        <Image
-          width={2000}
-          height={2000}
-          className={"cardProject_i"}
-          src={image}
-          alt={""}
-        />
+        <Image fill className={"cardProject_i"} src={image} alt={""} />
       </div>
     </TransitionLink>
   );

@@ -140,6 +140,7 @@
 }
 
 .GalleryProject {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -150,7 +151,6 @@
   .w_galleryProject_image {
     position: relative;
     z-index: 10;
-    cursor: pointer;
 
     .galleryProject_image {
       width: 28.8rem;
@@ -186,6 +186,16 @@
       }
     }
   }
+}
 
+.react-medium-image-zoom-overlay {
+  z-index: 9999 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
 
+.react-medium-image-zoom {
+  cursor: pointer !important;
 }
