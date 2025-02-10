@@ -19,7 +19,7 @@ type ListProject = {
 export default function List({ data }: { data: ListProject[] }) {
   const listProjectsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<HTMLVideoElement[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
 
@@ -67,17 +67,12 @@ export default function List({ data }: { data: ListProject[] }) {
       const scrollEvent = () => {
         const scroll = window.scrollY / window.innerHeight;
         const currentIndex = Math.floor(scroll * data.length);
-        videoRefs.current.forEach((video, index) => {
-          if (video) {
-            if (index === currentIndex) {
-              gsap.to(video, { opacity: 1, duration: 0.5 });
-              video.play();
-            } else {
-              gsap.to(video, { opacity: 0, duration: 0.5 });
-              video.pause();
-            }
-          }
-        });
+        const video = videoRef.current;
+        if (video) {
+          video.src = data[currentIndex]?.project.src || "";
+          gsap.to(video, { opacity: 1, duration: 0.5 });
+          video.play();
+        }
       };
       window.addEventListener("scroll", scrollEvent);
       return () => window.removeEventListener("scroll", scrollEvent);
@@ -85,15 +80,16 @@ export default function List({ data }: { data: ListProject[] }) {
   }, [data]);
 
   const handleMouseEnterProject = (index: number) => {
-    const video = videoRefs.current[index];
+    const video = videoRef.current;
     if (!video) return;
+    video.src = data[index].project.src;
     video.currentTime = 0;
     video.style.opacity = "1";
     video.play();
   };
 
-  const handleMouseLeaveProject = (index: number) => {
-    const video = videoRefs.current[index];
+  const handleMouseLeaveProject = () => {
+    const video = videoRef.current;
     if (!video) return;
     video.style.opacity = "0";
     video.pause();
@@ -102,34 +98,21 @@ export default function List({ data }: { data: ListProject[] }) {
   return (
     <>
       <div ref={containerRef} className="w__videoCursor">
-        {data.map((dataVideo, index) => (
-          <video
-            key={index}
-            ref={(el) => {
-              if (el) {
-                videoRefs.current[index] = el;
-              }
-            }}
-            src={dataVideo.project.src}
-            muted
-            loop
-            playsInline
-            className="videoCursor"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              opacity: index === 0 ? 1 : 0,
-            }}
-          ></video>
-        ))}
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          className="videoCursor"
+          style={{ opacity: 0 }}
+        ></video>
       </div>
       <div className="w__list__projects" ref={listProjectsRef}>
         {data.map((item, index) => (
           <div
             key={index}
             onMouseEnter={() => handleMouseEnterProject(index)}
-            onMouseLeave={() => handleMouseLeaveProject(index)}
+            onMouseLeave={handleMouseLeaveProject}
           >
             <ListProject
               title={item.project.title}

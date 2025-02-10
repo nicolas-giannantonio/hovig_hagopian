@@ -37,7 +37,6 @@ export default function FilmControls({
   const headerInformationsRef = useRef<HTMLDivElement | null>(null);
   const loaded = useLoaded();
 
-  const [isPaused, setIsPaused] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
 
   const inactivityTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -98,20 +97,16 @@ export default function FilmControls({
 
   const playVideo = useCallback(() => {
     if (videoRef.current?.paused) {
-      videoRef.current
-        .play()
-        .then(() => setIsPaused(false))
-        .catch((error) => {
-          if (error.name !== "AbortError")
-            console.error("Error playing video:", error);
-        });
+      videoRef.current.play().catch((error) => {
+        if (error.name !== "AbortError")
+          console.error("Error playing video:", error);
+      });
     }
   }, []);
 
   const pauseVideo = useCallback(() => {
     if (videoRef.current && !videoRef.current.paused) {
       videoRef.current.pause();
-      setIsPaused(true);
     }
   }, []);
 
