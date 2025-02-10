@@ -5,6 +5,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
+import ReactHlsPlayer from "react-hls-player";
+import { useLoaded } from "@/lib/useLoader";
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
@@ -33,6 +35,7 @@ export default function FilmControls({
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const headerControlsRef = useRef<HTMLDivElement | null>(null);
   const headerInformationsRef = useRef<HTMLDivElement | null>(null);
+  const loaded = useLoaded();
 
   const [isPaused, setIsPaused] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
@@ -48,7 +51,6 @@ export default function FilmControls({
         const minutes = Math.floor(totalMilliseconds / 60000);
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
-
         progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
         progressTimeRef.current.style.left = `${(currentTime / videoRef.current.duration) * 100}%`;
       }
@@ -72,15 +74,8 @@ export default function FilmControls({
       ease: (t) => EASE["o6"](t),
       duration: 1.25,
     });
-    gsap.to(infoEl, {
-      opacity: 1,
-      ease: (t) => EASE["o6"](t),
-      duration: 1.25,
-    });
-
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+    gsap.to(infoEl, { opacity: 1, ease: (t) => EASE["o6"](t), duration: 1.25 });
+    if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       setInactiveState();
     }, 2000);
@@ -92,33 +87,30 @@ export default function FilmControls({
     infoEl: HTMLDivElement | null,
   ) {
     if (videoRef.current?.paused) return;
-    gsap.to(overlayEl, {
-      opacity: 0,
-      ease: (t) => EASE["o6"](t),
-      duration: 1,
-    });
+    gsap.to(overlayEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
     gsap.to(controlsEl, {
       opacity: 0,
       ease: (t) => EASE["o6"](t),
       duration: 1,
     });
-    gsap.to(infoEl, {
-      opacity: 0,
-      ease: (t) => EASE["o6"](t),
-      duration: 1,
-    });
+    gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
   }
 
   const playVideo = useCallback(() => {
     if (videoRef.current?.paused) {
-      videoRef.current?.play();
-      setIsPaused(false);
+      videoRef.current
+        .play()
+        .then(() => setIsPaused(false))
+        .catch((error) => {
+          if (error.name !== "AbortError")
+            console.error("Error playing video:", error);
+        });
     }
   }, []);
 
   const pauseVideo = useCallback(() => {
-    if (!videoRef.current?.paused) {
-      videoRef.current?.pause();
+    if (videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause();
       setIsPaused(true);
     }
   }, []);
@@ -132,26 +124,18 @@ export default function FilmControls({
   }, []);
 
   const controls = useMemo(
-    () => ({
-      playVideo,
-      pauseVideo,
-      toggleMute,
-    }),
+    () => ({ playVideo, pauseVideo, toggleMute }),
     [playVideo, pauseVideo, toggleMute],
   );
 
   useEffect(() => {
-    const timerRef = inactivityTimerRef.current;
-
     return () => {
-      if (timerRef) {
-        clearTimeout(timerRef);
-      }
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
     };
   }, []);
 
   useEffect(() => {
-    window.addEventListener("keydown", (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " ") {
         e.preventDefault();
         setActiveState(
@@ -167,13 +151,9 @@ export default function FilmControls({
             );
           },
         );
-        if (videoRef.current?.paused) {
-          controls.playVideo();
-        } else {
-          controls.pauseVideo();
-        }
-      }
-      if (e.key === "m") {
+        if (videoRef.current?.paused) videoRef.current?.play();
+        else videoRef.current?.pause();
+      } else if (e.key === "m") {
         if (videoRef.current) {
           videoRef.current.muted = !videoRef.current.muted;
           setIsMuted(videoRef.current.muted);
@@ -191,8 +171,7 @@ export default function FilmControls({
             },
           );
         }
-      }
-      if (e.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight") {
         if (videoRef.current) {
           videoRef.current.currentTime += 5;
           setActiveState(
@@ -209,8 +188,7 @@ export default function FilmControls({
             },
           );
         }
-      }
-      if (e.key === "ArrowLeft") {
+      } else if (e.key === "ArrowLeft") {
         if (videoRef.current) {
           videoRef.current.currentTime -= 5;
           setActiveState(
@@ -228,7 +206,7 @@ export default function FilmControls({
           );
         }
       }
-    });
+    };
 
     const handleMouseMove = () => {
       setActiveState(
@@ -246,49 +224,18 @@ export default function FilmControls({
       );
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener("keydown", (e) => {
-        if (e.key === " ") {
-          e.preventDefault();
-          if (videoRef.current?.paused) {
-            controls.playVideo();
-          } else {
-            controls.pauseVideo();
-          }
-        }
-
-        if (e.key === "m") {
-          if (videoRef.current) {
-            videoRef.current.muted = !videoRef.current.muted;
-            setIsMuted(videoRef.current.muted);
-          }
-        }
-
-        if (e.key === "ArrowRight") {
-          if (videoRef.current) {
-            videoRef.current.currentTime += 5;
-          }
-        }
-
-        if (e.key === "ArrowLeft") {
-          if (videoRef.current) {
-            videoRef.current.currentTime -= 5;
-          }
-        }
-      });
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousemove", handleMouseMove);
-      if (inactivityTimerRef.current) {
-        clearTimeout(inactivityTimerRef.current);
-      }
     };
   }, [controls]);
 
   useGSAP(
     () => {
+      if (!loaded) return;
       gsap.to(".under_lineprogress", {
         scaleX: 1,
         ease: (t) => lineProgress(t),
@@ -301,19 +248,25 @@ export default function FilmControls({
         duration: 1.5,
         delay: 0.15,
       });
+      gsap.to("#pause", {
+        y: 0,
+        ease: (t) => EASE["o6"](t),
+        duration: 1.5,
+        delay: 0.15,
+      });
       gsap.to("#mute", {
         y: 0,
         ease: (t) => EASE["o6"](t),
         duration: 1.5,
         delay: 0.75,
       });
+      // Suppression de l'appel à controls.playVideo() ici pour ne pas interférer avec le pause
       gsap.to("#full", {
         y: 0,
         ease: (t) => EASE["o6"](t),
         duration: 1.5,
         delay: 0.9,
         onStart: () => {
-          controls.playVideo();
           gsap.to(".progressTime", {
             opacity: 1,
             ease: (t) => EASE["o4"](t),
@@ -321,7 +274,6 @@ export default function FilmControls({
           });
         },
       });
-
       gsap.to(".film__video__overlay", {
         opacity: 0,
         ease: (t) => EASE["o4"](t),
@@ -355,15 +307,9 @@ export default function FilmControls({
         duration: 1.5,
         delay: 0.75,
       });
-      gsap.to(videoRef.current, {
-        opacity: 1,
-        ease: "linear",
-        duration: 1,
-      });
+      gsap.to(videoRef.current, { opacity: 1, ease: "linear", duration: 1 });
     },
-    {
-      scope: filmRef,
-    },
+    { scope: filmRef, dependencies: [loaded] },
   );
 
   const clickOnLineProgress = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -378,18 +324,22 @@ export default function FilmControls({
   return (
     <div ref={filmRef} className="film__header">
       <div className="w__film__video">
-        <video
-          ref={videoRef}
+        <ReactHlsPlayer
+          playerRef={videoRef as React.MutableRefObject<HTMLVideoElement>}
           className="film__video"
-          autoPlay={false}
+          autoPlay={true}
           controls={false}
           playsInline
+          hlsConfig={{
+            maxLoadingDelay: 4,
+            minAutoBitrate: 0,
+            lowLatencyMode: false,
+          }}
           muted
           src={vimeoLink}
-        ></video>
+        ></ReactHlsPlayer>
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
-
       <div ref={headerControlsRef} className="film__header__controls">
         <div onClick={clickOnLineProgress} className="w__film__video__progress">
           <p ref={progressTimeRef} className="progressTime">
@@ -398,29 +348,32 @@ export default function FilmControls({
           <div className="under_lineprogress"></div>
           <div ref={lineProgressRef} className="lineprogress"></div>
         </div>
-
         <div className="w__controls__buttons">
-          <div className="__oh">
-            <p
-              id={"play"}
-              onClick={() => {
-                if (videoRef.current?.paused) {
-                  controls.playVideo();
-                } else {
-                  controls.pauseVideo();
-                }
-              }}
-              className="controls__buttons_text"
-            >
-              {isPaused ? "Play" : "Pause"}
-            </p>
+          <div className="film__inline_controls">
+            <div className="__oh">
+              <p
+                id="play"
+                onClick={() => videoRef.current?.play()}
+                className="controls__buttons_text"
+              >
+                {"Play"}
+              </p>
+            </div>
+            <div className="__oh">
+              <p
+                id="pause"
+                onClick={() => videoRef.current?.pause()}
+                className="controls__buttons_text"
+              >
+                {"Pause"}
+              </p>
+            </div>
           </div>
-
           <div className="controls__buttons__inline">
             <div className="__oh">
               <p
                 onClick={controls.toggleMute}
-                id={"mute"}
+                id="mute"
                 className="controls__buttons_text"
               >
                 {isMuted ? "Unmute" : "Mute"}
@@ -429,11 +382,10 @@ export default function FilmControls({
             <div className="__oh">
               <p
                 onClick={() => {
-                  if (videoRef.current && videoRef.current.requestFullscreen) {
+                  if (videoRef.current && videoRef.current.requestFullscreen)
                     videoRef.current.requestFullscreen();
-                  }
                 }}
-                id={"full"}
+                id="full"
                 className="controls__buttons_text"
               >
                 Fullscreen
@@ -442,7 +394,6 @@ export default function FilmControls({
           </div>
         </div>
       </div>
-
       <div ref={headerInformationsRef} className="film__header__informations">
         <div className="__oh">
           <p className="film__header__informations_title">{title}</p>

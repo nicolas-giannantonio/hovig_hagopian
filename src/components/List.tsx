@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import { Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import { Lerp } from "@/utils/Math";
@@ -102,16 +102,27 @@ export default function List({ data }: { data: ListProject[] }) {
   return (
     <>
       <div ref={containerRef} className="w__videoCursor">
-        <Suspense fallback={null}>
-          {data.map((dataVideo, index) => (
-            <VideoHover
-              key={index}
-              dataVideo={dataVideo}
-              index={index}
-              videoRefs={videoRefs}
-            />
-          ))}
-        </Suspense>
+        {data.map((dataVideo, index) => (
+          <video
+            key={index}
+            ref={(el) => {
+              if (el) {
+                videoRefs.current[index] = el;
+              }
+            }}
+            src={dataVideo.project.src}
+            muted
+            loop
+            playsInline
+            className="videoCursor"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              opacity: index === 0 ? 1 : 0,
+            }}
+          ></video>
+        ))}
       </div>
       <div className="w__list__projects" ref={listProjectsRef}>
         {data.map((item, index) => (
@@ -155,36 +166,3 @@ function ListProject({
     </TransitionLink>
   );
 }
-
-const VideoHover = ({
-  dataVideo,
-  index,
-  videoRefs,
-}: {
-  dataVideo: ListProject;
-  index: number;
-  videoRefs: React.MutableRefObject<HTMLVideoElement[]>;
-}) => {
-  return (
-    <video
-      key={index}
-      ref={(el) => {
-        if (el) {
-          videoRefs.current[index] = el;
-        }
-      }}
-      src={dataVideo.project.src}
-      muted
-      preload="none"
-      loop
-      playsInline
-      className="videoCursor"
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        opacity: index === 0 ? 1 : 0,
-      }}
-    ></video>
-  );
-};

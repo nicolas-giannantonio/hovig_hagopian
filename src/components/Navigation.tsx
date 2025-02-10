@@ -141,7 +141,7 @@ export default function Navigation({
             <span className={"nv__name__sub"}>Cinematographer</span>
           </TransitionLink>
 
-          <div className="nv__pages_links">
+          <div className="nv__pages_links nv__mid">
             <TransitionLink
               className={`nv_link ${isPathActive("/none") ? "nv_link_active" : ""}`}
               href={"/music-video"}

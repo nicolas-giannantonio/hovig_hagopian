@@ -44,7 +44,8 @@ export default async function Page({ params }: PageProps) {
     extractVimeoUrl.videoId,
     extractVimeoUrl.token,
   );
-  const filmLinkVideo = vimeoData?.play?.progressive?.[0]?.link;
+
+  const filmLinkVideo = vimeoData?.play?.hls.link;
 
   return (
     <div id={"film"}>

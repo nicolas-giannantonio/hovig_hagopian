@@ -11,11 +11,9 @@ function getVideoLink(
   token: string,
 ): Promise<{
   play: {
-    progressive: [
-      {
-        link: string;
-      },
-    ];
+    hls: {
+      link: string;
+    };
   };
 }> {
   return new Promise((resolve, reject) => {
@@ -31,11 +29,9 @@ function getVideoLink(
         error: Error,
         body: {
           play: {
-            progressive: [
-              {
-                link: string;
-              },
-            ];
+            hls: {
+              link: string;
+            };
           };
         },
       ) {

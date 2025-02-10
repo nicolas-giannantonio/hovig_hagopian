@@ -68,8 +68,8 @@ export default function Loader() {
 
     gsap.to(".loader_overlay", {
       opacity: 0,
-      duration: 0.35,
-      delay: 1.85,
+      duration: 0.5,
+      delay: 1.25,
       ease: (t) => EASE["o1"](t),
       onComplete: () => {
         loaderRef.current?.remove();
@@ -81,7 +81,7 @@ export default function Loader() {
 
           window.appLoaded = true;
           window.dispatchEvent(new Event("app-loaded"));
-        }, 150);
+        }, 50);
       },
     });
 
