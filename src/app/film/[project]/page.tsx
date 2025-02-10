@@ -34,7 +34,6 @@ export default async function Page({ params }: PageProps) {
   const projectName = (await params).project;
   const data = await client.fetch(PROJECT_QUERY, { slug: projectName });
   const project = await data[0];
-  console.log(project);
 
   const extractVimeoUrl = extractVimeoIdAndToken(project?.vimeoSrc) as {
     videoId: string;

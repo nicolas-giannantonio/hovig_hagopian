@@ -55,13 +55,16 @@ export default function Grid({ data }: GridProps) {
 
   return (
     <div className={"w__grid__projects"} ref={gridProjectsRef}>
-      {data.map((data: ProjectProp, index: number) => (
-        <CardProject
-          key={index}
-          image={data.project.coverImageUrl}
-          link={`/film/${data.project.slug?.current || "/"}`}
-        />
-      ))}
+      {data.map(
+        (data: ProjectProp, index: number) =>
+          data.project?.slug?.current && (
+            <CardProject
+              key={index}
+              image={data.project?.coverImageUrl}
+              link={`/film/${data.project?.slug?.current}`}
+            />
+          ),
+      )}
     </div>
   );
 }

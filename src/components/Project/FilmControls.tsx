@@ -5,8 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
-import ReactHlsPlayer from "react-hls-player";
 import { useLoaded } from "@/lib/useLoader";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import Hls from "hls.js";
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
@@ -250,7 +251,7 @@ export default function FilmControls({
         y: 0,
         ease: (t) => EASE["o6"](t),
         duration: 1.5,
-        delay: 0.15,
+        delay: 0.2,
       });
       gsap.to("#mute", {
         y: 0,
@@ -331,7 +332,9 @@ export default function FilmControls({
       hls.attachMedia(videoRef.current);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         console.log(hls.levels);
-        const levelIndex = hls.levels.findIndex((level) => level.height >= 720);
+        const levelIndex = hls.levels.findIndex(
+          (level: { height: number }) => level.height >= 720,
+        );
         if (levelIndex !== -1) {
           hls.currentLevel = levelIndex;
         }

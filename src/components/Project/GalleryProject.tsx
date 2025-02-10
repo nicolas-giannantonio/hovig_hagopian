@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Zoom from "react-medium-image-zoom";
 
 export default function GalleryProject({
   images,
@@ -9,14 +9,11 @@ export default function GalleryProject({
   return (
     <div className="GalleryProject">
       {images?.map((image: { url: string }, index) => (
-        <Image
-          key={index}
-          className={"galleryProject_image"}
-          width={1000}
-          height={1000}
-          src={image.url}
-          alt=""
-        />
+        <div key={index} className="w_galleryProject_image">
+          <Zoom>
+            <img className="galleryProject_image" src={image.url} alt="" />
+          </Zoom>
+        </div>
       ))}
     </div>
   );

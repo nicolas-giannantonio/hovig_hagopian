@@ -147,12 +147,17 @@
   gap: .5rem;
   padding: 1.25rem;
 
-  .galleryProject_image {
-    width: 28.8rem;
-    height: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
+  .w_galleryProject_image {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
 
+    .galleryProject_image {
+      width: 28.8rem;
+      height: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
   }
 }
 
