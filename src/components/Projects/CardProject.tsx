@@ -48,7 +48,7 @@ export default function CardProject({
           playsInline
           className="cardProject_video"
           poster={image}
-          preload={"true"}
+          // preload={"true"}
           ref={videoRef}
         >
           <source src={hoverVideo} type="video/mp4" />

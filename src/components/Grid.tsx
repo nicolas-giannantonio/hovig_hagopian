@@ -36,7 +36,6 @@ export default function Grid({ data }: GridProps) {
   useGSAP(
     () => {
       if (!loaded || !gridProjectsRef.current) return;
-      console.log(gridProjectsRef.current.children);
       gsap.to(gridProjectsRef.current.children || ".w__cardProject", {
         duration: 1.5,
         opacity: 1,
