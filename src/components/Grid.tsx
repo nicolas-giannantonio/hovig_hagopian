@@ -32,31 +32,25 @@ type GridProps = {
 export default function Grid({ data }: GridProps) {
   const gridProjectsRef = useRef<HTMLDivElement>(null);
   const loaded = useLoaded();
-  const [isAnimationEnd, setIsAnimationEnd] = useState(false);
 
   useGSAP(
     () => {
-      if (!loaded) return;
-      gsap.to(".cardProject", {
+      if (!loaded || !gridProjectsRef.current) return;
+      console.log(gridProjectsRef.current.children);
+      gsap.to(gridProjectsRef.current.children || ".w__cardProject", {
         duration: 1.5,
         opacity: 1,
         ease: (t) => BezierEasing(0.28, 0.8, 0.2, 1.0)(t),
-        // ease: (t) => BezierEasing(0.48, 0.5, 0.1, 1.0)(t),
         stagger: {
           amount: 0.4,
           from: "start",
-        },
-        onStart: () => {
-          setTimeout(() => {
-            setIsAnimationEnd(true);
-          }, 1300);
         },
         y: 0,
       });
     },
     {
       scope: gridProjectsRef,
-      dependencies: [loaded],
+      dependencies: [loaded, gridProjectsRef],
     },
   );
 
@@ -70,7 +64,6 @@ export default function Grid({ data }: GridProps) {
               image={data.project?.coverImageUrl}
               hoverVideo={data.project?.hover_video}
               link={`/film/${data.project?.slug?.current}`}
-              isAnimationEnd={isAnimationEnd}
             />
           ),
       )}

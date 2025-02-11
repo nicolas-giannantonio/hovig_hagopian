@@ -7,15 +7,12 @@ export default function CardProject({
   link,
   image,
   hoverVideo,
-  isAnimationEnd,
 }: {
   link: string;
   image: string;
   hoverVideo: string;
-  isAnimationEnd: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
-  const [loadVideo, setLoadVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -24,10 +21,7 @@ export default function CardProject({
       href={link}
       className="w__cardProject"
       onMouseEnter={() => {
-        if (!isAnimationEnd) return;
-        setLoadVideo(true);
         if (videoRef.current && imageRef.current) {
-          videoRef.current.style.visibility = "visible";
           videoRef.current.style.opacity = "1";
           imageRef.current.style.opacity = "0";
 
@@ -37,7 +31,6 @@ export default function CardProject({
         setHovered(true);
       }}
       onMouseLeave={() => {
-        if (!isAnimationEnd) return;
         if (videoRef.current && imageRef.current) {
           videoRef.current.style.opacity = "0";
           imageRef.current.style.opacity = "1";
@@ -55,14 +48,16 @@ export default function CardProject({
           playsInline
           className="cardProject_video"
           poster={image}
-          src={loadVideo ? hoverVideo : undefined}
+          preload={"true"}
           ref={videoRef}
-        />
+        >
+          <source src={hoverVideo} type="video/mp4" />
+        </video>
       </div>
       <div className="cardProject">
         <Image
-          width={1000}
-          height={1000}
+          width={1600}
+          height={900}
           className="cardProject_i"
           src={image}
           alt=""
