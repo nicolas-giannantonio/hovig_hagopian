@@ -194,20 +194,8 @@
   cursor: pointer;
 
 
-  &:hover {
-    .w__list_project_p {
-      opacity: .15;
-    }
-  }
-
   .list_project {
     padding: 0.1rem 0;
-
-    &:hover {
-      .w__list_project_p {
-        opacity: 1;
-      }
-    }
 
     .w__list_project_p {
       overflow: hidden;
@@ -288,4 +276,32 @@
   }
 
 }
+
+@media (hover: hover) and (pointer: fine) {
+  .header__text {
+    .header__s {
+      &:hover:before {
+        transform: scaleX(1);
+        transform-origin: left;
+        transition-delay: .05s;
+      }
+    }
+  }
+
+  .w__list__projects {
+    &:hover {
+      .w__list_project_p {
+        opacity: .15;
+      }
+    }
+    .list_project {
+      &:hover {
+        .w__list_project_p {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
 

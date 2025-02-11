@@ -342,7 +342,6 @@ export default function FilmControls({
       hls.loadSource(vimeoLink);
       hls.attachMedia(videoRef.current);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        console.log(hls.levels);
         const levelIndex = hls.levels.findIndex(
           (level: { height: number }) => level.height >= 720,
         );
@@ -350,6 +349,8 @@ export default function FilmControls({
           hls.currentLevel = levelIndex;
         }
       });
+    } else if (videoRef.current) {
+      videoRef.current.src = vimeoLink;
     }
     return () => {
       if (hls) {
