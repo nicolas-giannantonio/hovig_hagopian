@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
 
-export default function FocusCardProject() {
+export default function FocusCardProject({ hovered }: { hovered: boolean }) {
   const svgRef = useRef<HTMLDivElement | null>(null);
   const [elements, setElements] = useState<{
     cls1: NodeListOf<Element> | null;
@@ -19,9 +19,18 @@ export default function FocusCardProject() {
     }
   }, []);
 
+  useEffect(() => {
+    if (hovered) {
+      console.log("mouseEnter");
+      mouseIn();
+    } else {
+      console.log("mouseLeave");
+      mouseOut();
+    }
+  }, [hovered]);
+
   const mouseIn = () => {
     if (!elements.cls1 || !elements.cls2) return;
-
     gsap.to(elements.cls1, {
       attr: {
         points:
@@ -31,7 +40,6 @@ export default function FocusCardProject() {
       duration: 0.75,
       ease: (t) => EASE["o3"](t),
     });
-
     gsap.to(elements.cls2, {
       attr: {
         points:
@@ -53,7 +61,6 @@ export default function FocusCardProject() {
       delay: elements.cls1.length * 0.015,
       ease: (t) => EASE["o3"](t),
     });
-
     gsap.to(elements.cls2, {
       attr: {
         points:
@@ -65,12 +72,7 @@ export default function FocusCardProject() {
   };
 
   return (
-    <div
-      onMouseEnter={mouseIn}
-      onMouseLeave={mouseOut}
-      className="w__cardProjectFocus"
-      ref={svgRef}
-    >
+    <div className="w__cardProjectFocus" ref={svgRef}>
       <svg
         className="cardProjectFocusSvg svg_bl"
         xmlns="http://www.w3.org/2000/svg"

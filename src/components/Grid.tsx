@@ -14,6 +14,7 @@ type ProjectProp = {
       current: string;
     };
     title: string;
+    hover_video: string;
     informations: [
       {
         information: {
@@ -61,6 +62,7 @@ export default function Grid({ data }: GridProps) {
             <CardProject
               key={index}
               image={data.project?.coverImageUrl}
+              hoverVideo={data.project?.hover_video}
               link={`/film/${data.project?.slug?.current}`}
             />
           ),
