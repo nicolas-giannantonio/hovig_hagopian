@@ -155,9 +155,9 @@
 
 .w__videoCursor {
   position: fixed;
-  width: 30rem;
+  width: 25rem;
   aspect-ratio: 16/9;
-  transform: translateY(-50%) translateX(50%);
+  transform: translateY(-50%) translateX(30%);
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
