@@ -240,11 +240,14 @@
 }
 
 @media screen and (max-width: 768px) {
+  .projects {
+    padding: 7.5rem 1rem 1rem;
+  }
   .w__grid__projects {
-    gap: .75rem;
+    gap: .30rem;
 
     .w__cardProject {
-      width: calc(50% - .425rem);
+      width: calc(50% - .15rem);
       height: 100%;
       aspect-ratio: 16/9;
 

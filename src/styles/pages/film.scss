@@ -167,10 +167,11 @@
 @media screen and (max-width: 1024px) {
 
   .GalleryProject {
-    gap: .75rem;
+    padding: .6rem;
+    gap: .30rem;
 
     .w_galleryProject_image {
-      width: calc(50% - .375rem);
+      width: calc(50% - .15rem);
 
       .galleryProject_image {
         width: 100%;

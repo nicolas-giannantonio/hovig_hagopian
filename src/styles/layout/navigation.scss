@@ -86,7 +86,7 @@
 
 #mobNv {
   width: 100%;
-  padding: 1.25rem;
+  padding: 1rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -164,9 +164,9 @@
   .mobNv__contact {
     position: fixed;
     z-index: 50;
-    bottom: 1.25rem;
+    bottom: 1rem;
     left: 0;
-    padding: 1.25rem;
+    padding: 1rem;
 
     .nv_contact_text {
       @include fonts.mono_12;
