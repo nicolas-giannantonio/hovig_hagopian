@@ -1,7 +1,7 @@
 "use client";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
@@ -9,7 +9,7 @@ import { useLoaded } from "@/lib/useLoader";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Hls from "hls.js";
-import { isMobile } from "react-device-detect";
+import useMobileDetect from "@/lib/DetectScreen";
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
@@ -46,6 +46,14 @@ export default function FilmControls({
 
   const inactivityTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const { isMobile } = useMobileDetect();
+
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile());
+  }, [isMobile]);
+
   useTempus(() => {
     if (lineProgressRef.current && videoRef.current) {
       lineProgressRef.current.style.transform = `scaleX(${videoRef.current.currentTime / videoRef.current.duration})`;
@@ -55,10 +63,10 @@ export default function FilmControls({
         const minutes = Math.floor(totalMilliseconds / 60000);
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
-        if (isMobile) {
+        if (mobile) {
           progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
         } else {
-          progressTimeRef.current.innerText = `${!isMobile && String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
+          progressTimeRef.current.innerText = `${!mobile && String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
         }
         progressTimeRef.current.style.left = `${(currentTime / videoRef.current.duration) * 100}%`;
       }

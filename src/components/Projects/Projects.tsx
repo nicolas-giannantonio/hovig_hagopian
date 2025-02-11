@@ -1,11 +1,11 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import List from "@/components/List";
 import Grid from "@/components/Grid";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { EASE } from "@/utils/Ease";
-import { isMobile } from "react-device-detect";
+import useMobileDetect from "@/lib/DetectScreen";
 
 type ProjectMode = "grid" | "list";
 
@@ -35,9 +35,18 @@ export default function Projects({
   name: string;
   data: ProjectType[];
 }) {
-  const [type, setType] = useState<ProjectMode>(isMobile ? "list" : "grid");
+  const { isMobile } = useMobileDetect();
+
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile());
+    console.log(mobile);
+  }, [isMobile]);
+
+  const [type, setType] = useState<ProjectMode>(mobile ? "list" : "grid");
   const [targetType, setTargetType] = useState<ProjectMode>(
-    isMobile ? "list" : "grid",
+    mobile ? "list" : "grid",
   );
   const [isFirst, setIsFirst] = useState(true);
   const container = useRef<HTMLDivElement>(null);

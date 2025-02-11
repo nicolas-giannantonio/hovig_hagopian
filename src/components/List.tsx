@@ -5,7 +5,7 @@ import { EASE } from "@/utils/Ease";
 import { Lerp } from "@/utils/Math";
 import { useTempus } from "tempus/react";
 import TransitionLink from "@/components/TransitionLink";
-import { isMobile } from "react-device-detect";
+import useMobileDetect from "@/lib/DetectScreen";
 
 type ListProject = {
   project: {
@@ -24,6 +24,14 @@ export default function List({ data }: { data: ListProject[] }) {
   const videoRefs = useRef<HTMLVideoElement[]>([]);
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
+
+  const { isMobile } = useMobileDetect();
+
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile());
+  }, [isMobile]);
 
   useGSAP(
     () => {
@@ -48,7 +56,7 @@ export default function List({ data }: { data: ListProject[] }) {
   }, {});
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!mobile) {
       const mouse = (e: MouseEvent) => {
         target.current.x = e.clientX;
         target.current.y = e.clientY;
@@ -56,12 +64,12 @@ export default function List({ data }: { data: ListProject[] }) {
       window.addEventListener("mousemove", mouse, { passive: true });
       return () => window.removeEventListener("mousemove", mouse);
     }
-  }, []);
+  }, [mobile]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (isMobile) {
+    if (mobile) {
       const scrollEvent = () => {
         const scroll = (window.scrollY / window.innerHeight) * 2;
         const currentIndex = Math.floor(scroll * data.length);
@@ -82,10 +90,10 @@ export default function List({ data }: { data: ListProject[] }) {
       window.addEventListener("scroll", scrollEvent, { passive: true });
       return () => window.removeEventListener("scroll", scrollEvent);
     }
-  }, [data]);
+  }, [data, mobile]);
 
   const handleMouseEnterProject = (index: number) => {
-    if (isMobile) return;
+    if (mobile) return;
     const video = videoRefs.current[index];
     if (!video) return;
     video.currentTime = 0;
@@ -97,7 +105,7 @@ export default function List({ data }: { data: ListProject[] }) {
   };
 
   const handleMouseLeaveProject = (index: number) => {
-    if (isMobile) return;
+    if (mobile) return;
     const video = videoRefs.current[index];
     if (!video) return;
     video.style.opacity = "0";
@@ -113,7 +121,7 @@ export default function List({ data }: { data: ListProject[] }) {
             ref={(el) => {
               if (el) videoRefs.current[index] = el;
             }}
-            preload="true"
+            preload={"true"}
             muted
             loop
             playsInline
@@ -138,7 +146,7 @@ export default function List({ data }: { data: ListProject[] }) {
               }
               href={item.project.slug.current || "/"}
               opacity={
-                isMobile ? (isMobile && index === currentIndex ? 1 : 0.5) : 1
+                mobile ? (mobile && index === currentIndex ? 1 : 0.5) : 1
               }
             />
           </div>

@@ -182,6 +182,9 @@
     top: 0;
     left: 0;
     opacity: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     //scale: 1.15;
     //transition: scale .5s cubic-bezier(0.18, 0.47, 0.16, 0.98);
   }
