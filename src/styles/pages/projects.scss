@@ -72,6 +72,28 @@
       height: calc(16.1875rem / 1.45);
     }
 
+    .w__cardProject__video {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      overflow: hidden;
+
+      .cardProject_video {
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        opacity: 0;
+        scale: 1;
+        transition: opacity 1s cubic-bezier(0.22, 0.64, 0.39, 1.0),
+                    scale 1s cubic-bezier(0.22, 0.64, 0.39, 1.0);
+
+      }
+    }
+
     .w__cardProjectFocus {
       position: absolute;
       top: 0;
@@ -118,7 +140,6 @@
       }
     }
 
-
     .cardProject {
       position: relative;
       width: 28.75rem;
@@ -130,20 +151,14 @@
       }
 
       overflow: hidden;
-      opacity: 0;
       transform: translateY(500%);
 
-      &:hover {
-        .cardProject_i {
-          transform: scale(1.05);
-        }
-      }
 
       .cardProject_i {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform .75s cubic-bezier(0.22, 0.64, 0.39, 1.0);
+        transition: opacity 1s cubic-bezier(0.22, 0.64, 0.39, 1.0)
       }
     }
   }
@@ -192,7 +207,7 @@
 
     .w__list_project_p {
       overflow: hidden;
-      transition: opacity 1s cubic-bezier(0.20, 0.84, 0.28, 1);
+      transition: opacity .25s cubic-bezier(0.20, 0.54, 0.28, 1);
 
       .list_project_p {
         text-transform: uppercase;
