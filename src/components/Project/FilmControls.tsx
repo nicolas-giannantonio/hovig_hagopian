@@ -1,7 +1,7 @@
 "use client";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
