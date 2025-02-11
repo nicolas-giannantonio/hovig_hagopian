@@ -3,7 +3,7 @@ import CardProject from "@/components/Projects/CardProject";
 import gsap from "gsap";
 import BezierEasing from "bezier-easing";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useLoaded } from "@/lib/useLoader";
 
 type ProjectProp = {
