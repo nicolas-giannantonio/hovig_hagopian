@@ -15,6 +15,7 @@ type ProjectType = {
     slug: {
       current: string;
     };
+    hover_video: string;
     title: string;
     informations: [
       {

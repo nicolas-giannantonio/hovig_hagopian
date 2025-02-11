@@ -13,6 +13,8 @@ type ListProject = {
     slug: { current: string };
     title: string;
     informations: [{ information: { information_value: string } }];
+    hover_video: string;
+    coverImageUrl: string;
   };
 };
 
@@ -25,12 +27,6 @@ export default function List({ data }: { data: ListProject[] }) {
 
   useGSAP(
     () => {
-      gsap.to(".list_line", {
-        duration: 1.5,
-        ease: (t) => EASE["o3"](t),
-        opacity: 0.15,
-        stagger: 0.05,
-      });
       gsap.to(".list_project_p", {
         y: 0,
         opacity: 1,
@@ -70,10 +66,8 @@ export default function List({ data }: { data: ListProject[] }) {
         videoRefs.current.forEach((video, index) => {
           if (video) {
             if (index === currentIndex) {
-              gsap.to(video, { opacity: 1, duration: 0.5 });
               video.play();
             } else {
-              gsap.to(video, { opacity: 0, duration: 0.5 });
               video.pause();
             }
           }
@@ -89,7 +83,10 @@ export default function List({ data }: { data: ListProject[] }) {
     if (!video) return;
     video.currentTime = 0;
     video.style.opacity = "1";
-    video.play();
+    video.play().catch((error) => {
+      if (error.name === "AbortError") return;
+      console.error("Error during video play:", error);
+    });
   };
 
   const handleMouseLeaveProject = (index: number) => {
@@ -106,24 +103,17 @@ export default function List({ data }: { data: ListProject[] }) {
           <video
             key={index}
             ref={(el) => {
-              if (el) {
-                videoRefs.current[index] = el;
-              }
+              if (el) videoRefs.current[index] = el;
             }}
-            src={dataVideo.project.src}
+            preload="auto"
             muted
             loop
             playsInline
-            autoPlay={index === 0}
-            preload={index === 0 ? "auto" : "none"}
+            poster={dataVideo.project.coverImageUrl}
             className="videoCursor"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              opacity: index === 0 ? 1 : 0,
-            }}
-          ></video>
+          >
+            <source src={dataVideo.project.hover_video} type="video/mp4" />
+          </video>
         ))}
       </div>
       <div className="w__list__projects" ref={listProjectsRef}>

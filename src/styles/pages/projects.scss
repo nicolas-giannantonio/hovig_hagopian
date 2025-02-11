@@ -124,6 +124,7 @@
 
 
     .cardProject {
+      position: relative;
       width: 28.75rem;
       height: 16.1875rem;
 
@@ -162,8 +163,11 @@
   overflow: hidden;
 
   .videoCursor {
+    position: absolute;
+    top: 0;
+    left: 0;
     opacity: 0;
-    scale: 1.15;
+    //scale: 1.15;
     //transition: scale .5s cubic-bezier(0.18, 0.47, 0.16, 0.98);
   }
 }

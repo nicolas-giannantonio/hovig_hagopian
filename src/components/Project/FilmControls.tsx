@@ -150,8 +150,14 @@ export default function FilmControls({
             );
           },
         );
-        if (videoRef.current?.paused) videoRef.current?.play();
-        else videoRef.current?.pause();
+        if (videoRef.current?.paused) {
+          videoRef.current.play().catch((error) => {
+            if (error.name !== "AbortError")
+              console.error("Error playing video:", error);
+          });
+        } else {
+          videoRef.current?.pause();
+        }
       } else if (e.key === "m") {
         if (videoRef.current) {
           videoRef.current.muted = !videoRef.current.muted;
@@ -376,10 +382,15 @@ export default function FilmControls({
             <div className="__oh">
               <p
                 id="play"
-                onClick={() => videoRef.current?.play()}
+                onClick={() => {
+                  videoRef.current?.play().catch((error) => {
+                    if (error.name !== "AbortError")
+                      console.error("Error playing video:", error);
+                  });
+                }}
                 className="controls__buttons_text"
               >
-                {"Play"}
+                Play
               </p>
             </div>
             <div className="__oh">

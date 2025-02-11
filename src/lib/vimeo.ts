@@ -14,6 +14,9 @@ function getVideoLink(
     hls: {
       link: string;
     };
+    progressive: {
+      link: string;
+    }[];
   };
 }> {
   return new Promise((resolve, reject) => {
@@ -32,6 +35,11 @@ function getVideoLink(
             hls: {
               link: string;
             };
+            progressive: [
+              {
+                link: string;
+              },
+            ];
           };
         },
       ) {
@@ -45,4 +53,30 @@ function getVideoLink(
   });
 }
 
-export { getVideoLink };
+const extractVimeoIdAndToken = (
+  url: string,
+): {
+  videoId: string;
+  token: string;
+} => {
+  if (!url) {
+    return {
+      videoId: "",
+      token: "",
+    };
+  }
+
+  const match = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
+  if (match) {
+    const videoId = match[1] || "";
+    const token = match[2] || "";
+    return { videoId, token };
+  }
+
+  return {
+    videoId: "",
+    token: "",
+  };
+};
+
+export { getVideoLink, extractVimeoIdAndToken };

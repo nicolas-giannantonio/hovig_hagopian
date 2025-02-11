@@ -12,6 +12,7 @@ export const PROJECTS_QUERY = defineQuery(`
       project-> {
         title,
         slug,
+        hover_video,
         "coverImageUrl": cover_image.asset->url,
         "src": video.asset->url,
         informations[] {
