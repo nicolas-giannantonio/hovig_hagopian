@@ -49,7 +49,7 @@ export default function Grid({ data }: GridProps) {
         onStart: () => {
           setTimeout(() => {
             setIsAnimationEnd(true);
-          }, 1500);
+          }, 1300);
         },
         y: 0,
       });
