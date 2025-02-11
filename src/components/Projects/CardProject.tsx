@@ -39,8 +39,6 @@ export default function CardProject({
       onMouseLeave={() => {
         if (!isAnimationEnd) return;
         if (videoRef.current && imageRef.current) {
-          videoRef.current.style.visibility = "hidden";
-
           videoRef.current.style.opacity = "0";
           imageRef.current.style.opacity = "1";
 
