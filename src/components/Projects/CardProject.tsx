@@ -7,10 +7,12 @@ export default function CardProject({
   link,
   image,
   hoverVideo,
+  isAnimationEnd,
 }: {
   link: string;
   image: string;
   hoverVideo: string;
+  isAnimationEnd: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const [loadVideo, setLoadVideo] = useState(false);
@@ -22,23 +24,26 @@ export default function CardProject({
       href={link}
       className="w__cardProject"
       onMouseEnter={() => {
+        if (!isAnimationEnd) return;
         setLoadVideo(true);
         if (videoRef.current && imageRef.current) {
           videoRef.current.style.visibility = "visible";
-          // videoRef.current.style.scale = "1.15";
           videoRef.current.style.opacity = "1";
           imageRef.current.style.opacity = "0";
+
           videoRef.current.currentTime = 0;
           videoRef.current.play();
         }
         setHovered(true);
       }}
       onMouseLeave={() => {
+        if (!isAnimationEnd) return;
         if (videoRef.current && imageRef.current) {
           videoRef.current.style.visibility = "hidden";
-          videoRef.current.style.scale = "1";
+
           videoRef.current.style.opacity = "0";
           imageRef.current.style.opacity = "1";
+
           videoRef.current.pause();
         }
         setHovered(false);

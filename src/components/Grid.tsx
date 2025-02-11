@@ -3,7 +3,7 @@ import CardProject from "@/components/Projects/CardProject";
 import gsap from "gsap";
 import BezierEasing from "bezier-easing";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useLoaded } from "@/lib/useLoader";
 
 type ProjectProp = {
@@ -32,6 +32,7 @@ type GridProps = {
 export default function Grid({ data }: GridProps) {
   const gridProjectsRef = useRef<HTMLDivElement>(null);
   const loaded = useLoaded();
+  const [isAnimationEnd, setIsAnimationEnd] = useState(false);
 
   useGSAP(
     () => {
@@ -44,6 +45,11 @@ export default function Grid({ data }: GridProps) {
         stagger: {
           amount: 0.4,
           from: "start",
+        },
+        onStart: () => {
+          setTimeout(() => {
+            setIsAnimationEnd(true);
+          }, 1500);
         },
         y: 0,
       });
@@ -64,6 +70,7 @@ export default function Grid({ data }: GridProps) {
               image={data.project?.coverImageUrl}
               hoverVideo={data.project?.hover_video}
               link={`/film/${data.project?.slug?.current}`}
+              isAnimationEnd={isAnimationEnd}
             />
           ),
       )}

@@ -44,6 +44,7 @@ function getVideoLink(
         },
       ) {
         if (error) {
+          console.log(videoId, token);
           return reject(error);
         }
 

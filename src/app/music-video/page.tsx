@@ -18,7 +18,7 @@ export default async function Home() {
       }) => {
         const vimeoInfo = extractVimeoIdAndToken(project.project.hover_video);
         const link = await getVideoLink(vimeoInfo.videoId, vimeoInfo.token);
-        project.project.hover_video = link?.play?.progressive[0].link;
+        project.project.hover_video = link?.play?.progressive[2].link;
       },
     ),
   );

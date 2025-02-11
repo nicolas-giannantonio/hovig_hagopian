@@ -87,9 +87,10 @@
         height: 100%;
         visibility: hidden;
         opacity: 0;
-        scale: 1;
+        //scale: 1.15;
         transition: opacity 1s cubic-bezier(.29,.23,.05,1),
                     scale 1s cubic-bezier(.29,.23,.05,1);
+        object-fit: cover;
 
       }
     }
@@ -114,7 +115,7 @@
           stroke-width: 0;
           width: 100%;
           height: 100%;
-          opacity: .75;
+          opacity: 1;
         }
       }
 
