@@ -425,6 +425,12 @@ export default function FilmControls({
                   if (videoRef.current) {
                     if (videoRef.current.requestFullscreen) {
                       videoRef.current.requestFullscreen();
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                    } else if (videoRef.current.webkitEnterFullscreen) {
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                      videoRef.current.webkitEnterFullscreen();
                     }
                   }
                 }}
