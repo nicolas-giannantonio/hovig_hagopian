@@ -23,7 +23,10 @@ type FilmControlsType = {
       };
     },
   ];
-  vimeoLink: string;
+  vimeoLink: {
+    hls: string;
+    mp4: string;
+  };
   coverImageUrl: string;
 };
 
@@ -341,24 +344,30 @@ export default function FilmControls({
 
   useEffect(() => {
     let hls: Hls | undefined;
-    if (Hls.isSupported() && videoRef.current) {
-      hls = new Hls({
-        maxLoadingDelay: 4,
-        minAutoBitrate: 0,
-        lowLatencyMode: false,
-      });
-      hls.loadSource(vimeoLink);
-      hls.attachMedia(videoRef.current);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        const levelIndex = hls.levels.findIndex(
-          (level: { height: number }) => level.height >= 720,
-        );
-        if (levelIndex !== -1) {
-          hls.currentLevel = levelIndex;
-        }
-      });
-    } else if (videoRef.current) {
-      videoRef.current.src = vimeoLink;
+    if (!mobile) {
+      if (Hls.isSupported() && videoRef.current) {
+        hls = new Hls({
+          maxLoadingDelay: 4,
+          minAutoBitrate: 0,
+          lowLatencyMode: false,
+        });
+        hls.loadSource(vimeoLink.hls);
+        hls.attachMedia(videoRef.current);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          const levelIndex = hls.levels.findIndex(
+            (level: { height: number }) => level.height >= 720,
+          );
+          if (levelIndex !== -1) {
+            hls.currentLevel = levelIndex;
+          }
+        });
+      } else if (videoRef.current) {
+        videoRef.current.src = vimeoLink.hls;
+      }
+    } else {
+      if (videoRef.current) {
+        videoRef.current.src = vimeoLink.mp4;
+      }
     }
     return () => {
       if (hls) {
@@ -366,8 +375,6 @@ export default function FilmControls({
       }
     };
   }, [vimeoLink]);
-
-  console.log(coverImageUrl);
 
   return (
     <div ref={filmRef} className="film__header">
