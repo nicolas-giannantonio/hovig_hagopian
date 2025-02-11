@@ -13,6 +13,7 @@ export default function CardProject({
   hoverVideo: string;
 }) {
   const [hovered, setHovered] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -21,9 +22,10 @@ export default function CardProject({
       href={link}
       className="w__cardProject"
       onMouseEnter={() => {
+        setLoadVideo(true);
         if (videoRef.current && imageRef.current) {
           videoRef.current.style.visibility = "visible";
-          videoRef.current.style.scale = "1.25";
+          // videoRef.current.style.scale = "1.15";
           videoRef.current.style.opacity = "1";
           imageRef.current.style.opacity = "0";
           videoRef.current.currentTime = 0;
@@ -49,9 +51,9 @@ export default function CardProject({
           autoPlay
           playsInline
           className="cardProject_video"
-          src={hoverVideo}
-          ref={videoRef}
           poster={image}
+          src={loadVideo ? hoverVideo : undefined}
+          ref={videoRef}
         />
       </div>
       <div className="cardProject">
