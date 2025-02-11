@@ -113,7 +113,7 @@ export default function List({ data }: { data: ListProject[] }) {
             ref={(el) => {
               if (el) videoRefs.current[index] = el;
             }}
-            preload="auto"
+            preload="true"
             muted
             loop
             playsInline
