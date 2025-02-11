@@ -5,6 +5,7 @@ import Grid from "@/components/Grid";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { EASE } from "@/utils/Ease";
+import { isMobile } from "react-device-detect";
 
 type ProjectMode = "grid" | "list";
 
@@ -34,8 +35,10 @@ export default function Projects({
   name: string;
   data: ProjectType[];
 }) {
-  const [type, setType] = useState<ProjectMode>("grid");
-  const [targetType, setTargetType] = useState<ProjectMode>("grid");
+  const [type, setType] = useState<ProjectMode>(isMobile ? "list" : "grid");
+  const [targetType, setTargetType] = useState<ProjectMode>(
+    isMobile ? "list" : "grid",
+  );
   const [isFirst, setIsFirst] = useState(true);
   const container = useRef<HTMLDivElement>(null);
 

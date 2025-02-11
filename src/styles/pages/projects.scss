@@ -155,7 +155,7 @@
       }
 
       overflow: hidden;
-      transform: translateY(500%);
+      transform: translateY(100vh);
 
 
       .cardProject_i {
@@ -253,13 +253,15 @@
     gap: .75rem;
 
     .w__cardProject {
-      width: 100%;
+      width: calc(50% - .425rem);
       height: 100%;
       aspect-ratio: 16/9;
 
       .cardProject {
         width: 100%;
         height: 100%;
+
+        transform: translateY(100vh);
       }
     }
   }
@@ -282,7 +284,7 @@
   }
 
   .projects {
-    min-height: calc(200vh - 8.5rem);
+    min-height: calc(200vh - 23rem);
   }
 
 }

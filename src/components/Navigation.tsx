@@ -1,12 +1,11 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
-import { useResizeObserver } from "hamo";
-import MobileDetect from "mobile-detect";
 import TransitionLink from "@/components/TransitionLink";
 import Link from "next/link";
+import { isMobile } from "react-device-detect";
 
 export default function Navigation({
   navTitles,
@@ -18,25 +17,6 @@ export default function Navigation({
   const isPathActive = (p: string) => {
     if (p === path) return true;
   };
-
-  const [isMob, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const phone = new MobileDetect(window.navigator.userAgent);
-      setIsMobile(!!phone.mobile());
-    }
-  }, []);
-
-  const [setResizeObserverRef] = useResizeObserver({
-    lazy: true,
-    callback: () => {
-      if (typeof window !== "undefined") {
-        const phone = new MobileDetect(window.navigator.userAgent);
-        setIsMobile(!!phone.mobile());
-      }
-    },
-  });
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -133,8 +113,8 @@ export default function Navigation({
   };
 
   return (
-    <div ref={setResizeObserverRef}>
-      {!isMob ? (
+    <div>
+      {!isMobile ? (
         <nav id={"nv"}>
           <TransitionLink className="nv__name" href={"/"}>
             Hovig Hagopian{" "}

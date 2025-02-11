@@ -20,6 +20,7 @@
     "next": "15.1.6",
     "next-sanity": "^9.8.47",
     "react": "^19.0.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^19.0.0",
     "react-hls-player": "^3.0.7",
     "styled-components": "^6.1.14",

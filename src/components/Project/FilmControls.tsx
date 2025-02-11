@@ -9,6 +9,7 @@ import { useLoaded } from "@/lib/useLoader";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Hls from "hls.js";
+import { isMobile } from "react-device-detect";
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
@@ -54,7 +55,11 @@ export default function FilmControls({
         const minutes = Math.floor(totalMilliseconds / 60000);
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
-        progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
+        if (isMobile) {
+          progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        } else {
+          progressTimeRef.current.innerText = `${!isMobile && String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
+        }
         progressTimeRef.current.style.left = `${(currentTime / videoRef.current.duration) * 100}%`;
       }
     }
@@ -416,8 +421,11 @@ export default function FilmControls({
             <div className="__oh">
               <p
                 onClick={() => {
-                  if (videoRef.current && videoRef.current.requestFullscreen)
-                    videoRef.current.requestFullscreen();
+                  if (videoRef.current) {
+                    if (videoRef.current.requestFullscreen) {
+                      videoRef.current.requestFullscreen();
+                    }
+                  }
                 }}
                 id="full"
                 className="controls__buttons_text"
