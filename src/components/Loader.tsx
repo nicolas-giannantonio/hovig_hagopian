@@ -51,6 +51,7 @@ export default function Loader() {
 
   const LoaderOut = () => {
     if (!loaderLineRef.current) return;
+    loaderLineRef.current.style.transition = "none";
     loaderLineRef.current.style.transformOrigin = "right";
     gsap.to(loaderLineRef.current, {
       scaleX: 0,

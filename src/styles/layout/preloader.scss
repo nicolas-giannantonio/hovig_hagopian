@@ -43,6 +43,7 @@
       .line_prog {
         transform: scaleX(0);
         transform-origin: left;
+        transition: .25s cubic-bezier(0.18, 0.47, 0.16, 1);
       }
 
       .line_under {
