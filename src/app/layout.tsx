@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "../styles/main.scss";
 
 import Navigation from "@/components/Navigation";
-import { ReactLenis } from "lenis/react";
 import Footer from "@/components/Footer";
 import Reperes from "@/components/Utils/Reperes";
 import { META_QUERY, TITLE_QUERY } from "@/lib/queries";
 import { client } from "@/lib/sanity/client";
 import Loader from "@/components/Loader";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 export const metadata: Metadata = {
   title: "Hovig Hagopian",
@@ -32,17 +32,12 @@ export default async function RootLayout({
         <Loader />
         <Reperes />
         <Navigation navTitles={navTitles} />
-        <ReactLenis
-          root
-          options={{
-            lerp: 0.3,
-          }}
-        >
+        <SmoothScrolling>
           <div id="App">
             <main>{children}</main>
             <Footer />
           </div>
-        </ReactLenis>
+        </SmoothScrolling>
       </body>
     </html>
   );
