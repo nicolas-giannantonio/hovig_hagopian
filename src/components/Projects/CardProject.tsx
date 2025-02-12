@@ -44,7 +44,6 @@ export default function CardProject({
         <video
           loop
           muted
-          autoPlay
           playsInline
           className="cardProject_video"
           poster={image}
