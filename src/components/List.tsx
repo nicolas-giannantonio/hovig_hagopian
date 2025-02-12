@@ -70,6 +70,9 @@ export default function List({ data }: { data: ListProject[] }) {
   useEffect(() => {
     if (mobile) {
       let currentIndexActive = 0;
+      videoRefs.current[0].play();
+      videoRefs.current[0].style.opacity = "1";
+
       const scrollEvent = () => {
         const scroll = (window.scrollY / window.innerHeight) * 1.75;
         const newIndex = Math.floor(scroll * data.length);
