@@ -9,7 +9,7 @@ export default function Template({
   useEffect(() => {
     gsap.to("#App", {
       opacity: 1,
-      duration: 0.5,
+      duration: 0.75,
       ease: (t) => EASE["o2"](t),
     });
   }, []);

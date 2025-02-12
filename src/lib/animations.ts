@@ -7,7 +7,7 @@ export async function animationTransitionIn() {
       opacity: 0,
       duration: 0.5,
       ease: (t) => EASE["o2"](t),
-      onComplete: resolve,
+      onStart: resolve,
     });
   });
 }

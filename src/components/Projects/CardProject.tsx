@@ -2,6 +2,7 @@ import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
 import FocusCardProject from "@/components/Projects/FocusCardProject";
 import { useRef, useState } from "react";
+import { imageLoader } from "@/components/Utils/ImageTransform";
 
 export default function CardProject({
   link,
@@ -48,7 +49,6 @@ export default function CardProject({
           muted
           playsInline
           className="cardProject_video"
-          poster={image}
           ref={videoRef}
         >
           <source src={hoverVideo} type="video/mp4" />
@@ -56,8 +56,9 @@ export default function CardProject({
       </div>
       <div className="cardProject">
         <Image
-          width={1600}
-          height={900}
+          fill
+          loader={imageLoader}
+          sizes="(max-width: 768px) 40vw, 27vw"
           className="cardProject_i"
           src={image}
           alt=""

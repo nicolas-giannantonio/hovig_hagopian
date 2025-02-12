@@ -1,3 +1,7 @@
+"use client";
+import Image from "next/image";
+import { imageLoader } from "@/components/Utils/ImageTransform";
+
 export default function GalleryProject({
   images,
 }: {
@@ -7,10 +11,13 @@ export default function GalleryProject({
     <div className="GalleryProject">
       {images?.map((image: { url: string }, index) => (
         <div key={index} className="w_galleryProject_image">
-          <img
+          <Image
+            fill
+            sizes="(max-width: 768px) 40vw, 27vw"
             className="galleryProject_image"
             src={image.url}
-            alt="qsldkfjqdlskjf"
+            alt=""
+            loader={imageLoader}
           />
         </div>
       ))}
