@@ -7,23 +7,21 @@ import Reperes from "@/components/Utils/Reperes";
 import { META_QUERY, TITLE_QUERY } from "@/lib/queries";
 import { client } from "@/lib/sanity/client";
 import Loader from "@/components/Loader";
-import SmoothScrolling from "@/components/SmoothScrolling";
+import { ReactLenis } from "lenis/react";
 
-export const metadata: Metadata = {
-  title: "Hovig Hagopian",
-  description: "Hovig Hagopian Portfolio",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const meta = await client.fetch(META_QUERY);
+  return {
+    title: meta[0].title,
+    description: meta[0].description,
+  };
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const meta = await client.fetch(META_QUERY);
-
-  metadata.title = meta[0].title;
-  metadata.description = meta[0].description;
-
   const navTitles = await client.fetch(TITLE_QUERY);
 
   return (
@@ -32,12 +30,18 @@ export default async function RootLayout({
         <Loader />
         <Reperes />
         <Navigation navTitles={navTitles} />
-        <SmoothScrolling>
+        <ReactLenis
+          root
+          options={{
+            lerp: 0.3,
+            duration: 0.4,
+          }}
+        >
           <div id="App">
             <main>{children}</main>
             <Footer />
           </div>
-        </SmoothScrolling>
+        </ReactLenis>
       </body>
     </html>
   );
