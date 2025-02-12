@@ -24,9 +24,11 @@ export default function CardProject({
         if (videoRef.current && imageRef.current) {
           videoRef.current.style.opacity = "1";
           imageRef.current.style.opacity = "0";
-
           videoRef.current.currentTime = 0;
-          videoRef.current.play();
+          const playPromise = videoRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+          }
         }
         setHovered(true);
       }}

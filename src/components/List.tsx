@@ -26,7 +26,6 @@ export default function List({ data }: { data: ListProject[] }) {
   const target = useRef({ x: 0, y: 0 });
 
   const { isMobile } = useMobileDetect();
-
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
@@ -70,22 +69,20 @@ export default function List({ data }: { data: ListProject[] }) {
 
   useEffect(() => {
     if (mobile) {
+      let currentIndexActive = 0;
       const scrollEvent = () => {
-        const scroll = (window.scrollY / window.innerHeight) * 2;
-        const currentIndex = Math.floor(scroll * data.length);
-        videoRefs.current.forEach((video, index) => {
-          if (video) {
-            if (index === currentIndex) {
-              setCurrentIndex(index);
-              video.currentTime = 0;
-              video.style.opacity = "1";
-              video.play();
-            } else {
-              video.style.opacity = "0";
-              video.pause();
-            }
-          }
-        });
+        const scroll = (window.scrollY / window.innerHeight) * 1.75;
+        const newIndex = Math.floor(scroll * data.length);
+
+        if (currentIndexActive !== newIndex) {
+          videoRefs.current[currentIndexActive].pause();
+          videoRefs.current[currentIndexActive].style.opacity = "0";
+          if (newIndex >= videoRefs.current.length) return;
+          currentIndexActive = newIndex;
+          setCurrentIndex(currentIndexActive);
+          videoRefs.current[newIndex].style.opacity = "1";
+          videoRefs.current[newIndex].play();
+        }
       };
       window.addEventListener("scroll", scrollEvent, { passive: true });
       return () => window.removeEventListener("scroll", scrollEvent);
@@ -98,10 +95,10 @@ export default function List({ data }: { data: ListProject[] }) {
     if (!video) return;
     video.currentTime = 0;
     video.style.opacity = "1";
-    video.play().catch((error) => {
-      if (error.name === "AbortError") return;
-      console.error("Error during video play:", error);
-    });
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
   };
 
   const handleMouseLeaveProject = (index: number) => {
@@ -121,11 +118,8 @@ export default function List({ data }: { data: ListProject[] }) {
             ref={(el) => {
               if (el) videoRefs.current[index] = el;
             }}
-            // preload={"true"}
             muted
-            loop
             playsInline
-            poster={dataVideo.project.coverImageUrl}
             className="videoCursor"
           >
             <source src={dataVideo.project.hover_video} type="video/mp4" />
