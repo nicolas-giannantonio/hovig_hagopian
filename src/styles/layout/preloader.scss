@@ -43,7 +43,7 @@
       .line_prog {
         transform: scaleX(0);
         transform-origin: left;
-        transition: .25s cubic-bezier(0.18, 0.47, 0.16, 1);
+        transition: transform .25s cubic-bezier(0.18, 0.47, 0.16, 1);
       }
 
       .line_under {
@@ -59,6 +59,7 @@
       left: 0;
       transform: translateY(-1.25rem) translateX(-100%);
       overflow: hidden;
+      transition: transform .25s cubic-bezier(0.18, 0.47, 0.16, 1);
 
       p {
         @include fonts.mono_12;
