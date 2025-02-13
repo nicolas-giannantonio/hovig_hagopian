@@ -21,10 +21,8 @@ export default function FocusCardProject({ hovered }: { hovered: boolean }) {
 
   useEffect(() => {
     if (hovered) {
-      console.log("mouseEnter");
       mouseIn();
     } else {
-      console.log("mouseLeave");
       mouseOut();
     }
   }, [hovered]);

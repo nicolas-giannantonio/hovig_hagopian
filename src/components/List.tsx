@@ -74,17 +74,19 @@ export default function List({ data }: { data: ListProject[] }) {
       videoRefs.current[0].style.opacity = "1";
 
       const scrollEvent = () => {
-        const scroll = (window.scrollY / window.innerHeight) * 1.75;
-        const newIndex = Math.floor(scroll * data.length);
+        const scroll = window.scrollY / window.innerHeight;
+        const newIndex = Math.floor(scroll * 1.75 * data.length);
 
         if (currentIndexActive !== newIndex) {
           videoRefs.current[currentIndexActive].pause();
           videoRefs.current[currentIndexActive].style.opacity = "0";
-          if (newIndex >= videoRefs.current.length) return;
-          currentIndexActive = newIndex;
-          setCurrentIndex(currentIndexActive);
-          videoRefs.current[newIndex].style.opacity = "1";
-          videoRefs.current[newIndex].play();
+          if (videoRefs.current[newIndex]) {
+            console.log(videoRefs.current[newIndex]);
+            currentIndexActive = newIndex;
+            setCurrentIndex(currentIndexActive);
+            videoRefs.current[newIndex].style.opacity = "1";
+            videoRefs.current[newIndex].play();
+          }
         }
       };
       window.addEventListener("scroll", scrollEvent, { passive: true });
@@ -123,6 +125,7 @@ export default function List({ data }: { data: ListProject[] }) {
             }}
             muted
             playsInline
+            loop
             className="videoCursor"
           >
             <source src={dataVideo.project.hover_video} type="video/mp4" />

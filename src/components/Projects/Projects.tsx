@@ -41,7 +41,6 @@ export default function Projects({
 
   useEffect(() => {
     setMobile(isMobile());
-    console.log(mobile);
   }, [isMobile]);
 
   const [type, setType] = useState<ProjectMode>(mobile ? "list" : "grid");
