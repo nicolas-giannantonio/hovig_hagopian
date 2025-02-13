@@ -16,6 +16,7 @@ function getVideoLink(
     };
     progressive: {
       link: string;
+      rendition: string;
     }[];
   };
 }> {
@@ -38,6 +39,7 @@ function getVideoLink(
             progressive: [
               {
                 link: string;
+                rendition: string;
               },
             ];
           };
