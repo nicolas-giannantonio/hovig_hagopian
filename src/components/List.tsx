@@ -70,27 +70,58 @@ export default function List({ data }: { data: ListProject[] }) {
   useEffect(() => {
     if (mobile) {
       let currentIndexActive = 0;
-      videoRefs.current[0].play();
-      videoRefs.current[0].style.opacity = "1";
+      let accumulatedDelta = 0;
+      let startY = 0;
 
-      const scrollEvent = () => {
-        const scroll = window.scrollY / window.innerHeight;
-        const newIndex = Math.floor(scroll * 1.75 * data.length);
+      const initialVideo = videoRefs.current[0];
+      if (initialVideo) {
+        initialVideo.play();
+        initialVideo.style.visibility = "visible";
+      }
+
+      const handleTouchStart = (event: TouchEvent) => {
+        startY = event.touches[0].clientY;
+      };
+
+      const handleTouchMove = (event: TouchEvent) => {
+        const currentY = event.touches[0].clientY;
+        const delta = startY - currentY;
+        accumulatedDelta += delta;
+        startY = currentY;
+
+        const total = data.length;
+        const newIndexRaw = Math.floor(
+          (accumulatedDelta / window.innerHeight) * total,
+        );
+        const newIndex = ((newIndexRaw % total) + total) % total;
 
         if (currentIndexActive !== newIndex) {
-          videoRefs.current[currentIndexActive].pause();
-          videoRefs.current[currentIndexActive].style.opacity = "0";
-          if (videoRefs.current[newIndex]) {
-            console.log(videoRefs.current[newIndex]);
-            currentIndexActive = newIndex;
-            setCurrentIndex(currentIndexActive);
-            videoRefs.current[newIndex].style.opacity = "1";
-            videoRefs.current[newIndex].play();
+          const previousVideo = videoRefs.current[currentIndexActive];
+          if (previousVideo) {
+            previousVideo.style.visibility = "hidden";
+            previousVideo.pause();
+          }
+
+          currentIndexActive = newIndex;
+          setCurrentIndex(currentIndexActive);
+
+          const newVideo = videoRefs.current[newIndex];
+          if (newVideo) {
+            newVideo.style.visibility = "visible";
+            newVideo.play();
           }
         }
       };
-      window.addEventListener("scroll", scrollEvent, { passive: true });
-      return () => window.removeEventListener("scroll", scrollEvent);
+
+      window.addEventListener("touchstart", handleTouchStart, {
+        passive: true,
+      });
+      window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+      return () => {
+        window.removeEventListener("touchstart", handleTouchStart);
+        window.removeEventListener("touchmove", handleTouchMove);
+      };
     }
   }, [data, mobile]);
 
