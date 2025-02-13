@@ -182,20 +182,34 @@
   }
 
   #film {
+    min-height: 75vh;
+
     .film__header {
+      height: auto;
+      margin-top: 5rem;
+
       .film__header__controls {
+        position: relative;
+        margin-top: 2rem;
         width: 100%;
         padding: 0 1.25rem;
       }
 
       .w__film__video {
+        position: relative;
+        overflow: hidden;
+        padding: 1rem;
+
         .film__video {
           object-fit: contain;
         }
       }
 
       .film__header__informations {
+        position: relative;
         width: 22rem;
+        bottom: auto;
+        margin: 2rem 0;
       }
     }
   }

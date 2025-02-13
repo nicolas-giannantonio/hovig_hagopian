@@ -1,12 +1,13 @@
 "use client";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
+import { useGSAP } from "@gsap/react";
 
 export default function Template({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  useEffect(() => {
+  useGSAP(() => {
     gsap.to("#App", {
       opacity: 1,
       duration: 0.35,

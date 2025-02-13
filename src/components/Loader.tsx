@@ -58,21 +58,21 @@ export default function Loader() {
     gsap.to(loaderLineRef.current, {
       scaleX: 0,
       delay: 0.15,
-      duration: 1.75 + 0.5,
-      ease: (t) => BezierEasing(0.6, 0.2, 0.1, 1.0)(t),
+      duration: 2,
+      ease: (t) => BezierEasing(0.65, 0.25, 0.15, 1.0)(t),
     });
 
     gsap.to(loaderLineUnderRef.current, {
       scaleX: 0,
       delay: 0.15,
-      duration: 1.75,
-      ease: (t) => BezierEasing(0.95, 0.2, 0.1, 1.0)(t),
+      duration: 2,
+      ease: (t) => BezierEasing(0.8, 0.35, 0.15, 1.0)(t),
     });
 
     gsap.to(".loader_overlay", {
       opacity: 0,
-      duration: 0.5,
-      delay: 1.8,
+      duration: 0.75,
+      delay: 1.5,
       ease: (t) => EASE["o1"](t),
       onComplete: () => {
         loaderRef.current?.remove();
@@ -84,7 +84,7 @@ export default function Loader() {
 
           window.appLoaded = true;
           window.dispatchEvent(new Event("app-loaded"));
-        }, 200);
+        }, 250);
       },
     });
   };

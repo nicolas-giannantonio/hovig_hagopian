@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import { EASE } from "@/utils/Ease";
+import useMobileDetect from "@/lib/DetectScreen";
 
 export default function FocusCardProject({ hovered }: { hovered: boolean }) {
   const svgRef = useRef<HTMLDivElement | null>(null);
@@ -10,6 +11,13 @@ export default function FocusCardProject({ hovered }: { hovered: boolean }) {
     cls1: NodeListOf<Element> | null;
     cls2: NodeListOf<Element> | null;
   }>({ cls1: null, cls2: null });
+
+  const { isMobile } = useMobileDetect();
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile());
+  }, [isMobile]);
 
   useEffect(() => {
     if (svgRef.current) {
@@ -20,6 +28,7 @@ export default function FocusCardProject({ hovered }: { hovered: boolean }) {
   }, []);
 
   useEffect(() => {
+    if (mobile) return;
     if (hovered) {
       mouseIn();
     } else {

@@ -112,6 +112,8 @@ export default function FilmControls({
       ease: (t) => EASE["o6"](t),
       duration: 1,
     });
+
+    if (mobile) return;
     gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
   }
 
@@ -281,7 +283,6 @@ export default function FilmControls({
         duration: 1.5,
         delay: 0.75,
       });
-
       gsap.to("#full", {
         y: 0,
         ease: (t) => EASE["o6"](t),

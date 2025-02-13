@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import TransitionLink from "@/components/TransitionLink";
 import useMobileDetect from "@/lib/DetectScreen";
+import Link from "next/link";
 
 export default function Navigation({
   navTitles,
@@ -256,14 +257,14 @@ export default function Navigation({
 
           <div className="mobNv__contact">
             <div className="__oh">
-              <a className="nv_contact_text" href="#">
+              <Link className="nv_contact_text" href="#">
                 hagopian.hovig@gmail.com
-              </a>
+              </Link>
             </div>
             <div className="__oh">
-              <a className="nv_contact_text" href="#">
+              <Link className="nv_contact_text" href="#">
                 +33(0)781473484
-              </a>
+              </Link>
             </div>
           </div>
         </nav>
