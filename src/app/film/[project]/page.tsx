@@ -31,12 +31,14 @@ export default async function Page({ params }: PageProps) {
       (video: { rendition: string; link: string }) =>
         video.rendition === "720p",
     ) || vimeoData?.play?.progressive[0];
-  project.project.hover_video = video720p?.link;
+  project.vimeoSrc = video720p?.link;
 
   const filmLinkVideo = {
     hls: vimeoData?.play?.hls.link,
     mp4: video720p?.link,
   };
+
+  console.log(filmLinkVideo);
 
   return (
     <div id={"film"}>
