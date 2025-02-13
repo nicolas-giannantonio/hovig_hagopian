@@ -26,9 +26,16 @@ export default async function Page({ params }: PageProps) {
     extractVimeoUrl.token,
   );
 
+  const video720p =
+    vimeoData?.play?.progressive.find(
+      (video: { rendition: string; link: string }) =>
+        video.rendition === "720p",
+    ) || vimeoData?.play?.progressive[0];
+  project.project.hover_video = video720p?.link;
+
   const filmLinkVideo = {
     hls: vimeoData?.play?.hls.link,
-    mp4: vimeoData?.play?.progressive[0].link,
+    mp4: video720p?.link,
   };
 
   return (
