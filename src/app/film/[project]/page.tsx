@@ -38,8 +38,6 @@ export default async function Page({ params }: PageProps) {
     mp4: video720p?.link,
   };
 
-  console.log(filmLinkVideo);
-
   return (
     <div id={"film"}>
       {project && (

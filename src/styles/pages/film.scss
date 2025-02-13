@@ -188,6 +188,12 @@
         padding: 0 1.25rem;
       }
 
+      .w__film__video {
+        .film__video {
+          object-fit: contain;
+        }
+      }
+
       .film__header__informations {
         width: 22rem;
       }
