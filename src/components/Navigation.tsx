@@ -37,7 +37,7 @@ export default function Navigation({
       "#c",
     ]);
     setMenuOpen(true);
-    gsap.set(".mobNv__list", {
+    gsap.set(".mb_link", {
       pointerEvents: "all",
     });
     gsap.to(".nv__overlay", {
@@ -91,7 +91,7 @@ export default function Navigation({
       "#c",
     ]);
     setMenuOpen(false);
-    gsap.set(".mobNv__list", {
+    gsap.set(".mb_link", {
       pointerEvents: "none",
     });
 
@@ -186,7 +186,7 @@ export default function Navigation({
           <div className="mobNv__header">
             <TransitionLink
               onClick={menuOpen ? closeMenu : () => 0}
-              className="nv__name"
+              className="nv__name mb_link"
               href={"/"}
             >
               Hovig Hagopian{" "}
@@ -208,7 +208,7 @@ export default function Navigation({
                 <TransitionLink
                   onClick={closeMenu}
                   href={"/fiction"}
-                  className="nv_list_text"
+                  className="nv_list_text mb_link"
                 >
                   {navTitles[0].title || "Fiction"}
                 </TransitionLink>
@@ -217,7 +217,7 @@ export default function Navigation({
                 <TransitionLink
                   onClick={closeMenu}
                   href={"/music-video"}
-                  className="nv_list_text"
+                  className="nv_list_text mb_link"
                 >
                   {navTitles[1].title || "Music Video"}
                 </TransitionLink>
@@ -227,7 +227,7 @@ export default function Navigation({
                 <TransitionLink
                   onClick={closeMenu}
                   href={"/pub"}
-                  className="nv_list_text"
+                  className="nv_list_text mb_link"
                 >
                   {navTitles[2].title || "Pub"}
                 </TransitionLink>
@@ -238,7 +238,7 @@ export default function Navigation({
                 <TransitionLink
                   onClick={closeMenu}
                   href={"/resume"}
-                  className="nv_list_text"
+                  className="nv_list_text mb_link"
                 >
                   Resume
                 </TransitionLink>
@@ -247,7 +247,7 @@ export default function Navigation({
                 <TransitionLink
                   onClick={closeMenu}
                   href={"/contact"}
-                  className="nv_list_text"
+                  className="nv_list_text mb_link"
                 >
                   Contact
                 </TransitionLink>
@@ -257,12 +257,12 @@ export default function Navigation({
 
           <div className="mobNv__contact">
             <div className="__oh">
-              <Link className="nv_contact_text" href="#">
+              <Link className="nv_contact_text mb_link" href="#">
                 hagopian.hovig@gmail.com
               </Link>
             </div>
             <div className="__oh">
-              <Link className="nv_contact_text" href="#">
+              <Link className="nv_contact_text mb_link" href="#">
                 +33(0)781473484
               </Link>
             </div>
