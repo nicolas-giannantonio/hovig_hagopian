@@ -37,8 +37,8 @@ export default function Grid({ data }: GridProps) {
     () => {
       if (!loaded || !gridProjectsRef.current) return;
       gsap.to(gridProjectsRef.current.children, {
-        duration: 1.5,
-        delay: 0.5,
+        duration: 1.35,
+        delay: 0.2,
         opacity: 1,
         ease: (t) => BezierEasing(0.28, 0.8, 0.2, 1.0)(t),
         stagger: {

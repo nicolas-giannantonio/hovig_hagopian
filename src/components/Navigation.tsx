@@ -29,6 +29,13 @@ export default function Navigation({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const openMenu = () => {
+    gsap.killTweensOf([
+      ".nv_list_text",
+      ".nv_contact_text",
+      ".nv__overlay",
+      "#o",
+      "#c",
+    ]);
     setMenuOpen(true);
     gsap.set(".mobNv__list", {
       pointerEvents: "all",
@@ -58,7 +65,7 @@ export default function Navigation({
     });
 
     gsap.to("#o", {
-      duration: 1,
+      duration: 0.75,
       transform: "translateY(-100%)",
       ease: (t) => EASE["o5"](t),
       onComplete: () => {
@@ -69,13 +76,20 @@ export default function Navigation({
     });
 
     gsap.to("#c", {
-      duration: 1,
+      duration: 0.75,
       delay: 0.15,
       y: 0,
       ease: (t) => EASE["o4"](t),
     });
   };
   const closeMenu = () => {
+    gsap.killTweensOf([
+      ".nv_list_text",
+      ".nv_contact_text",
+      ".nv__overlay",
+      "#o",
+      "#c",
+    ]);
     setMenuOpen(false);
     gsap.set(".mobNv__list", {
       pointerEvents: "none",
@@ -103,7 +117,7 @@ export default function Navigation({
     });
 
     gsap.to("#c", {
-      duration: 1,
+      duration: 0.75,
       transform: "translateY(-100%)",
       ease: (t) => EASE["o4"](t),
       onComplete: () => {
@@ -113,7 +127,7 @@ export default function Navigation({
       },
     });
     gsap.to("#o", {
-      duration: 1,
+      duration: 0.75,
       delay: 0.2,
       y: 0,
       ease: (t) => EASE["o4"](t),
@@ -170,14 +184,14 @@ export default function Navigation({
           <div className="nv__overlay"></div>
 
           <div className="mobNv__header">
-            <Link
+            <TransitionLink
               onClick={menuOpen ? closeMenu : () => 0}
               className="nv__name"
               href={"/"}
             >
               Hovig Hagopian{" "}
               <span className={"nv__name__sub"}>Cinematographer</span>
-            </Link>
+            </TransitionLink>
             <div className="nv__toggle">
               <p onClick={openMenu} id={"o"} className="nv__toggle_text">
                 Menu
@@ -191,52 +205,52 @@ export default function Navigation({
           <div className="mobNv__list">
             <div className="mobNv__list__group">
               <div className="__oh">
-                <Link
+                <TransitionLink
                   onClick={closeMenu}
                   href={"/fiction"}
                   className="nv_list_text"
                 >
                   {navTitles[0].title || "Fiction"}
-                </Link>
+                </TransitionLink>
               </div>
               <div className="__oh">
-                <Link
+                <TransitionLink
                   onClick={closeMenu}
                   href={"/music-video"}
                   className="nv_list_text"
                 >
                   {navTitles[1].title || "Music Video"}
-                </Link>
+                </TransitionLink>
               </div>
 
               <div className="__oh">
-                <Link
+                <TransitionLink
                   onClick={closeMenu}
                   href={"/pub"}
                   className="nv_list_text"
                 >
                   {navTitles[2].title || "Pub"}
-                </Link>
+                </TransitionLink>
               </div>
             </div>
             <div className="mobNv__list__group">
               <div className="__oh">
-                <Link
+                <TransitionLink
                   onClick={closeMenu}
                   href={"/resume"}
                   className="nv_list_text"
                 >
                   Resume
-                </Link>
+                </TransitionLink>
               </div>
               <div className="__oh">
-                <Link
+                <TransitionLink
                   onClick={closeMenu}
                   href={"/contact"}
                   className="nv_list_text"
                 >
                   Contact
-                </Link>
+                </TransitionLink>
               </div>
             </div>
           </div>

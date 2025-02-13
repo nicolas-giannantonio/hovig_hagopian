@@ -35,6 +35,7 @@ export default async function RootLayout({
           options={{
             lerp: 0.3,
             duration: 0.4,
+            syncTouch: true,
           }}
         >
           <div id="App">
