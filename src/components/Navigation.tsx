@@ -186,7 +186,7 @@ export default function Navigation({
           <div className="mobNv__header">
             <TransitionLink
               onClick={menuOpen ? closeMenu : () => 0}
-              className="nv__name mb_link"
+              className="nv__name"
               href={"/"}
             >
               Hovig Hagopian{" "}
