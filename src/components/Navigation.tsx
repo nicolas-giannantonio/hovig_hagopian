@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import TransitionLink from "@/components/TransitionLink";
-import Link from "next/link";
 import useMobileDetect from "@/lib/DetectScreen";
 
 export default function Navigation({
