@@ -62,3 +62,20 @@ export const PROJECT_QUERY = defineQuery(`
     }
   }
 `);
+
+export const CONTACT_QUERY = defineQuery(`
+    *[_type == "contact"] {
+        description,
+        contact_representation[] {
+            representation {
+                representation_name,
+                representation_email,
+                representation_tel
+            }
+        },
+        contact_hovig {
+            contact_hovig_email,
+            contact_hovig_tel
+        }
+    }
+`);

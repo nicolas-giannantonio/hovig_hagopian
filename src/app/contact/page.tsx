@@ -1,11 +1,18 @@
 import { Fragment } from "react";
 import ContactInformations from "@/components/Contact/ContactInformations";
+import { client } from "@/lib/sanity/client";
+import { CONTACT_QUERY } from "@/lib/queries";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  const data = await client.fetch(CONTACT_QUERY);
+  const contact = data[0];
+
   return (
     <Fragment>
       <div id="contact">
-        <ContactInformations />
+        <ContactInformations data={contact} />
       </div>
       <div className="w__contact_mention">
         <a

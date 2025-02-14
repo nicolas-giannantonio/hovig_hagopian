@@ -4,8 +4,26 @@ import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { EASE } from "@/utils/Ease";
 import { useLoaded } from "@/lib/useLoader";
+import Link from "next/link";
 
-export default function ContactInformations() {
+export default function ContactInformations({
+  data,
+}: {
+  data: {
+    description: string;
+    contact_representation: {
+      representation: {
+        representation_name: string;
+        representation_email: string;
+        representation_tel: string;
+      };
+    }[];
+    contact_hovig: {
+      contact_hovig_email: string;
+      contact_hovig_tel: string;
+    };
+  };
+}) {
   const contactInformationRef = useRef<HTMLDivElement | null>(null);
   const loaded = useLoaded();
 
@@ -66,56 +84,53 @@ export default function ContactInformations() {
   return (
     <div ref={contactInformationRef} className="w__contact_information">
       <div className="w__contact_information_title">
-        <p className={"contact_information_title_t"}>
-          Représenté par Kinou Cinematographer Agency
-        </p>
+        <p className={"contact_information_title_t"}>{data.description}</p>
       </div>
       <div className="w__contact_inline">
-        <div className="contact_inline">
-          <div className="w__contact_inline_t fc">
-            <p className={"contact_inline_t"}>MUSIC VIDEO</p>
-          </div>
-          <div className="w__contact_inline_content fc">
-            <div className="__oh">
-              <a href="#" className="contact_inline_content_t">
-                john@kinou.fr
-              </a>
+        {data.contact_representation.map((contact, index) => (
+          <div className="contact_inline" key={index}>
+            <div className="w__contact_inline_t sc">
+              <p className={"contact_inline_t"}>
+                {contact.representation.representation_name}
+              </p>
             </div>
-            <div className="__oh">
-              <a href="#" className="contact_inline_content_t">
-                +33(0)781473484
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="contact_inline">
-          <div className="w__contact_inline_t sc">
-            <p className={"contact_inline_t"}>NARRATIVE</p>
-          </div>
-          <div className="w__contact_inline_content sc">
-            <div className="__oh">
-              <a href="#" className="contact_inline_content_t">
-                john@kinou.fr
-              </a>
-            </div>
-            <div className="__oh">
-              <a href="#" className="contact_inline_content_t">
-                +33(0)781473484
-              </a>
+            <div className="w__contact_inline_content sc">
+              <div className="__oh">
+                <Link
+                  href={"mailto:" + contact.representation.representation_email}
+                  className="contact_inline_content_t"
+                >
+                  {contact.representation.representation_email}
+                </Link>
+              </div>
+              <div className="__oh">
+                <Link
+                  href={"tel:" + contact.representation.representation_tel}
+                  className="contact_inline_content_t"
+                >
+                  {contact.representation.representation_tel}
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
       <div className="w__contact_hovig">
         <div className="__oh">
-          <a className="contact_hovig_t" href="#">
-            hagopian.hovig@gmail.com
-          </a>
+          <Link
+            className="contact_hovig_t"
+            href={"mailto:" + data.contact_hovig.contact_hovig_email}
+          >
+            {data.contact_hovig.contact_hovig_email}
+          </Link>
         </div>
         <div className="__oh">
-          <a className="contact_hovig_t" href="#">
-            +33(0)781473484
-          </a>
+          <Link
+            className="contact_hovig_t"
+            href={"tel:" + data.contact_hovig.contact_hovig_tel}
+          >
+            {data.contact_hovig.contact_hovig_tel}
+          </Link>
         </div>
       </div>
     </div>
