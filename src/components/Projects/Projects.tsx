@@ -70,32 +70,30 @@ export default function Projects({
 
       if (type === "grid" && targetType === "list") {
         // Transition Grid -> List
-        gsap.to(".cardProject", {
-          duration: 0.5,
+        gsap.to(".w__grid__projects", {
+          duration: 0.35,
           opacity: 0,
+          yPercent: -1,
           ease: (t) => EASE["o2"](t),
-          onComplete: () => setType("list"),
+          onStart: () => {
+            setTimeout(() => setType("list"), 250);
+          },
         });
       } else if (type === "list" && targetType === "grid") {
         // Transition List -> Grid
         gsap.to(".list_project_p", {
-          y: -10,
-          ease: (t) => EASE["o2"](t),
-          duration: 0.5,
+          transform: "translateY(-100%)",
+          ease: (t) => EASE["o3"](t),
+          duration: 0.65,
+          onStart: () => {
+            setTimeout(() => setType("grid"), 250);
+          },
         });
 
         gsap.to(".w__list__projects", {
           opacity: 0,
           ease: (t) => EASE["o2"](t),
-          duration: 0.5,
-          onComplete: () => setType("grid"),
-        });
-
-        gsap.to(".videoCursor", {
-          opacity: 0,
-          ease: (t) => EASE["o2"](t),
-          duration: 0.5,
-          onComplete: () => setType("grid"),
+          duration: 0.45,
         });
       }
     },

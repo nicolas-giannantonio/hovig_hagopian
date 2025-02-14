@@ -24,6 +24,7 @@ export default function List({ data }: { data: ListProject[] }) {
   const videoRefs = useRef<HTMLVideoElement[]>([]);
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
+  const rotate = useRef(0);
 
   const { isMobile } = useMobileDetect();
   const [mobile, setMobile] = useState(false);
@@ -32,25 +33,31 @@ export default function List({ data }: { data: ListProject[] }) {
     setMobile(isMobile());
   }, [isMobile]);
 
-  useGSAP(
-    () => {
-      gsap.to(".list_project_p", {
-        y: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: (t) => EASE["o3"](t),
-        stagger: 0.035,
-      });
-    },
-    { scope: listProjectsRef },
-  );
+  useGSAP(() => {
+    gsap.to(".w__list__projects", {
+      y: 0,
+      duration: 1.5,
+      ease: (t) => EASE["o3"](t),
+    });
+
+    gsap.to(".list_project_p", {
+      y: 0,
+      duration: 1.5,
+      ease: (t) => EASE["o2"](t),
+      stagger: 0.025,
+    });
+  }, {});
 
   useTempus(() => {
     if (containerRef.current) {
-      position.current.x = Lerp(position.current.x, target.current.x, 0.085);
-      position.current.y = Lerp(position.current.y, target.current.y, 0.085);
-      containerRef.current.style.left = `${position.current.x}px`;
+      const oldY = position.current.y;
+      position.current.x = Lerp(position.current.x, target.current.x, 0.075);
+      position.current.y = Lerp(position.current.y, target.current.y, 0.075);
+      containerRef.current.style.left = `${position.current.x * 1.1}px`;
       containerRef.current.style.top = `${position.current.y}px`;
+      const targetRotate = position.current.y - oldY;
+      rotate.current = Lerp(rotate.current, targetRotate, 0.075);
+      containerRef.current.style.rotate = `${-rotate.current}deg`;
     }
   }, {});
 

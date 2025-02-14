@@ -1,93 +1,60 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import BezierEasing from "bezier-easing";
 import { EASE } from "@/utils/Ease";
+import { useGSAP } from "@gsap/react";
 
 export default function Loader() {
   const loaderLineRef = useRef<HTMLDivElement | null>(null);
   const loaderLineUnderRef = useRef<HTMLDivElement | null>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const imgs = document.querySelectorAll("img");
-  //   let loaded = 0;
-  //   const total = imgs.length;
-  //
-  //   for (let i = 0; i < total; i++) {
-  //     const img = new Image();
-  //     img.src = imgs[i].getAttribute("src") || "";
-  //     img.onload = () => {
-  //       loaded++;
-  //       const progress = Math.floor((loaded / total) * 100);
-  //       loaderLineRef.current!.style.transform = `scaleX(${progress / 100})`;
-  //       loaderNumberRef.current!.textContent = `${progress}%`;
-  //       containerLoaderNumberRef.current!.style.left = `${progress}%`;
-  //
-  //       if (progress === 100) LoaderOut();
-  //     };
-  //   }
-  //
-  //   if (total === 0) {
-  //     loaderNumberRef.current!.textContent = "100%";
-  //     gsap.to(containerLoaderNumberRef.current, {
-  //       left: "100%",
-  //       duration: 1.25,
-  //       ease: (t) => BezierEasing(0.6, 0.2, 0.1, 1.0)(t),
-  //     });
-  //
-  //     setTimeout(LoaderOut, 1250);
-  //
-  //     gsap.to(loaderLineRef.current, {
-  //       scaleX: 1,
-  //       duration: 1.25,
-  //       ease: (t) => BezierEasing(0.6, 0.2, 0.1, 1.0)(t),
-  //     });
-  //   }
-  // }, []);
+  useGSAP(
+    () => {
+      if (!loaderLineRef.current) return;
+      loaderLineRef.current.style.transition = "none";
+      loaderLineRef.current.style.transformOrigin = "right";
+      gsap.to(loaderLineRef.current, {
+        // scaleX: 0,
+        xPercent: 100,
+        delay: 0.2,
+        duration: 1.75,
+        ease: (t) => BezierEasing(0.65, 0.23, 0.18, 1.0)(t),
+      });
 
-  useEffect(() => {
-    LoaderOut();
-  }, []);
+      gsap.to(loaderLineUnderRef.current, {
+        // scaleX: 0,
+        xPercent: 100,
+        delay: 0.2,
+        duration: 1.75,
+        ease: (t) => BezierEasing(0.7, 0.23, 0.18, 1.0)(t),
+      });
 
-  const LoaderOut = () => {
-    if (!loaderLineRef.current) return;
-    loaderLineRef.current.style.transition = "none";
-    loaderLineRef.current.style.transformOrigin = "right";
-    gsap.to(loaderLineRef.current, {
-      scaleX: 0,
-      delay: 0.15,
-      duration: 2,
-      ease: (t) => BezierEasing(0.65, 0.25, 0.15, 1.0)(t),
-    });
+      gsap.to(".loader_overlay", {
+        opacity: 0,
+        duration: 0.75,
+        delay: 1.65,
+        ease: (t) => EASE["o1"](t),
+        onComplete: () => {
+          loaderRef.current?.remove();
+        },
+        onStart: () => {
+          setTimeout(() => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
 
-    gsap.to(loaderLineUnderRef.current, {
-      scaleX: 0,
-      delay: 0.15,
-      duration: 2,
-      ease: (t) => BezierEasing(0.8, 0.35, 0.15, 1.0)(t),
-    });
-
-    gsap.to(".loader_overlay", {
-      opacity: 0,
-      duration: 0.75,
-      delay: 1.5,
-      ease: (t) => EASE["o1"](t),
-      onComplete: () => {
-        loaderRef.current?.remove();
-      },
-      onStart: () => {
-        setTimeout(() => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-
-          window.appLoaded = true;
-          window.dispatchEvent(new Event("app-loaded"));
-        }, 250);
-      },
-    });
-  };
+            window.appLoaded = true;
+            window.dispatchEvent(new Event("app-loaded"));
+          }, 250);
+        },
+      });
+    },
+    {
+      scope: loaderRef,
+    },
+  );
 
   return (
     <div ref={loaderRef} id="Loader">
