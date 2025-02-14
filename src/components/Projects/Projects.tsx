@@ -73,7 +73,7 @@ export default function Projects({
         gsap.to(".w__grid__projects", {
           duration: 0.35,
           opacity: 0,
-          yPercent: -1,
+          // yPercent: -1,
           ease: (t) => EASE["o2"](t),
           onStart: () => {
             setTimeout(() => setType("list"), 250);
@@ -86,14 +86,14 @@ export default function Projects({
           ease: (t) => EASE["o3"](t),
           duration: 0.65,
           onStart: () => {
-            setTimeout(() => setType("grid"), 250);
+            setTimeout(() => setType("grid"), 290);
           },
         });
 
         gsap.to(".w__list__projects", {
-          opacity: 0,
+          yPercent: -1.5,
           ease: (t) => EASE["o2"](t),
-          duration: 0.45,
+          duration: 1.5,
         });
       }
     },

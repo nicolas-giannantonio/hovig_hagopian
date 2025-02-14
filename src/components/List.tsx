@@ -34,12 +34,6 @@ export default function List({ data }: { data: ListProject[] }) {
   }, [isMobile]);
 
   useGSAP(() => {
-    gsap.to(".w__list__projects", {
-      y: 0,
-      duration: 1.5,
-      ease: (t) => EASE["o3"](t),
-    });
-
     gsap.to(".list_project_p", {
       y: 0,
       duration: 1.5,

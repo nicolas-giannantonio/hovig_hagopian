@@ -5,8 +5,8 @@ export async function animationTransitionIn() {
   return new Promise((resolve) => {
     gsap.to("#App", {
       opacity: 0,
-      duration: 0.35,
-      ease: (t) => EASE["o2"](t),
+      duration: 0.25,
+      ease: (t) => EASE["o1"](t),
       onComplete: resolve,
     });
   });
