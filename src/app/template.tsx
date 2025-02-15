@@ -7,8 +7,6 @@ import { useGSAP } from "@gsap/react";
 export default function Template({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const childRef = useRef<HTMLDivElement | null>(null);
-
   useGSAP(() => {
     gsap.to("#App", {
       opacity: 1,
