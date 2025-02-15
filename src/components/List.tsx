@@ -203,9 +203,7 @@ export default function List({ data }: { data: ListProject[] }) {
               loop
               className="videoCursor"
               onCanPlayThrough={() => {
-                console.log("can play");
                 if (index === videoRefs.current.length - 1) {
-                  console.log("all can play");
                   setCanPlay(true);
                 }
               }}

@@ -18,7 +18,7 @@ export default async function Home() {
       }) => {
         const vimeoInfo = extractVimeoIdAndToken(project.project.hover_video);
         const link = await getVideoLink(vimeoInfo.videoId, vimeoInfo.token);
-        console.log(link);
+
         const video720p =
           link?.play?.progressive.find(
             (video: { rendition: string; link: string }) =>
