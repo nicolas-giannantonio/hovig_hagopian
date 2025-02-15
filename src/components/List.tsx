@@ -145,25 +145,35 @@ export default function List({ data }: { data: ListProject[] }) {
     }
   }, [data, mobile]);
 
+  const [videoCanPlay, setCanPlay] = useState(false);
+
   const handleMouseEnterProject = (index: number) => {
-    if (!mobile) {
+    if (!mobile && videoCanPlay) {
       const video = videoRefs.current[index];
       if (video) {
-        video.style.visibility = "visible";
+        const cover = coverRefs.current[index];
+        cover.style.opacity = "0";
+        video.style.opacity = "1";
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {});
         }
       }
+    } else if (!mobile) {
+      const cover = coverRefs.current[index];
+      cover.style.opacity = "1";
     }
   };
 
   const handleMouseLeaveProject = (index: number) => {
-    if (!mobile) {
+    if (!mobile && videoCanPlay) {
       const video = videoRefs.current[index];
       if (!video) return;
-      video.style.visibility = "hidden";
+      video.style.opacity = "0";
       video.pause();
+    } else if (!mobile) {
+      const cover = coverRefs.current[index];
+      cover.style.opacity = "0";
     }
   };
 
@@ -192,6 +202,13 @@ export default function List({ data }: { data: ListProject[] }) {
               playsInline
               loop
               className="videoCursor"
+              onCanPlayThrough={() => {
+                console.log("can play");
+                if (index === videoRefs.current.length - 1) {
+                  console.log("all can play");
+                  setCanPlay(true);
+                }
+              }}
             >
               <source src={dataVideo.project.hover_video} type="video/mp4" />
             </video>
