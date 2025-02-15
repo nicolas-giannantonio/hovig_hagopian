@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 import gsap from "gsap";
 import { EASE } from "@/utils/Ease";
 import { useGSAP } from "@gsap/react";
