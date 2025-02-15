@@ -30,6 +30,7 @@
       .w__resumeSectionContent_t {
         overflow: hidden;
         margin-bottom: .25rem;
+
         .resumeSectionContent_t {
           @include fonts.mono_12;
           text-align: center;
@@ -39,6 +40,7 @@
 
       .w__resumeSectionContent_info {
         overflow: hidden;
+
         .resumeSectionContent_info {
           @include fonts.grotesk;
           font-size: 0.875rem;
@@ -46,12 +48,30 @@
           font-weight: 500;
           color: rgba(255, 255, 255, 0.35);
           text-align: center;
-          transform: translateY(100%);
         }
       }
     }
   }
 }
+
+.wrap_s {
+  overflow: hidden;
+  display: inline-block;
+  white-space: pre;
+  line-height: 1.25rem;
+  vertical-align: sub;
+
+  span {
+    white-space: pre;
+    line-height: 1.25rem;
+  }
+
+  .s__anim {
+    display: inline-block;
+    transform: translateY(100%);
+  }
+}
+
 
 @media screen and (max-width: 768px) {
   #resume {

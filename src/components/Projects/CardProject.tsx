@@ -1,7 +1,7 @@
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
 import FocusCardProject from "@/components/Projects/FocusCardProject";
-import { useRef, useState } from "react";
 import { imageLoader } from "@/components/Utils/ImageTransform";
 
 export default function CardProject({
@@ -14,30 +14,39 @@ export default function CardProject({
   hoverVideo: string;
 }) {
   const [hovered, setHovered] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => setVideoReady(true);
+
+    video.addEventListener("canplay", handleCanPlay);
+    return () => {
+      video.removeEventListener("canplay", handleCanPlay);
+    };
+  }, []);
 
   return (
     <TransitionLink
       href={link}
       className="w__cardProject"
       onMouseEnter={() => {
-        if (videoRef.current && imageRef.current) {
-          videoRef.current.style.opacity = "1";
-          imageRef.current.style.opacity = "0";
+        if (videoRef.current && videoReady) {
           videoRef.current.currentTime = 0;
-          const playPromise = videoRef.current.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {});
-          }
+          videoRef.current.style.opacity = "1";
+          videoRef.current.play();
+          imageRef.current!.style.opacity = "0";
         }
         setHovered(true);
       }}
       onMouseLeave={() => {
-        if (videoRef.current && imageRef.current) {
+        if (videoRef.current) {
           videoRef.current.style.opacity = "0";
-          imageRef.current.style.opacity = "1";
-
+          imageRef.current!.style.opacity = "1";
           videoRef.current.pause();
         }
         setHovered(false);
@@ -50,6 +59,7 @@ export default function CardProject({
           playsInline
           className="cardProject_video"
           ref={videoRef}
+          preload={"auto"}
         >
           <source src={hoverVideo} type="video/mp4" />
         </video>

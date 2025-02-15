@@ -26,6 +26,8 @@ function getVideoLink(
         method: "GET",
         headers: {
           Accept: "application/vnd.vimeo.*+json;version=3.4",
+          "Upgrade-Insecure-Requests": "1",
+          "Alt-Svc": "h3",
         },
         path: `/videos/${videoId}?fields=play&token=${token}`,
       },

@@ -6,6 +6,13 @@ import { Lerp } from "@/utils/Math";
 import { useTempus } from "tempus/react";
 import TransitionLink from "@/components/TransitionLink";
 import useMobileDetect from "@/lib/DetectScreen";
+import Image from "next/image";
+import { imageLoader } from "@/components/Utils/ImageTransform";
+
+const Round = (value: number, decimals: number) => {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+};
 
 type ListProject = {
   project: {
@@ -22,6 +29,7 @@ export default function List({ data }: { data: ListProject[] }) {
   const listProjectsRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<HTMLVideoElement[]>([]);
+  const coverRefs = useRef<HTMLImageElement[]>([]);
   const position = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
   const rotate = useRef(0);
@@ -38,7 +46,7 @@ export default function List({ data }: { data: ListProject[] }) {
       y: 0,
       duration: 1.5,
       ease: (t) => EASE["o2"](t),
-      stagger: 0.025,
+      stagger: 0.0275,
     });
   }, {});
 
@@ -50,7 +58,8 @@ export default function List({ data }: { data: ListProject[] }) {
       containerRef.current.style.left = `${position.current.x * 1.1}px`;
       containerRef.current.style.top = `${position.current.y}px`;
       const targetRotate = position.current.y - oldY;
-      rotate.current = Lerp(rotate.current, targetRotate, 0.075);
+      rotate.current = Round(Lerp(rotate.current, targetRotate, 0.075), 3);
+
       containerRef.current.style.rotate = `${-rotate.current}deg`;
     }
   }, {});
@@ -75,10 +84,14 @@ export default function List({ data }: { data: ListProject[] }) {
       let startY = 0;
 
       const initialVideo = videoRefs.current[0];
+
       if (initialVideo) {
         initialVideo.play();
         initialVideo.style.visibility = "visible";
       }
+
+      coverRefs.current[0].style.opacity = "1";
+      coverRefs.current[0].style.scale = "1";
 
       const handleTouchStart = (event: TouchEvent) => {
         startY = event.touches[0].clientY;
@@ -103,8 +116,14 @@ export default function List({ data }: { data: ListProject[] }) {
             previousVideo.pause();
           }
 
+          coverRefs.current[currentIndexActive].style.opacity = "0";
+          coverRefs.current[currentIndexActive].style.scale = "1.15";
+
           currentIndexActive = newIndex;
           setCurrentIndex(currentIndexActive);
+
+          coverRefs.current[newIndex].style.opacity = "1";
+          coverRefs.current[currentIndexActive].style.scale = "1";
 
           const newVideo = videoRefs.current[newIndex];
           if (newVideo) {
@@ -127,41 +146,56 @@ export default function List({ data }: { data: ListProject[] }) {
   }, [data, mobile]);
 
   const handleMouseEnterProject = (index: number) => {
-    if (mobile) return;
-    const video = videoRefs.current[index];
-    if (!video) return;
-    video.currentTime = 0;
-    video.style.opacity = "1";
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
+    if (!mobile) {
+      const video = videoRefs.current[index];
+      if (video) {
+        video.style.visibility = "visible";
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+      }
     }
   };
 
   const handleMouseLeaveProject = (index: number) => {
-    if (mobile) return;
-    const video = videoRefs.current[index];
-    if (!video) return;
-    video.style.opacity = "0";
-    video.pause();
+    if (!mobile) {
+      const video = videoRefs.current[index];
+      if (!video) return;
+      video.style.visibility = "hidden";
+      video.pause();
+    }
   };
 
   return (
     <>
       <div ref={containerRef} className="w__videoCursor">
         {data.map((dataVideo, index) => (
-          <video
-            key={index}
-            ref={(el) => {
-              if (el) videoRefs.current[index] = el;
-            }}
-            muted
-            playsInline
-            loop
-            className="videoCursor"
-          >
-            <source src={dataVideo.project.hover_video} type="video/mp4" />
-          </video>
+          <div key={index}>
+            <Image
+              loader={imageLoader}
+              fill
+              sizes="(max-width: 768px) 100vw, 20vw"
+              className={"videoCursor__poster"}
+              src={dataVideo.project.coverImageUrl}
+              alt={""}
+              ref={(el) => {
+                if (el) coverRefs.current[index] = el;
+              }}
+            />
+            <video
+              key={index}
+              ref={(el) => {
+                if (el) videoRefs.current[index] = el;
+              }}
+              muted
+              playsInline
+              loop
+              className="videoCursor"
+            >
+              <source src={dataVideo.project.hover_video} type="video/mp4" />
+            </video>
+          </div>
         ))}
       </div>
       <div className="w__list__projects" ref={listProjectsRef}>

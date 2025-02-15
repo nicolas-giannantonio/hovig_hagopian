@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { EASE } from "@/utils/Ease";
 import useMobileDetect from "@/lib/DetectScreen";
 
-type ProjectMode = "grid" | "list";
+export type ProjectMode = "grid" | "list";
 
 type ProjectType = {
   project: {
@@ -76,7 +76,7 @@ export default function Projects({
           // yPercent: -1,
           ease: (t) => EASE["o2"](t),
           onStart: () => {
-            setTimeout(() => setType("list"), 250);
+            setTimeout(() => setType("list"), 185);
           },
         });
       } else if (type === "list" && targetType === "grid") {
@@ -86,14 +86,20 @@ export default function Projects({
           ease: (t) => EASE["o3"](t),
           duration: 0.65,
           onStart: () => {
-            setTimeout(() => setType("grid"), 290);
+            setTimeout(() => setType("grid"), 250);
           },
         });
 
         gsap.to(".w__list__projects", {
-          yPercent: -1.5,
+          // yPercent: -1.5,
           ease: (t) => EASE["o2"](t),
           duration: 1.5,
+        });
+
+        gsap.to(".w__videoCursor", {
+          opacity: 0,
+          ease: (t) => EASE["io1"](t),
+          duration: 0.2,
         });
       }
     },

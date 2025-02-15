@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { useIntersectionObserver } from "hamo";
 import { useLoaded } from "@/lib/useLoader";
+import SplitText from "@/components/SplitText";
 
 export default function ResumeSection({
   title,
@@ -42,11 +43,11 @@ export default function ResumeSection({
           stagger: 0.09,
           delay: 0.1,
         });
-        gsap.to(".resumeSectionContent_info", {
+        gsap.to(".resumeSectionContent_info .s__anim", {
           duration: 1.55,
           ease: (t) => EASE["o6"](t),
           y: 0,
-          stagger: 0.095,
+          stagger: 0.0075,
           delay: 0.1,
         });
       }
@@ -76,7 +77,11 @@ export default function ResumeSection({
               <p className="resumeSectionContent_t">{item.title}</p>
             </div>
             <div className="w__resumeSectionContent_info">
-              <p className="resumeSectionContent_info">{item.subtitle}</p>
+              <p className="resumeSectionContent_info">
+                <SplitText inside={true} splitBy={"word"}>
+                  {item.subtitle}
+                </SplitText>
+              </p>
             </div>
           </div>
         ))}

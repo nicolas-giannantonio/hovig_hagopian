@@ -52,7 +52,7 @@ export default function ContactInformations({
       });
 
       gsap.to(".fc .contact_inline_content_t", {
-        duration: 1.25,
+        duration: 1.5,
         ease: (t) => EASE["o6"](t),
         y: 0,
         delay: 0.2,
@@ -60,19 +60,19 @@ export default function ContactInformations({
       });
 
       gsap.to(".sc .contact_inline_content_t", {
-        duration: 1.25,
+        duration: 1.5,
         ease: (t) => EASE["o6"](t),
         y: 0,
-        delay: 0.2,
-        stagger: 0.1,
+        delay: 0.1,
+        stagger: 0.05,
       });
 
       gsap.to(".contact_hovig_t", {
-        duration: 1.25,
+        duration: 1.5,
         ease: (t) => EASE["o6"](t),
         y: 0,
-        delay: 0.15,
-        stagger: 0.1,
+        delay: 0.19,
+        stagger: 0.035,
       });
     },
     {
