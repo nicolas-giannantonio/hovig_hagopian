@@ -139,7 +139,11 @@ export default function ContactInformations({
         {data.social_media &&
           data.social_media.map((social, index) => (
             <div className="__oh" key={index}>
-              <Link className="contact_hovig_t" href={social.social_media_link}>
+              <Link
+                target={"_blank"}
+                className="contact_hovig_t"
+                href={social.social_media_link}
+              >
                 {social.social_media_name}
               </Link>
             </div>
