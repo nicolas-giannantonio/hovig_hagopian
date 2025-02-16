@@ -91,10 +91,10 @@ export default function List({ data }: { data: ListProject[] }) {
         initialVideo.style.visibility = "visible";
       }
 
-      if (!videoCanPlay) {
-        coverRefs.current[0].style.opacity = "1";
-        coverRefs.current[0].style.scale = "1";
-      }
+      // if (!videoCanPlay) {
+      //   coverRefs.current[0].style.opacity = "1";
+      //   coverRefs.current[0].style.scale = "1";
+      // }
 
       const handleTouchStart = (event: TouchEvent) => {
         startY = event.touches[0].clientY;
@@ -119,28 +119,30 @@ export default function List({ data }: { data: ListProject[] }) {
             previousVideo.pause();
           }
 
-          if (!videoCanPlay) {
-            coverRefs.current[currentIndexActive].style.opacity = "0";
-            coverRefs.current[currentIndexActive].style.scale = "1.15";
-          }
+          // if (!videoCanPlay) {
+          //   coverRefs.current[currentIndexActive].style.opacity = "0";
+          //   coverRefs.current[currentIndexActive].style.scale = "1.15";
+          // }
 
           currentIndexActive = newIndex;
           setCurrentIndex(currentIndexActive);
 
-          const currentCover = coverRefs.current[newIndex];
-          const beforeCover = coverRefs.current[currentIndexActive];
-          if (!videoCanPlay) {
-            currentCover.style.opacity = "1";
-            beforeCover.style.scale = "1";
-          } else {
-            beforeCover.style.opacity = "0";
-            currentCover.style.opacity = "0";
-            const newVideo = videoRefs.current[newIndex];
-            if (newVideo) {
-              newVideo.style.visibility = "visible";
-              newVideo.play();
-            }
+          const newVideo = videoRefs.current[newIndex];
+          if (newVideo) {
+            newVideo.style.visibility = "visible";
+            newVideo.play();
           }
+
+          // const currentCover = coverRefs.current[newIndex];
+          // const beforeCover = coverRefs.current[currentIndexActive];
+          // if (!videoCanPlay) {
+          //   currentCover.style.opacity = "1";
+          //   beforeCover.style.scale = "1";
+          // } else {
+          //   beforeCover.style.opacity = "0";
+          //   currentCover.style.opacity = "0";
+          //
+          // }
         }
       };
 
@@ -212,12 +214,7 @@ export default function List({ data }: { data: ListProject[] }) {
               loop
               className="videoCursor"
               onCanPlayThrough={() => {
-                if (index === videoRefs.current.length - 1 && !mobile) {
-                  setCanPlay(true);
-                }
-              }}
-              onLoadedData={() => {
-                if (index === videoRefs.current.length - 1 && mobile) {
+                if (index === videoRefs.current.length - 1) {
                   setCanPlay(true);
                 }
               }}
