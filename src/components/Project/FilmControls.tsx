@@ -389,6 +389,18 @@ export default function FilmControls({
     };
   }, [vimeoLink]);
 
+  const isFullscreen =
+    document.fullscreenElement ||
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    document.webkitFullscreenElement ||
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    document.mozFullScreenElement ||
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    document.msFullscreenElement;
+
   return (
     <div ref={filmRef} className="film__header">
       <div className="w__film__video">
@@ -401,7 +413,7 @@ export default function FilmControls({
           controls={false}
           playsInline
           style={{
-            scale: videoZoom ? videoZoom : 1,
+            scale: videoZoom && !isFullscreen ? videoZoom : 1,
           }}
         />
         <div className="film__video__overlay" ref={overlayRef}></div>
