@@ -212,7 +212,12 @@ export default function List({ data }: { data: ListProject[] }) {
               loop
               className="videoCursor"
               onCanPlayThrough={() => {
-                if (index === videoRefs.current.length - 1) {
+                if (index === videoRefs.current.length - 1 && !mobile) {
+                  setCanPlay(true);
+                }
+              }}
+              onLoadedData={() => {
+                if (index === videoRefs.current.length - 1 && mobile) {
                   setCanPlay(true);
                 }
               }}
