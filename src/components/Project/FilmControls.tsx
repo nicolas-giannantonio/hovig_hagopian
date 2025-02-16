@@ -28,7 +28,7 @@ type FilmControlsType = {
     mp4: string;
   };
   coverImageUrl: string;
-  videoZoom?: number;
+  videoZoom: number;
 };
 
 export default function FilmControls({
@@ -36,7 +36,7 @@ export default function FilmControls({
   informations,
   vimeoLink,
   coverImageUrl,
-  videoZoom = 1,
+  videoZoom,
 }: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -399,7 +399,7 @@ export default function FilmControls({
           controls={false}
           playsInline
           style={{
-            scale: videoZoom,
+            scale: videoZoom ? videoZoom : 1,
           }}
         />
         <div className="film__video__overlay" ref={overlayRef}></div>
