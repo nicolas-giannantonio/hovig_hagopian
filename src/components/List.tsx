@@ -91,8 +91,10 @@ export default function List({ data }: { data: ListProject[] }) {
         initialVideo.style.visibility = "visible";
       }
 
-      coverRefs.current[0].style.opacity = "1";
-      coverRefs.current[0].style.scale = "1";
+      if (!videoCanPlay) {
+        coverRefs.current[0].style.opacity = "1";
+        coverRefs.current[0].style.scale = "1";
+      }
 
       const handleTouchStart = (event: TouchEvent) => {
         startY = event.touches[0].clientY;
