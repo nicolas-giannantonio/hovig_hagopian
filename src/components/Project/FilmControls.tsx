@@ -404,7 +404,13 @@ export default function FilmControls({
         />
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
-      <div ref={headerControlsRef} className="film__header__controls">
+      <div
+        style={{
+          visibility: videoRef.current?.src ? "visible" : "hidden",
+        }}
+        ref={headerControlsRef}
+        className="film__header__controls"
+      >
         <div onClick={clickOnLineProgress} className="w__film__video__progress">
           <p ref={progressTimeRef} className="progressTime">
             00:00:00
