@@ -22,6 +22,10 @@ export default function ContactInformations({
       contact_hovig_email: string;
       contact_hovig_tel: string;
     };
+    social_media: {
+      social_media_name: string;
+      social_media_link: string;
+    }[];
   };
 }) {
   const contactInformationRef = useRef<HTMLDivElement | null>(null);
@@ -132,6 +136,13 @@ export default function ContactInformations({
             {data.contact_hovig.contact_hovig_tel}
           </Link>
         </div>
+        {data.social_media.map((social, index) => (
+          <div className="__oh" key={index}>
+            <Link className="contact_hovig_t" href={social.social_media_link}>
+              {social.social_media_name}
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );

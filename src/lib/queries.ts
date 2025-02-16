@@ -81,6 +81,10 @@ export const CONTACT_QUERY = defineQuery(`
         contact_hovig {
             contact_hovig_email,
             contact_hovig_tel
+        },
+        social_media[] {
+            social_media_name,
+            social_media_link
         }
     }
 `);
