@@ -22,7 +22,7 @@ export default async function Home() {
         const video720p =
           link?.play?.progressive.find(
             (video: { rendition: string; link: string }) =>
-              video.rendition === "480p",
+              video.rendition === "720p",
           ) || link?.play?.progressive[0];
 
         project.project.hover_video = video720p?.link;
