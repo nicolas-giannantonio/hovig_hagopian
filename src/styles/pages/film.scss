@@ -137,6 +137,26 @@
     }
   }
 
+  .w__film_informations {
+    padding-top: 12rem;
+  }
+
+  .film_informations {
+    width: 100%;
+    padding: 0 21.8rem 12rem;
+
+    .w__film_description_t {
+      @include fonts.mono_12;
+      word-break: break-word;
+    }
+
+    .w__film_description_d {
+      @include fonts.grotesk;
+      font-size: 1.5rem;
+      margin-top: .5rem;
+      word-break: break-word;
+    }
+  }
 }
 
 .GalleryProject {
@@ -189,8 +209,10 @@
       margin-top: 5rem;
 
       .film__header__controls {
-        position: relative;
-        margin-top: 2rem;
+        position: absolute;
+        top: 5.5rem;
+        left: 50%;
+        transform: translateX(-50%);
         width: 100%;
         padding: 0 1.25rem;
       }
@@ -198,7 +220,7 @@
       .w__film__video {
         position: relative;
         overflow: hidden;
-        padding: 1rem;
+        padding: 1rem 1rem 0 1rem;
 
         .film__video {
           object-fit: contain;
@@ -209,7 +231,16 @@
         position: relative;
         width: 22rem;
         bottom: auto;
-        margin: 2rem 0;
+        margin: 4rem 0;
+      }
+    }
+
+    .film_informations {
+      padding: 4rem 2rem;
+      text-align: center;
+
+      .w__film_description_d {
+        font-size: 1rem;
       }
     }
   }

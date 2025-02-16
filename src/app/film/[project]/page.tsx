@@ -38,6 +38,7 @@ export default async function Page({ params }: PageProps) {
     mp4: video720p?.link,
   };
 
+  console.log(project);
   return (
     <div id={"film"}>
       {project && (
@@ -46,11 +47,45 @@ export default async function Page({ params }: PageProps) {
             title={project.title}
             informations={project.informations}
             vimeoLink={filmLinkVideo}
+            videoZoom={project.videoZoom}
             coverImageUrl={project.coverImageUrl}
           />
+          <div className="w__film_informations">
+            {project.video_informations &&
+              project.video_informations.map(
+                (
+                  information: {
+                    title: string;
+                    description: string;
+                  },
+                  index: number,
+                ) => <FilmDescription informations={information} key={index} />,
+              )}
+          </div>
+
           <GalleryProject images={project.images} />
         </React.Fragment>
       )}
     </div>
   );
 }
+
+const FilmDescription = ({
+  informations,
+}: {
+  informations: {
+    title: string;
+    description: string;
+  };
+}) => {
+  return (
+    <div className={"film_informations"}>
+      <div className={"w__film_description_t"}>
+        <h2>{informations.title}</h2>
+      </div>
+      <div className={"w__film_description_d"}>
+        <p>{informations.description}</p>
+      </div>
+    </div>
+  );
+};

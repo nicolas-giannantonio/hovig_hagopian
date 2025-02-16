@@ -51,6 +51,11 @@ export const PROJECT_QUERY = defineQuery(`
     "coverImageUrl": cover_image.asset->url,
     "src": video.asset->url,
     vimeoSrc,
+    video_zoom,
+    video_informations[] {
+        title,
+        description
+    },
     informations[] {
         information {
             information_name,

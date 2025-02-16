@@ -28,6 +28,7 @@ type FilmControlsType = {
     mp4: string;
   };
   coverImageUrl: string;
+  videoZoom?: number;
 };
 
 export default function FilmControls({
@@ -35,6 +36,7 @@ export default function FilmControls({
   informations,
   vimeoLink,
   coverImageUrl,
+  videoZoom = 1,
 }: FilmControlsType) {
   const filmRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -100,22 +102,30 @@ export default function FilmControls({
     }, 2000);
   }
 
-  function setInactiveState(
-    overlayEl: HTMLDivElement | null,
-    controlsEl: HTMLDivElement | null,
-    infoEl: HTMLDivElement | null,
-  ) {
-    if (videoRef.current?.paused) return;
-    gsap.to(overlayEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
-    gsap.to(controlsEl, {
-      opacity: 0,
-      ease: (t) => EASE["o6"](t),
-      duration: 1,
-    });
+  const setInactiveState = useCallback(
+    (
+      overlayEl: HTMLDivElement | null,
+      controlsEl: HTMLDivElement | null,
+      infoEl: HTMLDivElement | null,
+    ) => {
+      if (videoRef.current?.paused) return;
+      gsap.to(overlayEl, {
+        opacity: 0,
+        ease: (t) => EASE["o6"](t),
+        duration: 1,
+      });
+      gsap.to(controlsEl, {
+        opacity: 0,
+        ease: (t) => EASE["o6"](t),
+        duration: 1,
+      });
 
-    if (mobile) return;
-    gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
-  }
+      if (mobile) return;
+
+      gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
+    },
+    [mobile],
+  );
 
   const playVideo = useCallback(() => {
     if (videoRef.current?.paused) {
@@ -388,6 +398,9 @@ export default function FilmControls({
           poster={coverImageUrl}
           controls={false}
           playsInline
+          style={{
+            scale: videoZoom,
+          }}
         />
         <div className="film__video__overlay" ref={overlayRef}></div>
       </div>
