@@ -38,7 +38,6 @@ export default async function Page({ params }: PageProps) {
     mp4: video720p?.link,
   };
 
-  console.log(project);
   return (
     <div id={"film"}>
       {project && (
@@ -47,7 +46,7 @@ export default async function Page({ params }: PageProps) {
             title={project.title}
             informations={project.informations}
             vimeoLink={filmLinkVideo}
-            videoZoom={project.videoZoom}
+            videoZoom={project.video_zoom}
             coverImageUrl={project.coverImageUrl}
           />
           <div className="w__film_informations">
