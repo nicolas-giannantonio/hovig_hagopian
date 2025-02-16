@@ -37,6 +37,9 @@ export default function List({ data }: { data: ListProject[] }) {
   const { isMobile } = useMobileDetect();
   const [mobile, setMobile] = useState(false);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [videoCanPlay, setCanPlay] = useState(false);
+
   useEffect(() => {
     setMobile(isMobile());
   }, [isMobile]);
@@ -75,8 +78,6 @@ export default function List({ data }: { data: ListProject[] }) {
     }
   }, [mobile]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   useEffect(() => {
     if (mobile) {
       let currentIndexActive = 0;
@@ -111,24 +112,32 @@ export default function List({ data }: { data: ListProject[] }) {
 
         if (currentIndexActive !== newIndex) {
           const previousVideo = videoRefs.current[currentIndexActive];
-          if (previousVideo) {
+          if (previousVideo && videoCanPlay) {
             previousVideo.style.visibility = "hidden";
             previousVideo.pause();
           }
 
-          coverRefs.current[currentIndexActive].style.opacity = "0";
-          coverRefs.current[currentIndexActive].style.scale = "1.15";
+          if (!videoCanPlay) {
+            coverRefs.current[currentIndexActive].style.opacity = "0";
+            coverRefs.current[currentIndexActive].style.scale = "1.15";
+          }
 
           currentIndexActive = newIndex;
           setCurrentIndex(currentIndexActive);
 
-          coverRefs.current[newIndex].style.opacity = "1";
-          coverRefs.current[currentIndexActive].style.scale = "1";
-
-          const newVideo = videoRefs.current[newIndex];
-          if (newVideo) {
-            newVideo.style.visibility = "visible";
-            newVideo.play();
+          const currentCover = coverRefs.current[newIndex];
+          const beforeCover = coverRefs.current[currentIndexActive];
+          if (!videoCanPlay) {
+            currentCover.style.opacity = "1";
+            beforeCover.style.scale = "1";
+          } else {
+            beforeCover.style.opacity = "0";
+            currentCover.style.opacity = "0";
+            const newVideo = videoRefs.current[newIndex];
+            if (newVideo) {
+              newVideo.style.visibility = "visible";
+              newVideo.play();
+            }
           }
         }
       };
@@ -143,9 +152,7 @@ export default function List({ data }: { data: ListProject[] }) {
         window.removeEventListener("touchmove", handleTouchMove);
       };
     }
-  }, [data, mobile]);
-
-  const [videoCanPlay, setCanPlay] = useState(false);
+  }, [data, mobile, videoCanPlay]);
 
   const handleMouseEnterProject = (index: number) => {
     if (!mobile && videoCanPlay) {
