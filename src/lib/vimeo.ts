@@ -20,7 +20,7 @@ function getVideoLink(
     }[];
   };
 }> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     client.request(
       {
         method: "GET",
@@ -45,10 +45,6 @@ function getVideoLink(
           };
         },
       ) {
-        if (error) {
-          // return reject(error);
-        }
-
         resolve(body);
       },
     );
