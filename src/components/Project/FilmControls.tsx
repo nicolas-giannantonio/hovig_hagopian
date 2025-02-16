@@ -124,7 +124,7 @@ export default function FilmControls({
 
       gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
     },
-    [mobile],
+    [mobile, videoRef],
   );
 
   const playVideo = useCallback(() => {
@@ -264,7 +264,7 @@ export default function FilmControls({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [controls]);
+  }, [controls, setInactiveState]);
 
   useGSAP(
     () => {
