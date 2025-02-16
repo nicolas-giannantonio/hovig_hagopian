@@ -46,7 +46,7 @@ function getVideoLink(
         },
       ) {
         if (error) {
-          return reject(error);
+          // return reject(error);
         }
 
         resolve(body);
