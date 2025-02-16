@@ -49,18 +49,21 @@ export default async function Page({ params }: PageProps) {
             videoZoom={project.video_zoom}
             coverImageUrl={project.coverImageUrl}
           />
-          <div className="w__film_informations">
-            {project.video_informations &&
-              project.video_informations.map(
+          {project.video_informations && (
+            <div className="w__film_informations">
+              {project.video_informations.map(
                 (
                   information: {
                     title: string;
                     description: string;
                   },
                   index: number,
-                ) => <FilmDescription informations={information} key={index} />,
+                ) => (
+                  <FilmDescription informations={information} key={index} />
+                ),
               )}
-          </div>
+            </div>
+          )}
 
           <GalleryProject images={project.images} />
         </React.Fragment>
