@@ -162,6 +162,7 @@ export default function FilmControls({
   }, []);
 
   useEffect(() => {
+    if (!vimeoLink.hls) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === " ") {
         e.preventDefault();
@@ -354,6 +355,7 @@ export default function FilmControls({
   };
 
   useEffect(() => {
+    if (!vimeoLink.hls) return;
     let hls: Hls | undefined;
     if (!mobile) {
       if (Hls.isSupported() && videoRef.current) {
@@ -406,7 +408,7 @@ export default function FilmControls({
       </div>
       <div
         style={{
-          visibility: videoRef.current?.src ? "visible" : "hidden",
+          visibility: vimeoLink.hls ? "visible" : "hidden",
         }}
         ref={headerControlsRef}
         className="film__header__controls"
