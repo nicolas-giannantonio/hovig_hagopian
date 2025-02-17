@@ -6,7 +6,7 @@ export async function animationTransitionIn() {
     gsap.to("#App", {
       opacity: 0,
       duration: 0.25,
-      ease: (t) => EASE["o1"](t),
+      ease: (t) => EASE["o2"](t),
       onComplete: resolve,
     });
   });

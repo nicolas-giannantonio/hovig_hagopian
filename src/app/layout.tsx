@@ -11,7 +11,7 @@ import { ReactLenis } from "lenis/react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = await client.fetch(META_QUERY);
-  console.log(meta);
+
   return {
     title: meta[0].title,
     description: meta[0].description,

@@ -34,21 +34,18 @@ export default function ResumeSection({
           ease: (t) => EASE["o6"](t),
           y: 0,
           stagger: 0.095,
-          delay: 0.1,
         });
         gsap.to(".resumeSectionContent_t", {
           duration: 1.55,
           ease: (t) => EASE["o6"](t),
           y: 0,
           stagger: 0.09,
-          delay: 0.1,
         });
         gsap.to(".resumeSectionContent_info .s__anim", {
           duration: 1.55,
           ease: (t) => EASE["o6"](t),
           y: 0,
-          stagger: 0.0075,
-          delay: 0.1,
+          stagger: 0.0065,
         });
       }
     },
@@ -63,8 +60,8 @@ export default function ResumeSection({
     if (parts.length > 1) {
       return (
         <>
-          <i>{parts[0]}</i>
-          {parts.slice(1).join(",")},
+          <i>{parts[0]},</i>
+          {parts.slice(1).join(",")}
         </>
       );
     }

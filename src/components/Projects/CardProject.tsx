@@ -27,11 +27,11 @@ export default function CardProject({
           videoRef.current
             .play()
             .then(() => {
-              imageRef.current!.style.opacity = "0";
+              if (imageRef.current) imageRef.current.style.opacity = "0";
               if (videoRef.current) videoRef.current.style.opacity = "1";
             })
             .catch(() => {
-              imageRef.current!.style.opacity = "1";
+              if (imageRef.current) imageRef.current.style.opacity = "1";
             });
         }
         setHovered(true);
@@ -39,7 +39,7 @@ export default function CardProject({
       onMouseLeave={() => {
         if (videoRef.current) {
           videoRef.current.style.opacity = "0";
-          imageRef.current!.style.opacity = "1";
+          if (imageRef.current) imageRef.current.style.opacity = "1";
           videoRef.current.pause();
         }
         setHovered(false);

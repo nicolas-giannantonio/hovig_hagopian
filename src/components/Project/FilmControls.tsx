@@ -291,14 +291,14 @@ export default function FilmControls({
       gsap.to("#mute", {
         y: 0,
         ease: (t) => EASE["o6"](t),
-        duration: 1.5,
-        delay: 1.15,
+        duration: 1.75,
+        delay: 0.9,
       });
       gsap.to("#full", {
         y: 0,
         ease: (t) => EASE["o6"](t),
-        duration: 1.5,
-        delay: 1.2,
+        duration: 1.75,
+        delay: 1,
         onStart: () => {
           gsap.to(".progressTime", {
             opacity: 1,
@@ -324,21 +324,21 @@ export default function FilmControls({
         y: 0,
         ease: (t) => EASE["o6"](t),
         duration: 1.75,
-        delay: 1,
+        delay: 0.85,
         stagger: 0.1,
       });
       gsap.to(".film__header__informations_value", {
         y: 0,
         ease: (t) => EASE["o6"](t),
         duration: 1.75,
-        delay: 1,
+        delay: 0.9,
         stagger: 0.075,
       });
       gsap.to(".film__header__informations_title", {
         y: 0,
         ease: (t) => EASE["o6"](t),
-        duration: 1.5,
-        delay: 0.9,
+        duration: 1.75,
+        delay: 0.75,
       });
       gsap.to(videoRef.current, { opacity: 1, ease: "linear", duration: 1 });
     },
