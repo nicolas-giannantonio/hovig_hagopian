@@ -8,38 +8,33 @@ export default function CardProject({
   link,
   image,
   hoverVideo,
+  index,
 }: {
   link: string;
   image: string;
   hoverVideo: string;
+  index: number;
 }) {
   const [hovered, setHovered] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleCanPlay = () => setVideoReady(true);
-
-    video.addEventListener("canplay", handleCanPlay);
-    return () => {
-      video.removeEventListener("canplay", handleCanPlay);
-    };
-  }, []);
 
   return (
     <TransitionLink
       href={link}
       className="w__cardProject"
       onMouseEnter={() => {
-        if (videoRef.current && videoReady) {
+        if (videoRef.current) {
           videoRef.current.currentTime = 0;
-          videoRef.current.style.opacity = "1";
-          videoRef.current.play();
-          imageRef.current!.style.opacity = "0";
+          videoRef.current
+            .play()
+            .then(() => {
+              imageRef.current!.style.opacity = "0";
+              if (videoRef.current) videoRef.current.style.opacity = "1";
+            })
+            .catch(() => {
+              imageRef.current!.style.opacity = "1";
+            });
         }
         setHovered(true);
       }}
@@ -59,7 +54,7 @@ export default function CardProject({
           playsInline
           className="cardProject_video"
           ref={videoRef}
-          preload={"auto"}
+          preload={"none"}
         >
           <source src={hoverVideo} type="video/mp4" />
         </video>

@@ -38,7 +38,6 @@ export default function List({ data }: { data: ListProject[] }) {
   const [mobile, setMobile] = useState(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [videoCanPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
     setMobile(isMobile());
@@ -114,7 +113,7 @@ export default function List({ data }: { data: ListProject[] }) {
 
         if (currentIndexActive !== newIndex) {
           const previousVideo = videoRefs.current[currentIndexActive];
-          if (previousVideo && videoCanPlay) {
+          if (previousVideo) {
             previousVideo.style.visibility = "hidden";
             previousVideo.pause();
           }
@@ -156,35 +155,43 @@ export default function List({ data }: { data: ListProject[] }) {
         window.removeEventListener("touchmove", handleTouchMove);
       };
     }
-  }, [data, mobile, videoCanPlay]);
+  }, [data, mobile]);
 
   const handleMouseEnterProject = (index: number) => {
-    if (!mobile && videoCanPlay) {
+    if (!mobile) {
       const video = videoRefs.current[index];
-      if (video) {
-        const cover = coverRefs.current[index];
-        cover.style.opacity = "0";
-        video.style.opacity = "1";
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {});
-        }
-      }
-    } else if (!mobile) {
       const cover = coverRefs.current[index];
-      cover.style.opacity = "1";
+      if (video && cover) {
+        video.dataset.hovered = "true";
+        video.currentTime = 0;
+        cover.style.opacity = "1";
+        video
+          .play()
+          .then(() => {
+            if (video.dataset.hovered === "true") {
+              cover.style.opacity = "0";
+              video.style.opacity = "1";
+            }
+          })
+          .catch((error) => {
+            if (error.name !== "AbortError") {
+              console.error("Erreur lors de la lecture de la vidéo", error);
+            }
+          });
+      }
     }
   };
 
   const handleMouseLeaveProject = (index: number) => {
-    if (!mobile && videoCanPlay) {
+    if (!mobile) {
       const video = videoRefs.current[index];
-      if (!video) return;
-      video.style.opacity = "0";
-      video.pause();
-    } else if (!mobile) {
       const cover = coverRefs.current[index];
-      cover.style.opacity = "0";
+      if (video && cover) {
+        video.dataset.hovered = "false";
+        cover.style.opacity = "0";
+        video.style.opacity = "0";
+        if (!video.paused) video.pause();
+      }
     }
   };
 
@@ -213,11 +220,6 @@ export default function List({ data }: { data: ListProject[] }) {
               playsInline
               loop
               className="videoCursor"
-              onCanPlayThrough={() => {
-                if (index === videoRefs.current.length - 1) {
-                  setCanPlay(true);
-                }
-              }}
             >
               <source src={dataVideo.project.hover_video} type="video/mp4" />
             </video>

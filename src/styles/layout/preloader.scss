@@ -41,12 +41,13 @@
       }
 
       .line_prog {
-        transform: scaleX(1);
+        transform: translateX(-100%);
         transform-origin: left;
         transition: transform .25s cubic-bezier(0.18, 0.47, 0.16, 1);
       }
 
       .line_under {
+        transform: translateX(-100%);
         opacity: .25;
         transform-origin: right;
       }
