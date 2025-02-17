@@ -26,6 +26,13 @@ export const PROJECTS_QUERY = defineQuery(`
   }
 `);
 
+export const ALL_PROJECT_QUERY = defineQuery(`
+  *[_type == "project"] {
+    title,
+    "coverImageUrl": cover_image.asset->url,
+    slug
+  }
+`);
 export const TITLE_QUERY = defineQuery(`
     *[_type == "clip" || _type == "pub" || _type == "fiction"] {
         title
