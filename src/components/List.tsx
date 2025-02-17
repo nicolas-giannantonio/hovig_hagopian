@@ -223,6 +223,7 @@ export default function List({ data }: { data: ListProject[] }) {
               playsInline
               loop
               className="videoCursor"
+              preload={"none"}
             >
               <source src={dataVideo.project.hover_video} type="video/mp4" />
             </video>

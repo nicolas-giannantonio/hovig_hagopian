@@ -64,7 +64,7 @@ export default function ResumeSection({
       return (
         <>
           <i>{parts[0]}</i>
-          {parts.slice(1).join(",")}
+          {parts.slice(1).join(",")},
         </>
       );
     }
