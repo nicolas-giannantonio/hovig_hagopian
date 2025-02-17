@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import BezierEasing from "bezier-easing";
-import { EASE } from "@/utils/Ease";
 import { useGSAP } from "@gsap/react";
 
 export default function Loader() {
