@@ -2,7 +2,12 @@ import { defineQuery } from "next-sanity";
 
 export const META_QUERY = defineQuery(`*[_type == "meta"] {
     title,
-    description
+    description,
+    meta_image {
+        asset-> {
+            url
+        }
+    }
 }`);
 
 export const PROJECTS_QUERY = defineQuery(`
