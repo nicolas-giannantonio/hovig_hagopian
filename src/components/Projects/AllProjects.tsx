@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { EASE } from "@/utils/Ease";
 import gsap from "gsap";
 import { useLoaded } from "@/lib/useLoader";
+import TransitionLink from "@/components/TransitionLink";
 
 export default function AllProjects({
   selected,
@@ -45,7 +45,7 @@ export default function AllProjects({
     <div ref={w__all__projectsRef} className="w__all__projects">
       <div className="all__projects">
         {selected.map((project, index) => (
-          <Link
+          <TransitionLink
             href={`/film/${project.slug.current}`}
             className="all__project"
             key={index}
@@ -56,7 +56,7 @@ export default function AllProjects({
             <div className="__oh">
               <p className="all__project_t">{project.title}</p>
             </div>
-          </Link>
+          </TransitionLink>
         ))}
       </div>
       <div className="w__all__projects__image">
