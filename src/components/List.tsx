@@ -86,8 +86,16 @@ export default function List({ data }: { data: ListProject[] }) {
       const initialVideo = videoRefs.current[0];
 
       if (initialVideo) {
-        initialVideo.play();
-        initialVideo.style.visibility = "visible";
+        initialVideo
+          .play()
+          .then(() => {
+            initialVideo.style.visibility = "visible";
+          })
+          .catch((error) => {
+            if (error.name !== "AbortError") {
+              console.error("Erreur lors de la lecture de la vidéo", error);
+            }
+          });
       }
 
       // if (!videoCanPlay) {
@@ -118,16 +126,16 @@ export default function List({ data }: { data: ListProject[] }) {
             if (!previousVideo.paused) previousVideo.pause();
           }
 
-          coverRefs.current[currentIndexActive].style.opacity = "0";
-          coverRefs.current[currentIndexActive].style.scale = "1.15";
+          // coverRefs.current[currentIndexActive].style.opacity = "0";
+          // coverRefs.current[currentIndexActive].style.scale = "1.15";
 
           currentIndexActive = newIndex;
           setCurrentIndex(currentIndexActive);
 
           const newVideo = videoRefs.current[newIndex];
 
-          const currentCover = coverRefs.current[newIndex];
-          const beforeCover = coverRefs.current[currentIndexActive];
+          // const currentCover = coverRefs.current[newIndex];
+          // const beforeCover = coverRefs.current[currentIndexActive];
 
           if (newVideo) {
             newVideo
@@ -135,8 +143,8 @@ export default function List({ data }: { data: ListProject[] }) {
               .then(() => {
                 newVideo.style.visibility = "visible";
 
-                currentCover.style.opacity = "1";
-                beforeCover.style.scale = "1";
+                // currentCover.style.opacity = "1";
+                // beforeCover.style.scale = "1";
               })
               .catch((error) => {
                 if (error.name !== "AbortError") {
