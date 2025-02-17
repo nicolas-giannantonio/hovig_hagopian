@@ -46,7 +46,7 @@ export default function AllProjects({
       <div className="all__projects">
         {selected.map((project, index) => (
           <TransitionLink
-            href={`/film/${project.slug.current}`}
+            href={`/films/${project.slug.current}`}
             className="all__project"
             key={index}
             onMouseEnter={() => {

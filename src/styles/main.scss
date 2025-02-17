@@ -13,6 +13,7 @@
 @use './layout/preloader' as *;
 @use './layout/navigation' as *;
 @use './layout/footer' as *;
+@use './layout/404' as *;
 
 @use './pages/home' as *;
 @use './pages/about' as *;

@@ -1,0 +1,28 @@
+@use '../utils/mixins/fonts';
+
+#notFound {
+  height: calc(100vh - 8.5rem);
+  position: relative;
+
+  .w__notFound__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 3.75rem));
+    @include fonts.mono_12;
+    text-align: center;
+
+    .notFound_title {
+      @include fonts.grotesk;
+      font-size: 3.75rem;
+    }
+
+    .notFound_link {
+      transition: .65s cubic-bezier(0.18, 0.47, 0.16, 1) opacity;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
+  }
+}

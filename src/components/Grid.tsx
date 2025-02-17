@@ -62,7 +62,7 @@ export default function Grid({ data }: GridProps) {
               key={index}
               image={data.project?.coverImageUrl}
               hoverVideo={data.project?.hover_video}
-              link={`/film/${data.project?.slug?.current}`}
+              link={`/films/${data.project?.slug?.current}`}
             />
           ),
       )}

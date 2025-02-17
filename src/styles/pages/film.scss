@@ -5,6 +5,7 @@
   .film__header {
     position: relative;
     height: 100vh;
+    overflow: hidden;
 
     .w__film__video {
       position: absolute;

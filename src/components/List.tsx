@@ -267,7 +267,7 @@ function ListProject({
 }) {
   return (
     <TransitionLink
-      href={`/film/${href || "/"}`}
+      href={`/films/${href || "/"}`}
       className="list_project"
       style={{
         opacity: opacity || 0,
