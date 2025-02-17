@@ -13,40 +13,36 @@ export default function Loader() {
 
   useGSAP(
     () => {
-      if (!loaderLineRef.current) return;
+      if (!loaderLineRef.current || !loaderLineUnderRef.current) return;
       loaderLineRef.current.style.transition = "none";
 
       gsap.to(loaderLineRef.current, {
-        xPercent: 0,
-        duration: 0.75,
-        ease: (t) => BezierEasing(0.19, 0.81, 0.26, 1)(t),
+        xPercent: 201,
+        duration: 2,
+        ease: (t) => BezierEasing(0.7, 0.25, 0.18, 1.0)(t),
       });
 
-      gsap.to(loaderLineRef.current, {
-        xPercent: 200,
-        delay: 0.75,
-        duration: 1.5,
+      gsap.to(loaderLineUnderRef.current, {
+        scaleX: 1,
+        duration: 1,
+        onComplete: () => {
+          if (loaderLineUnderRef.current)
+            loaderLineUnderRef.current.style.transformOrigin = "right";
+        },
         ease: (t) => BezierEasing(0.65, 0.25, 0.18, 1.0)(t),
       });
 
       gsap.to(loaderLineUnderRef.current, {
-        xPercent: 100,
+        scaleX: 0,
+        delay: 1,
         duration: 1,
-        delay: 0.5,
-        ease: (t) => BezierEasing(0.19, 0.81, 0.26, 1)(t),
-      });
-
-      gsap.to(loaderLineUnderRef.current, {
-        xPercent: 200,
-        delay: 1.25,
-        duration: 1,
-        ease: (t) => BezierEasing(0.65, 0.25, 0.18, 1.0)(t),
+        ease: (t) => BezierEasing(0.15, 0.5, 0.18, 1.0)(t),
       });
 
       gsap.to(".loader_overlay", {
         opacity: 0,
         duration: 0.75,
-        delay: 2.25,
+        delay: 1.85,
         ease: (t) => EASE["o1"](t),
         onComplete: () => {
           loaderRef.current?.remove();
