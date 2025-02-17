@@ -86,10 +86,13 @@ export default function List({ data }: { data: ListProject[] }) {
       const initialVideo = videoRefs.current[0];
 
       if (initialVideo) {
+        coverRefs.current[0].style.opacity = "1";
+
         initialVideo
           .play()
           .then(() => {
             initialVideo.style.visibility = "visible";
+            coverRefs.current[0].style.opacity = "0";
           })
           .catch((error) => {
             if (error.name !== "AbortError") {
@@ -97,11 +100,6 @@ export default function List({ data }: { data: ListProject[] }) {
             }
           });
       }
-
-      // if (!videoCanPlay) {
-      //   coverRefs.current[0].style.opacity = "1";
-      //   coverRefs.current[0].style.scale = "1";
-      // }
 
       const handleTouchStart = (event: TouchEvent) => {
         startY = event.touches[0].clientY;
@@ -126,25 +124,20 @@ export default function List({ data }: { data: ListProject[] }) {
             if (!previousVideo.paused) previousVideo.pause();
           }
 
-          // coverRefs.current[currentIndexActive].style.opacity = "0";
-          // coverRefs.current[currentIndexActive].style.scale = "1.15";
+          coverRefs.current[currentIndexActive].style.opacity = "0";
+          coverRefs.current[newIndex].style.opacity = "1";
 
           currentIndexActive = newIndex;
           setCurrentIndex(currentIndexActive);
 
           const newVideo = videoRefs.current[newIndex];
 
-          // const currentCover = coverRefs.current[newIndex];
-          // const beforeCover = coverRefs.current[currentIndexActive];
-
           if (newVideo) {
             newVideo
               .play()
               .then(() => {
                 newVideo.style.visibility = "visible";
-
-                // currentCover.style.opacity = "1";
-                // beforeCover.style.scale = "1";
+                coverRefs.current[newIndex].style.opacity = "0";
               })
               .catch((error) => {
                 if (error.name !== "AbortError") {
