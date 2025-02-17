@@ -39,22 +39,22 @@ export default function Loader() {
         ease: (t) => BezierEasing(0.15, 0.5, 0.18, 1.0)(t),
       });
 
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+
+        window.appLoaded = true;
+        window.dispatchEvent(new Event("app-loaded"));
+      }, 1800);
+
       gsap.to(".loader_overlay", {
-        opacity: 0,
-        duration: 0.75,
-        delay: 1.85,
-        ease: (t) => EASE["o1"](t),
+        clipPath: "inset(0% 0% 100% 0%)",
+        duration: 1.75,
+        delay: 1.8,
+        // ease: (t) => BezierEasing(0.72, 0.15, 0.15, 1.0)(t),
+        ease: (t) => BezierEasing(0.24, 0.8, 0.1, 1.0)(t),
         onComplete: () => {
           loaderRef.current?.remove();
-        },
-        onStart: () => {
-          setTimeout(() => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-
-            window.appLoaded = true;
-            window.dispatchEvent(new Event("app-loaded"));
-          }, 250);
         },
       });
     },
