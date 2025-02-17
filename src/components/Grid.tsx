@@ -60,7 +60,6 @@ export default function Grid({ data }: GridProps) {
           data.project?.slug?.current && (
             <CardProject
               key={index}
-              index={index}
               image={data.project?.coverImageUrl}
               hoverVideo={data.project?.hover_video}
               link={`/film/${data.project?.slug?.current}`}

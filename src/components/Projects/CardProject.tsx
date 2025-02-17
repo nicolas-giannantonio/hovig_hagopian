@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import TransitionLink from "@/components/TransitionLink";
 import FocusCardProject from "@/components/Projects/FocusCardProject";
@@ -8,12 +8,10 @@ export default function CardProject({
   link,
   image,
   hoverVideo,
-  index,
 }: {
   link: string;
   image: string;
   hoverVideo: string;
-  index: number;
 }) {
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
