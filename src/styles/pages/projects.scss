@@ -206,7 +206,7 @@
   width: 100%;
   overflow: hidden;
   cursor: pointer;
-  height: calc(100vh - 18rem);
+  min-height: calc(100vh - 20rem);
 
   .list_project {
     padding: 0.15rem 0;
