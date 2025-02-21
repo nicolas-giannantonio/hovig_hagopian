@@ -250,7 +250,8 @@
 
 @media screen and (max-width: 768px) {
   .projects {
-    min-height: auto;
+    min-height: calc(100vh - 10rem);
+    height: 100%;
     padding: 5rem 1rem 1rem;
   }
 
