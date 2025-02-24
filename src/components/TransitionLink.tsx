@@ -38,7 +38,9 @@ export default function TransitionLink({
 
     if (pathname === href) return;
 
-    animationTransitionIn().then(() => {
+    animationTransitionIn(() => {
+      router.prefetch(href);
+    }).then(() => {
       if (replace) {
         router.replace(href, { scroll });
       } else {

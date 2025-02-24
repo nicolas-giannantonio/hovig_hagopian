@@ -10,8 +10,8 @@ export default function Template({
   useGSAP(() => {
     gsap.to("#App", {
       opacity: 1,
-      duration: 0.75,
-      ease: (t) => EASE["o3"](t),
+      duration: 0.5,
+      ease: (t) => EASE["o2"](t),
     });
   }, [
     {
