@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { imageLoader } from "@/components/Utils/ImageTransform";
+import { useEffect, useRef } from "react";
+import mediumZoom from "medium-zoom";
 
 export default function GalleryProject({
   images,
@@ -11,16 +13,33 @@ export default function GalleryProject({
     <div className="GalleryProject">
       {images?.map((image: { url: string }, index) => (
         <div key={index} className="w_galleryProject_image">
-          <Image
-            fill
-            sizes="(max-width: 768px) 40vw, 27vw"
-            className="galleryProject_image"
-            src={image.url}
-            alt=""
-            loader={imageLoader}
-          />
+          <ImageZoom src={image.url} />
         </div>
       ))}
     </div>
   );
 }
+
+const ImageZoom = ({ src }: { src: string }) => {
+  const refImage = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (refImage.current) {
+      mediumZoom(refImage.current, {
+        margin: 56,
+      });
+    }
+  }, []);
+
+  return (
+    <Image
+      sizes="(max-width: 768px) 35vw, 27vw"
+      className="galleryProject_image"
+      src={src}
+      alt=""
+      fill
+      loader={imageLoader}
+      ref={refImage}
+    />
+  );
+};
