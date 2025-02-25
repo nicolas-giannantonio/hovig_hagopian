@@ -153,7 +153,7 @@
 
     .w__film_description_d {
       @include fonts.grotesk;
-      font-size: 1.5rem;
+      font-size: 1rem;
       margin-top: .5rem;
       word-break: break-word;
     }
@@ -235,10 +235,15 @@
         bottom: auto;
         margin: 4rem 0;
       }
+
+    }
+
+    .w__film_informations {
+      padding-top: 0;
     }
 
     .film_informations {
-      padding: 4rem 2rem;
+      padding: 2rem;
       text-align: center;
 
       .w__film_description_d {
@@ -253,7 +258,6 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .react-medium-image-zoom {

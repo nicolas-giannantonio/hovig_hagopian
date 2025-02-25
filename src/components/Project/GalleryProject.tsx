@@ -27,13 +27,14 @@ const ImageZoom = ({ src }: { src: string }) => {
     if (refImage.current) {
       mediumZoom(refImage.current, {
         margin: 56,
+        background: "rgba(0, 0, 0, 0.95)",
       });
     }
   }, []);
 
   return (
     <Image
-      sizes="(max-width: 768px) 35vw, 27vw"
+      sizes="(max-width: 768px) 80vw, 30vw"
       className="galleryProject_image"
       src={src}
       alt=""
