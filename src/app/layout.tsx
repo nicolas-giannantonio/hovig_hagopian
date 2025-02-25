@@ -4,7 +4,7 @@ import "../styles/main.scss";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Reperes from "@/components/Utils/Reperes";
-import { META_QUERY, TITLE_QUERY } from "@/lib/queries";
+import { CONTACT_QUERY, META_QUERY, TITLE_QUERY } from "@/lib/queries";
 import { client } from "@/lib/sanity/client";
 import Loader from "@/components/Loader";
 import { ReactLenis } from "lenis/react";
@@ -36,13 +36,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const navTitles = await client.fetch(TITLE_QUERY);
+  const data = await client.fetch(CONTACT_QUERY);
+  const contact = data[0].contact_hovig;
 
   return (
     <html lang="en">
       <body>
         <Loader />
         <Reperes />
-        <Navigation navTitles={navTitles} />
+        <Navigation contactInfo={contact} navTitles={navTitles} />
         <ReactLenis
           root
           options={{

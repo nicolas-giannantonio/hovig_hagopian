@@ -9,8 +9,13 @@ import Link from "next/link";
 
 export default function Navigation({
   navTitles,
+  contactInfo,
 }: {
   navTitles: { title: string }[];
+  contactInfo: {
+    contact_hovig_email: string;
+    contact_hovig_tel: string;
+  };
 }) {
   const path = usePathname();
 
@@ -258,12 +263,15 @@ export default function Navigation({
           <div className="mobNv__contact">
             <div className="__oh">
               <Link className="nv_contact_text mb_link" href="#">
-                hagopian.hovig@gmail.com
+                {contactInfo.contact_hovig_email}
               </Link>
             </div>
             <div className="__oh">
-              <Link className="nv_contact_text mb_link" href="#">
-                +33(0)781473484
+              <Link
+                className="nv_contact_text mb_link"
+                href={`tel:${contactInfo.contact_hovig_tel}`}
+              >
+                {contactInfo.contact_hovig_tel}
               </Link>
             </div>
           </div>
