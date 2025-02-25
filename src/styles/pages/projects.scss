@@ -252,7 +252,7 @@
 @media screen and (max-width: 768px) {
   .projects {
     height: 20%;
-    min-height: auto;
+    min-height: calc(100vh - 12rem);
     padding: 5rem 1rem 1rem;
   }
 
@@ -291,6 +291,7 @@
     }
   }
   .w__list__projects {
+    min-height: auto;
     .list_project {
       .w__list_project_p {
         .list_project_p {
