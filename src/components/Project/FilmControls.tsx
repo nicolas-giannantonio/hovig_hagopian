@@ -6,10 +6,20 @@ import { EASE } from "@/utils/Ease";
 import BezierEasing from "bezier-easing";
 import { useTempus } from "tempus/react";
 import { useLoaded } from "@/lib/useLoader";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+
+// @ts-expect-error: Hls.js module does not have type declarations
 import Hls from "hls.js";
 import useMobileDetect from "@/lib/DetectScreen";
+
+interface ExtendedDocument extends Document {
+  webkitFullscreenElement?: Element | null;
+  mozFullScreenElement?: Element | null;
+  msFullscreenElement?: Element | null;
+}
+
+interface ExtendedHTMLVideoElement extends HTMLVideoElement {
+  webkitEnterFullscreen?: () => void;
+}
 
 const lineProgress = BezierEasing(0.55, 0.1, 0.1, 1.0);
 
@@ -46,14 +56,12 @@ export default function FilmControls({
   const headerControlsRef = useRef<HTMLDivElement | null>(null);
   const headerInformationsRef = useRef<HTMLDivElement | null>(null);
   const loaded = useLoaded();
-
   const [isMuted, setIsMuted] = useState(true);
-
+  const [isPlaying, setIsPlaying] = useState(false);
   const inactivityTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const { isMobile } = useMobileDetect();
-
   const [mobile, setMobile] = useState(false);
+  const playButtonRef = useRef<HTMLParagraphElement | null>(null);
 
   useEffect(() => {
     setMobile(isMobile());
@@ -71,7 +79,7 @@ export default function FilmControls({
         if (mobile) {
           progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
         } else {
-          progressTimeRef.current.innerText = `${!mobile && String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
+          progressTimeRef.current.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(2, "0")}`;
         }
         progressTimeRef.current.style.left = `${(currentTime / videoRef.current.duration) * 100}%`;
       }
@@ -119,12 +127,10 @@ export default function FilmControls({
         ease: (t) => EASE["o6"](t),
         duration: 1,
       });
-
       if (mobile) return;
-
       gsap.to(infoEl, { opacity: 0, ease: (t) => EASE["o6"](t), duration: 1 });
     },
-    [mobile, videoRef],
+    [mobile],
   );
 
   const playVideo = useCallback(() => {
@@ -160,6 +166,43 @@ export default function FilmControls({
       if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const handlePlay = () => {
+      setIsPlaying(true);
+      if (playButtonRef.current) playButtonRef.current.innerText = "Pause";
+    };
+    const handlePause = () => {
+      setIsPlaying(false);
+      if (playButtonRef.current) playButtonRef.current.innerText = "Play";
+    };
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+    return () => {
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
+    };
+  }, []);
+
+  const togglePlay = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === filmRef.current) {
+        if (videoRef.current) {
+          if (!isPlaying) {
+            videoRef.current.play().catch((error) => {
+              if (error.name !== "AbortError")
+                console.error("Error playing video:", error);
+            });
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      }
+    },
+    [isPlaying],
+  );
 
   useEffect(() => {
     if (!vimeoLink.hls) return;
@@ -242,7 +285,13 @@ export default function FilmControls({
       }
     };
 
-    const handleMouseMove = () => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (playButtonRef.current) {
+        const x = e.clientX;
+        const y = e.clientY;
+        playButtonRef.current.style.left = `${20 + x}px`;
+        playButtonRef.current.style.top = `${window.scrollY + y}px`;
+      }
       setActiveState(
         overlayRef.current,
         headerControlsRef.current,
@@ -265,7 +314,7 @@ export default function FilmControls({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [controls, setInactiveState]);
+  }, [controls, setInactiveState, vimeoLink.hls]);
 
   useGSAP(
     () => {
@@ -387,22 +436,22 @@ export default function FilmControls({
         hls.destroy();
       }
     };
-  }, [vimeoLink]);
+  }, [vimeoLink, mobile]);
 
+  const extendedDocument = document as ExtendedDocument;
   const isFullscreen =
     document.fullscreenElement ||
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    document.webkitFullscreenElement ||
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    document.mozFullScreenElement ||
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    document.msFullscreenElement;
+    extendedDocument.webkitFullscreenElement ||
+    extendedDocument.mozFullScreenElement ||
+    extendedDocument.msFullscreenElement;
 
   return (
-    <div ref={filmRef} className="film__header">
+    <div ref={filmRef} className="film__header" onClick={togglePlay}>
+      <div ref={playButtonRef} className="__oh w__play__btn">
+        <p id="play" onClick={togglePlay} className="controls__buttons_text">
+          Play
+        </p>
+      </div>
       <div className="w__film__video">
         <video
           ref={videoRef}
@@ -433,31 +482,6 @@ export default function FilmControls({
           <div ref={lineProgressRef} className="lineprogress"></div>
         </div>
         <div className="w__controls__buttons">
-          <div className="film__inline_controls">
-            <div className="__oh">
-              <p
-                id="play"
-                onClick={() => {
-                  videoRef.current?.play().catch((error) => {
-                    if (error.name !== "AbortError")
-                      console.error("Error playing video:", error);
-                  });
-                }}
-                className="controls__buttons_text"
-              >
-                Play
-              </p>
-            </div>
-            <div className="__oh">
-              <p
-                id="pause"
-                onClick={() => videoRef.current?.pause()}
-                className="controls__buttons_text"
-              >
-                {"Pause"}
-              </p>
-            </div>
-          </div>
           <div className="controls__buttons__inline">
             <div className="__oh">
               <p
@@ -474,12 +498,11 @@ export default function FilmControls({
                   if (videoRef.current) {
                     if (videoRef.current.requestFullscreen) {
                       videoRef.current.requestFullscreen();
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                    } else if (videoRef.current.webkitEnterFullscreen) {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                      videoRef.current.webkitEnterFullscreen();
+                    } else {
+                      // Using optional chaining to safely invoke the function if it exists
+                      (
+                        videoRef.current as ExtendedHTMLVideoElement
+                      ).webkitEnterFullscreen?.();
                     }
                   }
                 }}

@@ -7,6 +7,18 @@
     height: 100vh;
     overflow: hidden;
 
+    .w__play__btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      @include fonts.mono_12;
+
+      #play {
+        transform: translateY(100%);
+      }
+    }
+
     .w__film__video {
       position: absolute;
       top: 0;
@@ -81,7 +93,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
+        width: fit-content;
         margin-top: .35rem;
 
         .film__inline_controls {
