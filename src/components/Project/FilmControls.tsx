@@ -161,7 +161,19 @@ export default function FilmControls({
     [playVideo, pauseVideo, toggleMute],
   );
 
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
   useEffect(() => {
+    const extendedDocument = document as ExtendedDocument;
+    setIsFullscreen(
+      !!(
+        document.fullscreenElement ||
+        extendedDocument.webkitFullscreenElement ||
+        extendedDocument.mozFullScreenElement ||
+        extendedDocument.msFullscreenElement
+      ),
+    );
+
     return () => {
       if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
     };
@@ -325,12 +337,6 @@ export default function FilmControls({
         duration: 1.75,
         delay: 0.25,
       });
-      gsap.to("#play", {
-        y: 0,
-        ease: (t) => EASE["o6"](t),
-        duration: 1.5,
-        delay: 0.15,
-      });
       gsap.to("#pause", {
         y: 0,
         ease: (t) => EASE["o6"](t),
@@ -389,6 +395,7 @@ export default function FilmControls({
         duration: 1.75,
         delay: 0.75,
       });
+
       gsap.to(videoRef.current, { opacity: 1, ease: "linear", duration: 1 });
     },
     { scope: filmRef, dependencies: [loaded] },
@@ -438,18 +445,25 @@ export default function FilmControls({
     };
   }, [vimeoLink, mobile]);
 
-  const extendedDocument = document as ExtendedDocument;
-  const isFullscreen =
-    document.fullscreenElement ||
-    extendedDocument.webkitFullscreenElement ||
-    extendedDocument.mozFullScreenElement ||
-    extendedDocument.msFullscreenElement;
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const handleCanPlay = () => {
+      setVideoReady(true);
+    };
+    video.addEventListener("canplay", handleCanPlay);
+    return () => {
+      video.removeEventListener("canplay", handleCanPlay);
+    };
+  }, []);
 
   return (
     <div ref={filmRef} className="film__header" onClick={togglePlay}>
       <div ref={playButtonRef} className="__oh w__play__btn">
         <p id="play" onClick={togglePlay} className="controls__buttons_text">
-          Play
+          {videoReady ? "Play" : "Loading"}
         </p>
       </div>
       <div className="w__film__video">

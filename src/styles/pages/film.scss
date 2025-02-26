@@ -9,13 +9,15 @@
 
     .w__play__btn {
       position: absolute;
-      top: 0;
+      top: -10%;
       left: 0;
       z-index: 10;
       @include fonts.mono_12;
 
       #play {
-        transform: translateY(100%);
+        @media screen and (max-width: 1024px) {
+          opacity: 0;
+        }
       }
     }
 
