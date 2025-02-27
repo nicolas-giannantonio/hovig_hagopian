@@ -55,18 +55,18 @@ export default function ResumeSection({
     },
   );
 
-  // const formatTitle = (title: string) => {
-  //   const parts = title.split(",");
-  //   if (parts.length > 1) {
-  //     return (
-  //       <>
-  //         <i>{parts[0]},</i>
-  //         {parts.slice(1).join(",")}
-  //       </>
-  //     );
-  //   }
-  //   return title;
-  // };
+  const formatTitle = (title: string) => {
+    const parts = title.split(",");
+    if (parts.length > 1) {
+      return (
+        <>
+          <i>{parts[0]},</i>
+          {parts.slice(1).join(",")}
+        </>
+      );
+    }
+    return title;
+  };
 
   return (
     <div
@@ -84,7 +84,9 @@ export default function ResumeSection({
         {content.map((item, index) => (
           <div key={index} className="resumeSectionContent">
             <div className="w__resumeSectionContent_t">
-              <p className="resumeSectionContent_t">{title}</p>
+              <p className="resumeSectionContent_t">
+                {formatTitle(item.title)}
+              </p>
             </div>
             <div className="w__resumeSectionContent_info">
               <p className="resumeSectionContent_info">
