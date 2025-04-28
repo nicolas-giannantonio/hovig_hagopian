@@ -9,7 +9,7 @@ type PageProps = {
   params: Promise<{ project: string }>;
 };
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function Page({ params }: PageProps) {
   const projectName = (await params).project;
